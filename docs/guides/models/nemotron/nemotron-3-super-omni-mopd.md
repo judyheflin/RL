@@ -1,5 +1,6 @@
-# Nemotron 3 Super Omni Image MOPD
-
+---
+title: "Nemotron 3 Super Omni Image MOPD"
+---
 This recipe distills a non-colocated Nemotron 3 Super Omni teacher into a
 Super Omni policy over multimodal NeMo Gym trajectories. It extends the
 MTP-disabled Super Omni GRPO recipe with OPD advantages, teacher resources,

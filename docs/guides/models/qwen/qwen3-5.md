@@ -1,5 +1,6 @@
-# Qwen3.5
-
+---
+title: "Qwen3.5"
+---
 This page collects NeMo RL guidance for Qwen3.5 LLM and VLM post-training. Use it to
 choose a starting recipe and understand Qwen3.5-specific setup.
 
@@ -11,8 +12,8 @@ Use this page when training or evaluating Qwen3.5 models, including:
 - `Qwen/Qwen3.5-35B-A3B-Base` (MoE; LLM and VLM)
 - `Qwen/Qwen3.5-397B-A17B` (MoE)
 
-For family-wide Qwen guidance, see the [Qwen family hub](index.md). For the full list
-of supported models, see [Model Support](../../../about/model-support.md).
+For family-wide Qwen guidance, see the [Qwen family hub](/guides/models/qwen). For the full list
+of supported models, see [Model Support](/about/model-support).
 
 ## Support Status
 
@@ -60,17 +61,17 @@ authoritative settings.
 
 | Model | Modality | Algorithm | Backend | Scale | Recipe |
 |---|---|---|---|---|---|
-| Qwen3.5-9B-Base | LLM | GRPO | Megatron | 1n8g | [`grpo-qwen3.5-9b-1n8g-megatron.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-9b-1n8g-megatron.yaml) |
-| Qwen3.5-9B-Base | LLM | GRPO | Megatron | 1n8g | [`grpo-qwen3.5-9b-1n8g-megatron-fp8.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-9b-1n8g-megatron-fp8.yaml) |
-| Qwen3.5-35B-A3B-Base | LLM | GRPO | Megatron | 2n8g | [`grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2cp2.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2cp2.yaml) |
-| Qwen3.5-35B-A3B-Base | LLM | GRPO | Megatron | 2n8g | [`grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2-fp8.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2-fp8.yaml) |
-| Qwen3.5-35B-A3B-Base | LLM | GRPO | Megatron | 4n4g | [`grpo-qwen3.5-35ba3b-4n4g-megatron-ep16tp2-mxfp8-trtllm.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-4n4g-megatron-ep16tp2-mxfp8-trtllm.yaml) |
-| Qwen3.5-35B-A3B-Base | LLM | GRPO | Megatron | 6n4g | [`grpo-qwen3.5-35ba3b-6n4g-async-1off-bf16-trtllm.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-6n4g-async-1off-bf16-trtllm.yaml) |
-| Qwen3.5-35B-A3B-Base | LLM | GRPO | AutoModel | 2n8g | [`grpo-qwen3.5-35ba3b-2n8g-automodel-ep16.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-2n8g-automodel-ep16.yaml) |
-| Qwen3.5-35B-A3B-Base | LLM | GRPO | AutoModel | 4n8g | [`grpo-qwen3.5-35ba3b-dapo-4n8g-automodel.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-dapo-4n8g-automodel.yaml) |
-| Qwen3.5-397B-A17B | LLM | GRPO | Megatron | 32n8g | [`grpo-qwen3.5-397ba17b-32n8g-megatron.v2.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-397ba17b-32n8g-megatron.v2.yaml) |
-| Qwen3.5-35B-A3B-Base | VLM | GRPO | Megatron | 2n8g | [`vlm_grpo-qwen3.5-35ba3b-geo3k-2n8g-megatron-ep16.yaml`](../../../../examples/configs/recipes/vlm/vlm_grpo-qwen3.5-35ba3b-geo3k-2n8g-megatron-ep16.yaml) |
-| Qwen3.5-35B-A3B-Base | VLM | GRPO | AutoModel | 2n8g | [`vlm_grpo-qwen3.5-35ba3b-geo3k-2n8g-automodel-ep16.yaml`](../../../../examples/configs/recipes/vlm/vlm_grpo-qwen3.5-35ba3b-geo3k-2n8g-automodel-ep16.yaml) |
+| Qwen3.5-9B-Base | LLM | GRPO | Megatron | 1n8g | [`grpo-qwen3.5-9b-1n8g-megatron.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-9b-1n8g-megatron.yaml) |
+| Qwen3.5-9B-Base | LLM | GRPO | Megatron | 1n8g | [`grpo-qwen3.5-9b-1n8g-megatron-fp8.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-9b-1n8g-megatron-fp8.yaml) |
+| Qwen3.5-35B-A3B-Base | LLM | GRPO | Megatron | 2n8g | [`grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2cp2.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2cp2.yaml) |
+| Qwen3.5-35B-A3B-Base | LLM | GRPO | Megatron | 2n8g | [`grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2-fp8.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2-fp8.yaml) |
+| Qwen3.5-35B-A3B-Base | LLM | GRPO | Megatron | 4n4g | [`grpo-qwen3.5-35ba3b-4n4g-megatron-ep16tp2-mxfp8-trtllm.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-4n4g-megatron-ep16tp2-mxfp8-trtllm.yaml) |
+| Qwen3.5-35B-A3B-Base | LLM | GRPO | Megatron | 6n4g | [`grpo-qwen3.5-35ba3b-6n4g-async-1off-bf16-trtllm.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-6n4g-async-1off-bf16-trtllm.yaml) |
+| Qwen3.5-35B-A3B-Base | LLM | GRPO | AutoModel | 2n8g | [`grpo-qwen3.5-35ba3b-2n8g-automodel-ep16.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-2n8g-automodel-ep16.yaml) |
+| Qwen3.5-35B-A3B-Base | LLM | GRPO | AutoModel | 4n8g | [`grpo-qwen3.5-35ba3b-dapo-4n8g-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-dapo-4n8g-automodel.yaml) |
+| Qwen3.5-397B-A17B | LLM | GRPO | Megatron | 32n8g | [`grpo-qwen3.5-397ba17b-32n8g-megatron.v2.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-397ba17b-32n8g-megatron.v2.yaml) |
+| Qwen3.5-35B-A3B-Base | VLM | GRPO | Megatron | 2n8g | [`vlm_grpo-qwen3.5-35ba3b-geo3k-2n8g-megatron-ep16.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/vlm/vlm_grpo-qwen3.5-35ba3b-geo3k-2n8g-megatron-ep16.yaml) |
+| Qwen3.5-35B-A3B-Base | VLM | GRPO | AutoModel | 2n8g | [`vlm_grpo-qwen3.5-35ba3b-geo3k-2n8g-automodel-ep16.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/vlm/vlm_grpo-qwen3.5-35ba3b-geo3k-2n8g-automodel-ep16.yaml) |
 
 > [!NOTE]
 > Qwen3.5 thinking-mode and long-reasoning runs need a large generation budget. If
@@ -169,7 +170,7 @@ uv run examples/run_grpo.py \
 ### VLM (Geo3K)
 
 The VLM recipes target the Geo3K task. They train the vision tower according to their
-`freeze_config` (see [Model Quirks](../../../model-quirks.md)).
+`freeze_config` (see [Model Quirks](/guides/model-quirks)).
 
 ```sh
 uv run examples/run_grpo.py \
@@ -180,15 +181,15 @@ uv run examples/run_grpo.py \
 
 Two recipes run Qwen3.5 with FP8 on both sides — blockwise FP8 vLLM rollouts
 (DeepGEMM) and blockwise FP8 Megatron training (Transformer Engine):
-[`grpo-qwen3.5-9b-1n8g-megatron-fp8.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-9b-1n8g-megatron-fp8.yaml)
+[`grpo-qwen3.5-9b-1n8g-megatron-fp8.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-9b-1n8g-megatron-fp8.yaml)
 and
-[`grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2-fp8.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2-fp8.yaml).
-General FP8 background lives in [FP8 Quantization](../../../fp8.md); the notes
+[`grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2-fp8.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-2n8g-megatron-ep16tp2-fp8.yaml).
+General FP8 background lives in [FP8 Quantization](/development/fp8); the notes
 below are the Qwen3.5-specific sharp edges.
 
 For BF16 Megatron training with grouped-MoE MXFP8 rollouts and the FlashInfer
 TRTLLM MoE backend, use
-[`grpo-qwen3.5-35ba3b-4n4g-megatron-ep16tp2-mxfp8-trtllm.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-4n4g-megatron-ep16tp2-mxfp8-trtllm.yaml).
+[`grpo-qwen3.5-35ba3b-4n4g-megatron-ep16tp2-mxfp8-trtllm.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.5-35ba3b-4n4g-megatron-ep16tp2-mxfp8-trtllm.yaml).
 The recurring 20-step GB200 test checks reward, finite loss, and rollout-versus-
 training log-prob parity after each refit.
 
@@ -241,7 +242,7 @@ Two things are easy to get wrong here:
   `NVTE_FP8_BLOCK_SCALING_FP32_SCALES: "1"` in `megatron_cfg.env_vars`.
 - `use_precision_aware_optimizer: false` and `moe_router_dtype: fp32`.
 - `freeze_config` freezes the vision tower — required for text-only training on
-  the VL architecture (see [Model Quirks](../../../model-quirks.md)).
+  the VL architecture (see [Model Quirks](/guides/model-quirks)).
 
 ### Expected Numerics
 

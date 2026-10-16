@@ -1,5 +1,6 @@
-# Two-Stage SWE RL for Qwen3-30B-A3B-Thinking
-
+---
+title: "Two-Stage SWE RL for Qwen3-30B-A3B-Thinking"
+---
 This guide explains how to post-train a **thinking** MoE model — [Qwen3-30B-A3B-Thinking-2507](https://huggingface.co/Qwen/Qwen3-30B-A3B-Thinking-2507) (30B total / 3B active) — into a stronger software-engineering (SWE) agent using a **two-stage RL recipe**.
 
 The recipe follows the SWE portion of the [Nemotron 3 Super recipe](https://github.com/NVIDIA-NeMo/RL/blob/super-v3/docs/guides/nemotron-3-super.md) (its Stage 2.1 / 2.2): a single-step **pivot** stage followed by **end-to-end agentic** RL. It is adapted for a Qwen3 *thinking* model in two important ways:
@@ -9,7 +10,7 @@ The recipe follows the SWE portion of the [Nemotron 3 Super recipe](https://gith
 
 The pivot stage uses the **PivotRL** method ([paper](https://arxiv.org/abs/2603.21383)): rather than running full end-to-end rollouts, it applies RL on informative single-turn decision points sampled from expert trajectories, with flexible argument matching as the reward — cheap, fast, and a strong warm-start for the expensive agentic stage.
 
-Both stages run with **Async GRPO** (non-colocated generation) on the Megatron backend through the NeMo-Gym integration. For the foundational concepts, see the [GRPO Guide](grpo.md), the [Async GRPO Guide](async-grpo.md), and the [NeMo-Gym integration design doc](../design-docs/nemo-gym-integration.md).
+Both stages run with **Async GRPO** (non-colocated generation) on the Megatron backend through the NeMo-Gym integration. For the foundational concepts, see the [GRPO Guide](/guides/grpo), the [Async GRPO Guide](/guides/async-grpo), and the [NeMo-Gym integration design doc](/design-docs/nemo-gym-integration).
 
 ## The two stages
 
@@ -22,9 +23,10 @@ RL training proceeds in two stages, each starting from the previous stage's chec
 
 The pivot stage (SWE1) is cheap because it is single-turn and requires no execution sandbox — it teaches the model to emit well-formed tool calls with the right arguments before the expensive end-to-end agentic stage. SWE2 then does full multi-turn agentic RL where the model edits a repository inside a per-instance sandbox and is rewarded when the hidden test suite passes.
 
-:::{note}
+<Note>
 Both stages use [`nvidia/Nemotron-RL-Super-Training-Blends`](https://huggingface.co/datasets/nvidia/Nemotron-RL-Super-Training-Blends): `swe1.jsonl` for the pivot stage and `swe2.jsonl` for the end-to-end stage. Prepare them as in the [Nemotron 3 Super "Download and prepare the data" section](https://github.com/NVIDIA-NeMo/RL/blob/super-v3/docs/guides/nemotron-3-super.md#download-and-prepare-the-data).
-:::
+
+</Note>
 
 ## What makes this a *thinking* agent
 
@@ -118,7 +120,7 @@ uv run --frozen ./examples/nemo_gym/run_grpo_nemo_gym.py --config <config.yaml> 
 
 ### Prerequisites
 
-- **Container.** Build from the repo [`docker/Dockerfile`](../../docker/Dockerfile), which already installs [Apptainer](https://apptainer.org/) (symlinked as `singularity`) for the Stage 2 sandbox. Then pre-fetch the SWE virtual environments and mount the [NeMo-Gym](https://github.com/NVIDIA-NeMo/Gym) repo at `3rdparty/Gym-workspace/Gym`, as in [Nemotron 3 Super → "Rebuild the container for SWE"](https://github.com/NVIDIA-NeMo/RL/blob/super-v3/docs/guides/nemotron-3-super.md#rebuild-the-container-for-swe).
+- **Container.** Build from the repo [`docker/Dockerfile`](https://github.com/NVIDIA-NeMo/RL/blob/main/docker/Dockerfile), which already installs [Apptainer](https://apptainer.org/) (symlinked as `singularity`) for the Stage 2 sandbox. Then pre-fetch the SWE virtual environments and mount the [NeMo-Gym](https://github.com/NVIDIA-NeMo/Gym) repo at `3rdparty/Gym-workspace/Gym`, as in [Nemotron 3 Super → "Rebuild the container for SWE"](https://github.com/NVIDIA-NeMo/RL/blob/super-v3/docs/guides/nemotron-3-super.md#rebuild-the-container-for-swe).
 - **Data**: download and split `swe1.jsonl` / `swe2.jsonl` following the [Nemotron 3 Super "Download and prepare the data" section](https://github.com/NVIDIA-NeMo/RL/blob/super-v3/docs/guides/nemotron-3-super.md#download-and-prepare-the-data).
 - **Stage 2 sandbox images.** Provide per-instance `.sif` images for the SWE-bench / R2E-Gym environments via `container_formatter`; build and convert them as in [Nemotron 3 Super Stage 2.2](https://github.com/NVIDIA-NeMo/RL/blob/super-v3/docs/guides/nemotron-3-super.md#stage-22---swe-2-64-nodes).
 - Set `HF_TOKEN`, `WANDB_API_KEY`, and your data/model paths.
@@ -136,7 +138,7 @@ env:
     - resources_servers/single_step_tool_use_with_argument_comparison/configs/swe_pivot_single_step_tool_use_with_argument_comparison.yaml
 ```
 
-The recipe values are baked into [`examples/nemo_gym/grpo_qwen3_30ba3b_thinking_swe1.yaml`](../../examples/nemo_gym/grpo_qwen3_30ba3b_thinking_swe1.yaml) — you only need to point it at your data:
+The recipe values are baked into [`examples/nemo_gym/grpo_qwen3_30ba3b_thinking_swe1.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/nemo_gym/grpo_qwen3_30ba3b_thinking_swe1.yaml) — you only need to point it at your data:
 
 ```bash
 uv run --frozen ./examples/nemo_gym/run_grpo_nemo_gym.py \
@@ -164,7 +166,7 @@ env:
           container_formatter: [ "/path/to/images/...{instance_id}.sif", ... ]
 ```
 
-Use [`examples/nemo_gym/grpo_qwen3_30ba3b_thinking_swe2.yaml`](../../examples/nemo_gym/grpo_qwen3_30ba3b_thinking_swe2.yaml), pointing `policy.model_name` at the Stage 1 checkpoint, the data at the `swe2` split, and `container_formatter` at your `.sif` images:
+Use [`examples/nemo_gym/grpo_qwen3_30ba3b_thinking_swe2.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/nemo_gym/grpo_qwen3_30ba3b_thinking_swe2.yaml), pointing `policy.model_name` at the Stage 1 checkpoint, the data at the `swe2` split, and `container_formatter` at your `.sif` images:
 
 ```bash
 uv run --frozen ./examples/nemo_gym/run_grpo_nemo_gym.py \
@@ -180,7 +182,7 @@ Stage 2 uses a smaller global batch (`num_prompts_per_step=8`, `train_global_bat
 
 The recipe also supports running Stage 2 generation with [TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) instead of vLLM. This can be useful when TensorRT-LLM's in-flight weight update path offers better throughput for a given cluster configuration.
 
-Use [`examples/swe_bench/grpo_qwen3_30b_async_swe_trtllm.yaml`](../../examples/swe_bench/grpo_qwen3_30b_async_swe_trtllm.yaml), which inherits the SWE2 training and environment settings and switches the generation backend. Set `container_formatter` in the YAML to your `.sif` image template (same as Stage 2 vLLM), then launch with your Stage 1 checkpoint and data:
+Use [`examples/swe_bench/grpo_qwen3_30b_async_swe_trtllm.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/swe_bench/grpo_qwen3_30b_async_swe_trtllm.yaml), which inherits the SWE2 training and environment settings and switches the generation backend. Set `container_formatter` in the YAML to your `.sif` image template (same as Stage 2 vLLM), then launch with your Stage 1 checkpoint and data:
 
 ```bash
 uv run --frozen ./examples/nemo_gym/run_grpo_nemo_gym.py \
@@ -201,6 +203,6 @@ uv run --frozen ./examples/nemo_gym/run_grpo_nemo_gym.py \
 - [PivotRL: High Accuracy Agentic Post-Training at Low Compute Cost](https://arxiv.org/abs/2603.21383) — the pivot-stage method (NVIDIA).
 - [Nemotron 3 Super recipe](https://github.com/NVIDIA-NeMo/RL/blob/super-v3/docs/guides/nemotron-3-super.md) — the multi-stage RLVR + SWE + RLHF recipe this is adapted from (data prep, SWE container, sandbox `.sif` build).
 - [NeMo-Skills SWE-bench eval](https://github.com/NVIDIA-NeMo/Skills/blob/main/tests/slurm-tests/qwen3coder_30b_swebench/run_test.py) — the evaluation pipeline adapted for these results.
-- [Async GRPO Guide](async-grpo.md) and [NeMo-Gym integration](../design-docs/nemo-gym-integration.md).
+- [Async GRPO Guide](/guides/async-grpo) and [NeMo-Gym integration](/design-docs/nemo-gym-integration).
 - [NeMo-Gym](https://github.com/NVIDIA-NeMo/Gym) — agent/resource servers (`swe_agents`, `single_step_tool_use_with_argument_comparison`).
 - [Qwen3-30B-A3B-Thinking-2507](https://huggingface.co/Qwen/Qwen3-30B-A3B-Thinking-2507) · [Nemotron-RL-Super-Training-Blends dataset](https://huggingface.co/datasets/nvidia/Nemotron-RL-Super-Training-Blends) (`swe1.jsonl`, `swe2.jsonl`).

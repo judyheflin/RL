@@ -1,5 +1,6 @@
-# Experiment with Custom vLLM
-
+---
+title: "Experiment with Custom vLLM"
+---
 This guide explains how to use your own version of vLLM while leveraging a pre-compiled vLLM wheel, so you don't have to recompile the C++ source code.
 
 ## Clone and Build Your Custom vLLM
@@ -153,4 +154,4 @@ Rebuilding worker virtual environments (via `uv run` or `NRL_FORCE_REBUILD_VENVS
 The container already has vLLM built and cached in the frozen environments. Using bare `python` leverages these pre-built environments directly, avoiding the need to recompile vLLM at runtime.
 
 > [!TIP]
-> For more details on frozen environments and how they differ from `uv run`, see the [Dependency Management](../design-docs/dependency-management.md#frozen-environments) documentation.
+> For more details on frozen environments and how they differ from `uv run`, see the [Dependency Management](/design-docs/dependency-management#frozen-environments) documentation.

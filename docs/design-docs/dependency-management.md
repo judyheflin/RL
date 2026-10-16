@@ -1,5 +1,6 @@
-# Dependency Management
-
+---
+title: "Dependency Management"
+---
 NeMo RL's dependency management system supports both production and development workflows through a flexible virtual environment architecture. This document explains how NeMo RL manages Python dependencies and when to use each workflow.
 
 ## Workflows Overview
@@ -112,11 +113,11 @@ This module is deliberately dependency-free: `docker/Dockerfile` runs it as a sc
 from the dependency layer, where the rest of the source tree does not exist yet.
 
 > [!NOTE]
-> For more details on how workers define and use their Python executables, see the [UV Documentation](uv.md#worker-configuration).
+> For more details on how workers define and use their Python executables, see the [UV Documentation](/design-docs/uv#worker-configuration).
 
 ## Container Pre-caching
 
-When a [release container](../docker.md#building-the-release-image) is built, it pre-caches:
+When a [release container](/containers/docker#building-the-release-image) is built, it pre-caches:
 
 1. **Virtual environments**: All worker virtual environments are created and stored in the container
 2. **UV cache**: Python packages are pre-downloaded into the UV cache directory
@@ -152,7 +153,7 @@ This approach works on both single-node and multi-node setups. On multi-node run
 > This approach is convenient for local development and small-scale experiments. It automatically rebuilds environments to match your current dependency specifications without requiring a container rebuild.
 
 > [!WARNING]
-> On large-scale distributed runs (e.g., >=32 nodes), rebuilding environments on all ranks can add significant overhead. Consider rebuilding the container for these large runs
+> On large-scale distributed runs (e.g., &gt;=32 nodes), rebuilding environments on all ranks can add significant overhead. Consider rebuilding the container for these large runs
 
 ### Option 2: Rebuild the Container
 
@@ -164,10 +165,10 @@ docker buildx build --target release -f docker/Dockerfile --tag my-registry/nemo
 
 > [!TIP]
 > Rebuilding the container is recommended when:
-> - Running a job with many nodes (>=32 nodes)
-> - Dependencies have changed significantly
-> - You need reproducible, fast startup times
-> - Multiple team members need the same environment
+- Running a job with many nodes (&gt;=32 nodes)
+- Dependencies have changed significantly
+- You need reproducible, fast startup times
+- Multiple team members need the same environment
 
 The rebuilt container will have all virtual environments pre-cached with your updated dependencies, eliminating runtime overhead.
 
@@ -204,9 +205,9 @@ This mounts:
 
 > [!IMPORTANT]
 > This workflow is **only suitable when**:
-> - Python package versions in `pyproject.toml` and `uv.lock` haven't changed
-> - You're only modifying code within submodules (nemo-automodel, NeMo Gym, Megatron-LM within Megatron-Bridge, Megatron-Bridge)
-> - The submodule commits/branches are compatible with the installed package versions
+- Python package versions in `pyproject.toml` and `uv.lock` haven't changed
+- You're only modifying code within submodules (nemo-automodel, NeMo Gym, Megatron-LM within Megatron-Bridge, Megatron-Bridge)
+- The submodule commits/branches are compatible with the installed package versions
 
 If you've changed Python package versions or dependencies outside of submodules, use Option 1 (`NRL_FORCE_REBUILD_VENVS=true`) or Option 2 (rebuild the container) instead.
 
@@ -359,4 +360,3 @@ Choose the approach that best fits your scale and development velocity:
 - When iterating on submodule code, the **classic mount workflow** offers a fast middle ground
 - For significant dependency changes, use **`NRL_FORCE_REBUILD_VENVS`** for small runs or **rebuild containers** for large-scale deployments
 - For manual dependency management, **frozen environments** are available, though `uv run` is recommended for reproducibility
-

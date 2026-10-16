@@ -1,6 +1,7 @@
-# Span Groups
-
-Span granularity in NeMo-RL is controlled by `span_groups` in the [`telemetry:` config block](configuration.md). The spec accepts a preset keyword, a comma-separated list of individual group names, or a mix (e.g. `default,generation,reward`).
+---
+title: "Span Groups"
+---
+Span granularity in NeMo-RL is controlled by `span_groups` in the [`telemetry:` config block](/observability/configuration). The spec accepts a preset keyword, a comma-separated list of individual group names, or a mix (e.g. `default,generation,reward`).
 
 For the general span-group mechanism — how gating works, why a disabled group costs ~nothing — see [lens: span groups](https://github.com/NVIDIA-NeMo/Lens). This page covers NeMo-RL's groups and the per-algorithm span hierarchy.
 
@@ -116,7 +117,7 @@ The controlling group is shown for each; a span is emitted whenever its group is
 
 ## Span tags (categorical attributes)
 
-These are set on spans for filtering — they answer "which one?" / "what kind?", not "how much?". Numerical values that change over time are **metrics**, not span tags (see [Metrics](metrics.md)).
+These are set on spans for filtering — they answer "which one?" / "what kind?", not "how much?". Numerical values that change over time are **metrics**, not span tags (see [Metrics](/observability/metrics)).
 
 | Tag | Meaning |
 |---|---|
@@ -151,7 +152,7 @@ Leaf groups are tagged automatically when using
 timed but **not** tagged so monitors can exclude them from goodput, and they are
 opened through `umbrella_span` / `umbrella_trace_fn` with the group's `U_` alias
 so the call site shows which of the two it is — see
-[Extending](extending.md#umbrella-spans-say-so-at-the-call-site).
+[Extending Instrumentation](/observability/extending#umbrella-spans-say-so-at-the-call-site).
 
 | Group | `rl.bucket` |
 |---|---|
@@ -275,7 +276,7 @@ trace and continue to be reported as `efficiency/*` scalars. As metrics they are
 labelled `rl.efficiency.measurement="collector_wall_clock"` — sequential and so
 real durations, unlike the batch-worker categories, but on the collector's
 timeline rather than the driver's. See
-[Metrics — always filter on `rl.efficiency.measurement`](metrics.md#always-filter-on-rlefficiencymeasurement).
+[Metrics — always filter on `rl.efficiency.measurement`](/observability/metrics#always-filter-on-rlefficiencymeasurement).
 
 #### Still reserved: the rest of the collector-side categories
 
@@ -337,7 +338,7 @@ phases nest (`rl.startup` over `rl.setup.workers` over `rl.vllm.load_model`) and
 the worker builds run *concurrently* under parallel init, so a rollup adding
 them by bucket would multiply startup rather than measure it. The flat number
 lives in the `rl.setup.duration` metric at `phase=total_setup` — see
-[Metrics — startup phases](metrics.md#startup-phases). These spans are for shape.
+[Metrics — startup phases](/observability/metrics#startup-phases). These spans are for shape.
 
 ### The initial buffer fill
 
@@ -576,7 +577,7 @@ blanks today, so an empty trace is not read as a broken exporter:
 
 ## Resource attributes (process tags)
 
-Stable-for-the-run values, set once at init and attached to every span/metric: `nv.dl.campaign.stage` (always `RL`), `rl.algorithm`, `rl.model`, `nemo.precision`, `dl.tensor_parallel.size`, `dl.pipeline_parallel.size`, plus `nv.dl.rank` / `nv.dl.world_size`. See [Configuration — Resource attributes](configuration.md#resource-attributes).
+Stable-for-the-run values, set once at init and attached to every span/metric: `nv.dl.campaign.stage` (always `RL`), `rl.algorithm`, `rl.model`, `nemo.precision`, `dl.tensor_parallel.size`, `dl.pipeline_parallel.size`, plus `nv.dl.rank` / `nv.dl.world_size`. See [Configuration — Resource attributes](/observability/configuration#resource-attributes).
 
 ## Granularity guidance
 

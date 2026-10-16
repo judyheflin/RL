@@ -1,5 +1,6 @@
-# Remote Sparse-Delta vLLM Refit
-
+---
+title: "Remote Sparse-Delta vLLM Refit"
+---
 Remote sparse refit updates non-colocated vLLM workers without transferring a
 full checkpoint after every optimizer step. Megatron Bridge exports canonical
 Hugging Face (HF) tensors, and the policy workers compare their assigned export
@@ -123,14 +124,14 @@ receiver queue, native-loader apply path, verification, and baseline commit.*
 
 | Responsibility | Implementation |
 |---|---|
-| Coordinate one transfer and commit | [`vllm_remote_sparse_weight_synchronizer.py`](../../nemo_rl/weight_sync/vllm_remote_sparse_weight_synchronizer.py) |
-| Export canonical tensors and own the source tracker | [`megatron_remote_sparse_refit.py`](../../nemo_rl/models/policy/workers/megatron_remote_sparse_refit.py) |
-| Track baselines and encode deltas | [`weight_transfer_sparse_codec.py`](../../nemo_rl/utils/weight_transfer_sparse_codec.py) |
-| Run the shared pipeline and S3 transport | [`weight_transfer_stream.py`](../../nemo_rl/utils/weight_transfer_stream.py) |
-| Share HTTP control-plane utilities | [`weight_transfer_http.py`](../../nemo_rl/utils/weight_transfer_http.py) |
-| Run the ZeroMQ transport and relay | [`weight_transfer_zmq.py`](../../nemo_rl/utils/weight_transfer_zmq.py) |
-| Queue receiver work and expose endpoints | [`vllm_sparse_refit.py`](../../nemo_rl/models/generation/vllm/vllm_sparse_refit.py) |
-| Apply canonical updates through native loaders | [`vllm_sparse_delta.py`](../../nemo_rl/models/generation/vllm/vllm_sparse_delta.py) |
+| Coordinate one transfer and commit | [`vllm_remote_sparse_weight_synchronizer.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/weight_sync/vllm_remote_sparse_weight_synchronizer.py) |
+| Export canonical tensors and own the source tracker | [`megatron_remote_sparse_refit.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/models/policy/workers/megatron_remote_sparse_refit.py) |
+| Track baselines and encode deltas | [`weight_transfer_sparse_codec.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/utils/weight_transfer_sparse_codec.py) |
+| Run the shared pipeline and S3 transport | [`weight_transfer_stream.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/utils/weight_transfer_stream.py) |
+| Share HTTP control-plane utilities | [`weight_transfer_http.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/utils/weight_transfer_http.py) |
+| Run the ZeroMQ transport and relay | [`weight_transfer_zmq.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/utils/weight_transfer_zmq.py) |
+| Queue receiver work and expose endpoints | [`vllm_sparse_refit.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/models/generation/vllm/vllm_sparse_refit.py) |
+| Apply canonical updates through native loaders | [`vllm_sparse_delta.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/models/generation/vllm/vllm_sparse_delta.py) |
 
 The baseline advances only after the receiver version is globally committed:
 
@@ -594,7 +595,7 @@ reload the receiver before retrying.
 
 ## Refit bandwidth calculator
 
-[`refit_bandwidth_calculator.py`](../../tools/refit_bandwidth_calculator.py) is a
+[`refit_bandwidth_calculator.py`](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/refit_bandwidth_calculator.py) is a
 projection of the latest zstd S3 and ZeroMQ measurements against a measured
 H100 NCCL envelope. It is not a general fabric or topology simulator.
 

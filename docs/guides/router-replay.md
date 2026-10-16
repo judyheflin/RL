@@ -1,5 +1,6 @@
-# Router Replay
-
+---
+title: "Router Replay"
+---
 Router Replay, or R3, records MoE router choices made during rollout generation
 and replays those choices in Megatron forward passes. This keeps each generated
 token's expert assignment consistent across rollout, logprob, and training
@@ -110,7 +111,7 @@ The main metrics to inspect are:
 - `train/token_mult_prob_error`
 - `train/js_divergence_error`
 
-Validation report: <https://api.wandb.ai/links/nvidia-nemo-fw-public/lxoovk60>
+Validation report: [https://api.wandb.ai/links/nvidia-nemo-fw-public/lxoovk60](https://api.wandb.ai/links/nvidia-nemo-fw-public/lxoovk60)
 
 ## Other Notes
 

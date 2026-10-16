@@ -1,5 +1,6 @@
-# Audio-Visual GRPO with Qwen2.5-Omni-7B
-
+---
+title: "Audio-Visual GRPO with Qwen2.5-Omni-7B"
+---
 This guide explains how to use NeMo RL to train [Qwen2.5-Omni-7B](https://huggingface.co/Qwen/Qwen2.5-Omni-7B) with GRPO on the [PhilipC/IntentTrain](https://huggingface.co/datasets/PhilipC/IntentTrain) audio-visual intent-recognition dataset and evaluate on [Daily-Omni](https://huggingface.co/datasets/liarliar/Daily-Omni), following the dataset structure used in [HumanOmniV2](https://arxiv.org/abs/2506.21277).
 
 Each training sample feeds the Qwen2.5-Omni processor both the video stream (8 frames) and the audio track decoded from the same file at 16 kHz mono. Audio and video flow as two **independent multimodal items** per prompt: the dataset emits `{type: video}` + `{type: audio}` content items, the Qwen2.5-Omni chat template renders both `<|VIDEO|>` and `<|AUDIO|>` placeholders, and vLLM rollouts populate `multi_modal_data["video"]` and `multi_modal_data["audio"]` from the same sample.

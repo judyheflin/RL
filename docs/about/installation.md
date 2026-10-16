@@ -1,5 +1,6 @@
-# Installation and Prerequisites
-
+---
+title: "Installation and Prerequisites"
+---
 ## Docker Quickstart
 
 The fastest way to get started is with the pre-built NGC container, which includes all system dependencies (CUDA, cuDNN, vLLM, SGLang) pre-installed and removes the need for manual system-level setup.
@@ -42,7 +43,7 @@ Once inside the container, run any training command directly:
 uv run python examples/run_grpo.py
 ```
 
-For instructions on building your own image (e.g. from a custom branch), see the [Docker documentation](../docker.md).
+For instructions on building your own image (e.g. from a custom branch), see the [Docker documentation](/containers/docker).
 
 ## Clone the Repository
 
@@ -147,9 +148,8 @@ uv run python examples/run_grpo.py --config examples/configs/grpo_math_1B_megatr
 ```
 
 > [!NOTE]
-> - It is not recommended to activate the `venv`, and you should use `uv run <command>` instead to execute scripts within the managed environment.
+- It is not recommended to activate the `venv`, and you should use `uv run <command>` instead to execute scripts within the managed environment.
 >   This ensures consistent environment usage across different shells and sessions.
-> - Ensure your system has the appropriate CUDA drivers installed, and that your PyTorch version is compatible with both your CUDA setup and hardware.
-> - If you update your environment in `pyproject.toml`, it is necessary to force a rebuild of the virtual environments by setting `NRL_FORCE_REBUILD_VENVS=true` next time you launch a run.
-> - **Reminder**: Don't forget to set your `HF_HOME`, `WANDB_API_KEY`, and `HF_DATASETS_CACHE` (if needed). You'll need to do a `huggingface-cli login` as well for Llama models.
-
+- Ensure your system has the appropriate CUDA drivers installed, and that your PyTorch version is compatible with both your CUDA setup and hardware.
+- If you update your environment in `pyproject.toml`, it is necessary to force a rebuild of the virtual environments by setting `NRL_FORCE_REBUILD_VENVS=true` next time you launch a run.
+- **Reminder**: Don't forget to set your `HF_HOME`, `WANDB_API_KEY`, and `HF_DATASETS_CACHE` (if needed). You'll need to do a `huggingface-cli login` as well for Llama models.

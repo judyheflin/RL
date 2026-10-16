@@ -1,10 +1,11 @@
-# GRPO
-
+---
+title: "GRPO"
+---
 We provide a reference GRPO configuration for math benchmarks using the [OpenMathInstruct-2](https://huggingface.co/datasets/nvidia/OpenMathInstruct-2) dataset.
 
-You can read about the details of the GRPO implementation [here](../../guides/grpo.md).
+You can read about the details of the GRPO implementation [here](/guides/grpo).
 
-Related GRPO-family objectives are documented in [DAPO](dapo.md) and [CISPO](cispo.md).
+Related GRPO-family objectives are documented in [DAPO](/about/algorithms/dapo) and [CISPO](/about/algorithms/cispo).
 
 ## GRPO Single Node
 
@@ -44,7 +45,7 @@ uv run python examples/run_grpo.py \
   --config examples/configs/grpo_math_1B_megatron.yaml
 ```
 
-For additional details on supported backends and how to configure the training backend to suit your setup, refer to the [Training Backends documentation](../../design-docs/training-backends.md).
+For additional details on supported backends and how to configure the training backend to suit your setup, refer to the [Training Backends documentation](/design-docs/training-backends).
 
 ## GRPO Multi-node
 
@@ -69,7 +70,7 @@ sbatch \
 > [!NOTE]
 > For GB200 systems with 4 GPUs per node, use `--gres=gpu:4` instead.
 
-The required `CONTAINER` can be built by following the instructions in the [Docker documentation](../../docker.md).
+The required `CONTAINER` can be built by following the instructions in the [Docker documentation](/containers/docker).
 
 ## GRPO Qwen2.5-32B
 
@@ -107,4 +108,3 @@ We also support multi-turn generation and training (tool use, games, etc.). Refe
 ```sh
 uv run python examples/run_grpo_sliding_puzzle.py
 ```
-

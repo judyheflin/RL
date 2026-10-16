@@ -1,7 +1,6 @@
 ---
-orphan: true
+title: "Nemotron 3 Super"
 ---
-
 # Nemotron 3 Super
 
 > **Note:** This document has moved and will be deprecated here. See the new location: https://github.com/NVIDIA-NeMo/RL/blob/main/docs/guides/models/nemotron/nemotron-3-super.md
@@ -53,11 +52,9 @@ Push the derived image to a registry visible to the training cluster and use it 
 # Download RL data blends (rlvr1, rlvr2, rlvr3, swe1, swe2, rlhf)
 uvx --from huggingface-hub hf download nvidia/Nemotron-RL-Super-Training-Blends --repo-type dataset --local-dir=data_with_placeholders
 
-
 # Fill in placeholders in data blends
 chmod +x data_with_placeholders/fill_placeholders.py
 ./data_with_placeholders/fill_placeholders.py --input-dir data_with_placeholders --output-dir data_filled
-
 
 # Create train/val splits for each data blend (last 100 rows held out for validation)
 for f in data_filled/*.jsonl; do

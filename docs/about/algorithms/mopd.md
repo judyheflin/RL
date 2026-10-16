@@ -1,5 +1,6 @@
-# Multi-Teacher On-Policy Distillation (MOPD)
-
+---
+title: "Multi-Teacher On-Policy Distillation (MOPD)"
+---
 Multi-Teacher On-Policy Distillation (MOPD) distills one or more teacher models
 into the policy by replacing GRPO's reward-based advantage with a token-level
 distillation advantage ([MiMo-V2-Flash Technical Report](https://arxiv.org/abs/2601.02780)).
@@ -9,7 +10,7 @@ student rollout is scored by a teacher, and the policy is updated to close the
 gap with the teacher.
 
 Unlike the teacher-logit knowledge distillation in
-[On-policy Distillation](on-policy-distillation.md) (`run_distillation.py`), MOPD
+[On-policy Distillation](/about/algorithms/on-policy-distillation) (`run_distillation.py`), MOPD
 runs on top of the GRPO trainer: it is selected with `adv_estimator: opd` and
 serves teachers from dedicated, non-colocated worker groups during async
 collection.
@@ -272,7 +273,7 @@ uv run examples/run_grpo_single_controller.py \
   data.validation.data_path=/path/to/val.jsonl
 ```
 
-See [Train with Single-Controller](../../guides/single-controller.md) for the
+See [Train with Single-Controller](/guides/single-controller) for the
 runtime's configuration and architecture.
 
 The full-vocabulary variants of that recipe are

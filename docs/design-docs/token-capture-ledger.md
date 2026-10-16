@@ -1,5 +1,6 @@
-# Token Capture Lineage Ledger
-
+---
+title: "Token Capture Lineage Ledger"
+---
 Exact-token capture for blackbox agentic rollouts is coordinated by a single
 per-rollout **capture ledger**: NeMo Gym's `LineageStore`, extended so that its
 append-only JSONL rows are simultaneously the request-time lineage index and

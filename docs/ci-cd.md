@@ -1,5 +1,6 @@
-# CI/CD
-
+---
+title: "CI/CD"
+---
 NeMo RL uses GitHub Actions for continuous integration, testing, and release automation. The CI pipeline implements a tiered testing system that balances thoroughness with resource efficiency.
 
 ## Test Levels

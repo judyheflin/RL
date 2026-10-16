@@ -1,5 +1,6 @@
-# Extending Instrumentation
-
+---
+title: "Extending Instrumentation"
+---
 To add new spans or metrics to NeMo-RL code, use the instrumentation primitives from nemo-lens (`managed_span`, `trace_fn`, `span_cm`). The primitives themselves are documented in [lens: instrumentation](https://github.com/NVIDIA-NeMo/Lens); this page covers NeMo-RL conventions.
 
 ## The import pattern
@@ -26,11 +27,11 @@ ends up with no bucket and invisible to the goodput rollup.
 
 ### Goodput tagging
 
-`managed_span` / `trace_fn` from `instrumentation` attach ``rl.bucket`` ∈
-``{productive, overhead, idle, wasted}`` for leaf groups (see
+`managed_span` / `trace_fn` from `instrumentation` attach `rl.bucket` ∈
+`{productive, overhead, idle, wasted}` for leaf groups (see
 `nemo_rl/telemetry/instrumentation.py`). Umbrella groups (`job`, `step`, `rollout`,
-…) are **not** tagged. Apps do **not** emit rolled-up ``rl.goodput`` /
-``rl.bucket.*`` metrics — the offline monitor SUMs tagged phase / span
+…) are **not** tagged. Apps do **not** emit rolled-up `rl.goodput` /
+`rl.bucket.*` metrics — the offline monitor SUMs tagged phase / span
 durations by bucket.
 
 ### Umbrella spans say so at the call site
@@ -90,7 +91,7 @@ with bucket_scope(Bucket.OVERHEAD):
 
 Umbrellas stay unbucketed inside a scope, and an explicit `rl.bucket=` still
 wins, so a scope cannot make a parent double-count its children. See
-[span groups](span-groups.md).
+[span groups](/observability/span-groups).
 
 When adding a **new** span group, update `_DEFAULT_GROUP_BUCKET` /
 `UMBRELLA_GROUPS` in `instrumentation.py` and extend `test_instrumentation.py`.
@@ -133,7 +134,7 @@ takes its carrier once at construction and reattaches it in **every thread** it
 spawns, because OTel context is a `ContextVar` and threads inherit none. The
 carrier is empty (a harmless no-op) whenever the driver's enclosing group is
 disabled. See
-[span groups](span-groups.md#getting-the-collector-into-one-waterfall).
+[span groups](/observability/span-groups#getting-the-collector-into-one-waterfall).
 
 ## Adding a span
 
@@ -184,7 +185,7 @@ if telemetry is not None:
 
 | Kind | Convention | Example |
 |---|---|---|
-| Span name | `rl.<algorithm>.<phase>`, matching the block's `Timer` key (the two umbrella spans excepted — see [span groups](span-groups.md#per-algorithm-span-names)) | `rl.grpo.generation` |
+| Span name | `rl.<algorithm>.<phase>`, matching the block's `Timer` key (the two umbrella spans excepted — see [span groups](/observability/span-groups#per-algorithm-span-names)) | `rl.grpo.generation` |
 | Span tag | `rl.<attr>` categorical | `rl.iteration`, `rl.backend` |
 | Resource attribute | `rl.<attr>` / shared `dl.<attr>` | `rl.model`, `dl.tensor_parallel.size` |
 | Metric name | `rl.<subsystem>.<metric>` (application scope) | `rl.efficiency.seconds` |
@@ -223,13 +224,13 @@ If nothing fits, add a group to `RLSpanGroup` in `nemo_rl/telemetry/span_groups.
 
 1. Add the constant to `RLSpanGroup`. The `ALL_GROUPS` set is computed from the class, so there is nothing to add it to. `ALL_GROUPS` is what `register_span_groups()` declares to lens, so a group missing from it is never selectable — not even under `all`.
 2. Slot it into the right preset(s) in `_PRESETS`. Decide per preset: `default` is coarse (rarely add here); `per_step` for per-step spans. There is no `all` to edit — lens resolves `all` as a wildcard over whatever is registered, so a group in `ALL_GROUPS` is reachable that way automatically. A group whose span count scales with dataset size rather than step count belongs in `all` only — see `per_prompt`, and add it to `PER_PROMPT_GROUPS` rather than `EMITTED_GROUPS` in the test below.
-3. Document the new group in [Span Groups](span-groups.md), and add it to `EMITTED_GROUPS` in `tests/unit/telemetry/test_span_groups.py` so the preset-reachability test covers it.
+3. Document the new group in [Span Groups](/observability/span-groups), and add it to `EMITTED_GROUPS` in `tests/unit/telemetry/test_span_groups.py` so the preset-reachability test covers it.
 
 Group names live in one flat namespace shared with every other library in the process, so a name Megatron also registers is *shared*: enabling it enables both libraries' spans. That is intended for the phases both genuinely have (`step`, `optimizer`), and worth avoiding otherwise — lens logs a warning naming the other claimant.
 
 ## Adding a metric
 
-NeMo-RL records its `rl.*` metrics from the driver rather than scattering record calls through the algorithm code (see [Metrics](metrics.md)). NeMo-RL owns every `rl.*` metric name: they are declared with lens's metric registry, so adding one needs no lens change.
+NeMo-RL records its `rl.*` metrics from the driver rather than scattering record calls through the algorithm code (see [Metrics](/observability/metrics)). NeMo-RL owns every `rl.*` metric name: they are declared with lens's metric registry, so adding one needs no lens change.
 
 **If the value already flows through `Logger.log_metrics`** — the common case — declare it next to the code that produces it, not in `nemo_rl/telemetry/`. Add a `TeedMetric` row in the module that logs the key and register it there:
 

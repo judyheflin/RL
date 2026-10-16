@@ -1,5 +1,6 @@
-# Quantization-Aware RL (QARL)
-
+---
+title: "Quantization-Aware RL (QARL)"
+---
 Quantization-Aware RL (QARL) integrates [NVIDIA Model Optimizer (ModelOpt)](https://github.com/NVIDIA/Model-Optimizer) into the NeMo RL training loop, enabling quantization-aware training and generation for both GRPO and on-policy distillation workflows. QARL automatically quantizes a standard model at initialization, maintains quantizer state (amax values) throughout training, and transfers quantized state to vLLM during weight refit.
 
 ## Overview
@@ -379,7 +380,7 @@ export NRL_MEGATRON_CHECKPOINT_DIR="/path/to/your/megatron/checkpoints"
 
 ## Differences from FP8 Training
 
-QARL (via ModelOpt) and NeMo RL's built-in [FP8 training](../fp8.md) (via TransformerEngine) serve different purposes:
+QARL (via ModelOpt) and NeMo RL's built-in [FP8 training](/development/fp8) (via TransformerEngine) serve different purposes:
 
 - **TransformerEngine FP8** focuses on **speeding up pre-training and fine-tuning** using real quantization. It replaces linear layers with FP8-native implementations that compute directly in reduced precision for throughput gains.
 

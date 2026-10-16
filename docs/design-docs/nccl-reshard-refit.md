@@ -1,5 +1,6 @@
-# NCCL Reshard Refit (Experimental)
-
+---
+title: "NCCL Reshard Refit (Experimental)"
+---
 > **Experimental**: `nccl_reshard_refit` is an experimental feature.
 
 The default non-colocated transport broadcasts every **full** parameter tensor from the
@@ -33,16 +34,16 @@ single `ValueError` listing every violation. The current requirements are:
 * Training-side Megatron supports expert tensor parallelism when the generation
   destination is Megatron. A vLLM destination still requires
   `expert_tensor_parallel_size: 1`. Custom PP layouts
-  (`pipeline_model_parallel_layout`, virtual PP > 1, embedding/loss
+  (`pipeline_model_parallel_layout`, virtual PP &gt;1, embedding/loss
   pipeline-split accounting) are not supported yet.
 * **Generation-side ETP with `inference_optimized` is pinned to 1.** Those MoE
   layers do not implement expert tensor parallelism and raise whenever the
   *resolved* ETP exceeds 1 — and an omitted ETP resolves to TP, not 1. So
   `merged_inference_megatron_cfg` pins generation-side
   `expert_tensor_parallel_size` to 1 for that transformer implementation, which
-  is what lets generation-side TP > 1 work; the reshard then handles the
+  is what lets generation-side TP &gt;1 work; the reshard then handles the
   train-ETP → gen-ETP=1 gather. Other transformer implementations retain their
-  configured ETP. An explicitly requested generation-side ETP > 1 with
+  configured ETP. An explicitly requested generation-side ETP &gt;1 with
   `inference_optimized` is rejected by config key name rather than surfacing as
   a raw MCore assert at model build.
 * **Precision** for vLLM supports BF16 train ↔ BF16 gen, blockwise-FP8 train
@@ -94,7 +95,7 @@ single `ValueError` listing every violation. The current requirements are:
   only for `refit_transport=mcore`. Colocated Megatron generation requires
   `refit_transport=mcore`, because its refit is carried by the in-place
   wake-reshard; the other transports are rejected rather than silently ignored.
-* **Generation-side PP > 1 is not supported by this refit transport yet.**
+* **Generation-side PP &gt;1 is not supported by this refit transport yet.**
   Megatron-Core and vLLM can run generation with PP, and training-side Megatron
   PP is supported here; the missing piece is generation-stage-aware destination
   routing in `nccl_reshard`.
@@ -347,7 +348,6 @@ and dispatches to one of two transports:
 
 Both transports honor the `stream` argument so the transfer is ordered with the caller's
 `pre`/`post` staging work on one CUDA stream.
-
 
 ## Expected Performance
 

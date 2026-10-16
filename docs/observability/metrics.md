@@ -1,5 +1,6 @@
-# Metrics
-
+---
+title: "Metrics"
+---
 NeMo-RL emits five namespaces of metrics: async efficiency metrics (`rl.efficiency.*`), startup phase durations (`rl.setup.duration`), training scalars (`rl.reward.*`, `rl.policy.*`, …), vLLM engine metrics (`rl.vllm.*`), and driver-side vLLM generation metrics (`gen_ai.*`, following the OTel GenAI semantic conventions).
 
 Metrics are emitted **only when telemetry is exporting** — the driver always exports, so the `rl.*` series come from the driver's metrics logger.
@@ -59,7 +60,7 @@ Representative phases: `generation_init` (and its `generation_init_reserve` / `g
 
 Unlike `rl.efficiency.seconds`, these phases overlap each other by construction: `total_setup` contains the rest, `parallel_wall` covers the generation and policy builds running concurrently, and `generation_init_reserve` / `generation_init_load` are parts of `generation_init`. Anything summing them by bucket would count startup several times over.
 
-Read one phase at a time. For "what did startup cost", use `phase=total_setup` — that is the one value that cannot double-count. The `rl.setup.*` spans give the same phases their shape in a trace; see [Span groups — Startup](span-groups.md#startup-what-happens-before-the-first-step).
+Read one phase at a time. For "what did startup cost", use `phase=total_setup` — that is the one value that cannot double-count. The `rl.setup.*` spans give the same phases their shape in a trace; see [Span groups — Startup](/observability/span-groups#startup-what-happens-before-the-first-step).
 
 ## W&B history step axes
 
@@ -155,7 +156,7 @@ The non-`wall_clock` values also carry `rl.bucket` so all three share one vocabu
 Two deliberate metric/span disagreements to know about before comparing a metric rollup against a trace rollup:
 
 - **The two collector-loop categories** carry `rl.bucket="idle"` as metrics and rely on you filtering by `measurement`, but carry no bucket at all as spans, since a trace has no equivalent filter to rely on.
-- **`idle/validation`** is `idle` as a metric and `overhead` on every span covering the same seconds. Both are true of different fleets: the training GPUs are idle, which is what the driver's timer measures, while the generation GPUs are doing necessary non-training work, which is what `bucket_scope(Bucket.OVERHEAD)` in `validate()` tags. Attributing this phase properly needs per-fleet accounting; until then, do not expect the two rollups to agree on a validation step. See [span groups — why `idle/validation` is not a span](span-groups.md#why-idlevalidation-is-not-a-span).
+- **`idle/validation`** is `idle` as a metric and `overhead` on every span covering the same seconds. Both are true of different fleets: the training GPUs are idle, which is what the driver's timer measures, while the generation GPUs are doing necessary non-training work, which is what `bucket_scope(Bucket.OVERHEAD)` in `validate()` tags. Attributing this phase properly needs per-fleet accounting; until then, do not expect the two rollups to agree on a validation step. See [span groups — why `idle/validation` is not a span](/observability/span-groups#why-idlevalidation-is-not-a-span).
 
 ### `rl.efficiency.window`: what a value covers in time
 
@@ -201,7 +202,7 @@ The driver-side vLLM generation path records token and latency metrics through l
 
 These overlap with `rl.vllm.*` on token counts but are not redundant: `gen_ai.*` is derived from the tensors a `generate()` call returns, so it measures what the driver received, while `rl.vllm.*` is the engine's own accounting. When the two disagree, the gap is work the engine did that never reached the driver — the aborted requests, which appear in no returned tensor at all.
 
-These ride the normal `http/protobuf` OTLP path and reach the same backend as everything else. They are distinct from vLLM's **native** engine tracing (opt-in, and exported over vLLM's own gRPC-by-default exporter) — see [vLLM Tracing](vllm-tracing.md).
+These ride the normal `http/protobuf` OTLP path and reach the same backend as everything else. They are distinct from vLLM's **native** engine tracing (opt-in, and exported over vLLM's own gRPC-by-default exporter) — see [vLLM Tracing](/observability/vllm-tracing).
 
 ## Metric vs span tag vs resource attribute
 
@@ -229,10 +230,10 @@ and compute:
 rl_goodput = productive_gpu_s / (productive + overhead + idle + wasted)_gpu_s
 ```
 
-See [Span groups — goodput buckets](span-groups.md) and `nemo_rl/telemetry/instrumentation.py`.
+See [Span groups — goodput buckets](/observability/span-groups) and `nemo_rl/telemetry/instrumentation.py`.
 
 Metric names use the **application scope** (`rl.*`); attribute names in the `rl.*` namespace are NeMo-RL's own, defined in `nemo_rl/telemetry/`, not imported from lens's `semconv.py`.
 
 ## Filtering across runs
 
-Every `rl.*` data point carries the `nemo.run.id` resource attribute. Use it to isolate or compare runs in your backend (Grafana/Prometheus, or any OTLP-compatible backend). See [Configuration — Run identification](configuration.md#run-identification).
+Every `rl.*` data point carries the `nemo.run.id` resource attribute. Use it to isolate or compare runs in your backend (Grafana/Prometheus, or any OTLP-compatible backend). See [Configuration — Run identification](/observability/configuration#run-identification).

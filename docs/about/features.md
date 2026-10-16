@@ -1,5 +1,6 @@
-# Features and Roadmap
-
+---
+title: "Features and Roadmap"
+---
 ## Available Now
 
 - **Distributed Training** - Ray-based infrastructure.

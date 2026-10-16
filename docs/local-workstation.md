@@ -1,6 +1,7 @@
-# Run on Your Local Workstation
-
-When launching examples locally with `uv`, {py:class}`init_ray() <nemo_rl.distributed.virtual_cluster.init_ray>` will first attempt to connect to an existing cluster. If none is found, it will start a local one and connect to it using all available GPU and CPU resources on your node.
+---
+title: "Run on Your Local Workstation"
+---
+When launching examples locally with `uv`, `init_ray() <nemo_rl.distributed.virtual_cluster.init_ray>` will first attempt to connect to an existing cluster. If none is found, it will start a local one and connect to it using all available GPU and CPU resources on your node.
 
 To launch a job outside of a container, simply run:
 

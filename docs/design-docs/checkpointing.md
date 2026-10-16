@@ -1,5 +1,6 @@
-# Exporting Checkpoints to Hugging Face Format
-
+---
+title: "Exporting Checkpoints to Hugging Face Format"
+---
 NeMo RL provides two checkpoint formats for Hugging Face models: Torch distributed and Hugging Face format. Torch distributed is used by default for efficiency, and Hugging Face format is provided for compatibility with Hugging Face's `AutoModel.from_pretrained` API. Note that Hugging Face format checkpoints save only the model weights, ignoring the optimizer states. It is recommended to use Torch distributed format to save intermediate checkpoints and to save a Hugging Face checkpoint only at the end of training. 
 
 ## Automodel consolidated checkpoints
@@ -56,16 +57,16 @@ uv run --extra mcore examples/converters/convert_megatron_to_hf.py \
 
 ## Converting Megatron LoRA Adapter Checkpoints to Hugging Face Format
 
-When training with [LoRA (Low-Rank Adaptation)](../guides/lora.md) on the Megatron backend, the resulting checkpoint contains only the adapter weights alongside the base model configuration. The `convert_lora_to_hf.py` script supports two export modes:
+When training with [LoRA (Low-Rank Adaptation)](/guides/lora) on the Megatron backend, the resulting checkpoint contains only the adapter weights alongside the base model configuration. The `convert_lora_to_hf.py` script supports two export modes:
 
 - **Merged**: fold the LoRA adapter into the base model and export a single standalone HuggingFace checkpoint.
-- **Adapter-only**: export only the LoRA adapter weights in [HuggingFace PEFT](https://huggingface.co/docs/peft/en/index) format, keeping the base model separate.
+- **Adapter-only**: export only the LoRA adapter weights in [HuggingFace PEFT](https://huggingface.co/docs/peft/en) format, keeping the base model separate.
 
 This script requires Megatron-Core, so make sure to launch with the `mcore` extra.
 
 ### Option A — Merged checkpoint
 
-Loads the base model, applies the LoRA adapter weights on top, and saves the merged result in HuggingFace format. The output can be used directly with `AutoModelForCausalLM.from_pretrained` or passed to the [evaluation pipeline](../guides/eval.md).
+Loads the base model, applies the LoRA adapter weights on top, and saves the merged result in HuggingFace format. The output can be used directly with `AutoModelForCausalLM.from_pretrained` or passed to the [evaluation pipeline](/guides/eval).
 
 **Example:**
 

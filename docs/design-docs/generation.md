@@ -1,5 +1,6 @@
-# Generation Interface
-
+---
+title: "Generation Interface"
+---
 This document explains the token generation interface and various backends for the NeMo RL framework. The generation system is designed with a unified interface that allows different backends (like VLLM, Megatron, Hugging Face, SGLang, and TRT-LLM) to provide token generation capabilities while adhering to the same API.
 
 ## Generation Interface
@@ -62,7 +63,7 @@ A key design principle for generation backends is that they process tokens direc
 
 ## Generation Backends
 
-NeMo RL supports multiple generation backends that implement the {py:class}`GenerationInterface <nemo_rl.models.generation.interfaces.GenerationInterface>` to provide efficient text generation for different use cases.
+NeMo RL supports multiple generation backends that implement the `GenerationInterface <nemo_rl.models.generation.interfaces.GenerationInterface>` to provide efficient text generation for different use cases.
 
 ## SGLang Fault Tolerance
 
@@ -116,11 +117,11 @@ response that has already started cannot be replayed.
 
 ## VLLM Backend
 
-The VLLM backend (`models/generation/vllm/vllm_generation.py`) implements the {py:class}`GenerationInterface <nemo_rl.models.generation.interfaces.GenerationInterface>` to provide efficient text generation using the VLLM library, which is optimized for large language models.
+The VLLM backend (`models/generation/vllm/vllm_generation.py`) implements the `GenerationInterface <nemo_rl.models.generation.interfaces.GenerationInterface>` to provide efficient text generation using the VLLM library, which is optimized for large language models.
 
 ### VllmGeneration Class
 
-The {py:class}`VllmGeneration <nemo_rl.models.generation.vllm.VllmGeneration>` class is the main implementation of the {py:class}`GenerationInterface <nemo_rl.models.generation.interfaces.GenerationInterface>` for VLLM. It performs the following functions:
+The `VllmGeneration <nemo_rl.models.generation.vllm.VllmGeneration>` class is the main implementation of the `GenerationInterface <nemo_rl.models.generation.interfaces.GenerationInterface>` for VLLM. It performs the following functions:
 
 1. Sets up VLLM workers in a distributed environment using Ray.
 2. Manages the lifecycle of these workers (initialization, generation, shutdown).
@@ -129,7 +130,7 @@ The {py:class}`VllmGeneration <nemo_rl.models.generation.vllm.VllmGeneration>` c
 
 ### VllmGenerationWorker
 
-The {py:class}`VllmGenerationWorker <nemo_rl.models.generation.vllm.VllmGenerationWorker>` is a Ray actor that:
+The `VllmGenerationWorker <nemo_rl.models.generation.vllm.VllmGenerationWorker>` is a Ray actor that:
 
 1. Initializes and manages a VLLM model instance.
 2. Performs the actual generation on a GPU.
@@ -138,7 +139,7 @@ The {py:class}`VllmGenerationWorker <nemo_rl.models.generation.vllm.VllmGenerati
 
 ### Custom VLLM Extensions
 
-The {py:class}`UpdatableVllmInternalWorker <nemo_rl.models.generation.vllm_backend.UpdatableVllmInternalWorker>` class in `vllm_backend.py` extends the VLLM worker with additional capabilities:
+The `UpdatableVllmInternalWorker <nemo_rl.models.generation.vllm_backend.UpdatableVllmInternalWorker>` class in `vllm_backend.py` extends the VLLM worker with additional capabilities:
 
 1. Reporting device IDs to allow mapping of workers to specific GPUs.
 2. Updating weights from IPC handles for efficient weight sharing.
@@ -157,13 +158,13 @@ The Megatron backend provides native Megatron-Core inference capabilities, elimi
 
 ### MegatronPolicyWorker Generation
 
-The Megatron generation backend is implemented within the {py:class}`MegatronPolicyWorker <nemo_rl.models.policy.megatron_policy_worker.MegatronPolicyWorker>` class. The `generate <nemo_rl.models.policy.megatron_policy_worker.MegatronPolicyWorker.generate>` method performs the following:
+The Megatron generation backend is implemented within the `MegatronPolicyWorker <nemo_rl.models.policy.megatron_policy_worker.MegatronPolicyWorker>` class. The `generate <nemo_rl.models.policy.megatron_policy_worker.MegatronPolicyWorker.generate>` method performs the following:
 
 1. Wraps the Megatron model with `GPTInferenceWrapper` for inference optimization.
 2. Creates a `DynamicInferenceContext` to manage inference state and memory.
 3. Initializes a `DynamicInferenceEngine` with CUDA graph support enabled.
 4. Processes batched requests with proper sampling parameters (temperature, top_k, top_p).
-5. Returns outputs conforming to {py:class}`GenerationOutputSpec <nemo_rl.models.generation.interfaces.GenerationOutputSpec>`.
+5. Returns outputs conforming to `GenerationOutputSpec <nemo_rl.models.generation.interfaces.GenerationOutputSpec>`.
 
 ### Configuration
 
@@ -440,9 +441,9 @@ For a complete example, see
 
 To add a new generation backend:
 
-1. Create a new class that implements {py:class}`GenerationInterface <nemo_rl.models.generation.interfaces.GenerationInterface>`.
-2. Implement the required methods: {py:meth}`generate <nemo_rl.models.generation.interfaces.GenerationInterface.generate>`, {py:meth}`prepare_for_generation <nemo_rl.models.generation.interfaces.GenerationInterface.prepare_for_generation>`, and {py:meth}`finish_generation <nemo_rl.models.generation.interfaces.GenerationInterface.finish_generation>`.
-3. Ensure your implementation works with the standard {py:class}`GenerationConfig <nemo_rl.models.generation.interfaces.GenerationConfig>` and {py:class}`GenerationDatumSpec <nemo_rl.models.generation.interfaces.GenerationDatumSpec>` structures.
+1. Create a new class that implements `GenerationInterface <nemo_rl.models.generation.interfaces.GenerationInterface>`.
+2. Implement the required methods: `generate <nemo_rl.models.generation.interfaces.GenerationInterface.generate>`, `prepare_for_generation <nemo_rl.models.generation.interfaces.GenerationInterface.prepare_for_generation>`, and `finish_generation <nemo_rl.models.generation.interfaces.GenerationInterface.finish_generation>`.
+3. Ensure your implementation works with the standard `GenerationConfig <nemo_rl.models.generation.interfaces.GenerationConfig>` and `GenerationDatumSpec <nemo_rl.models.generation.interfaces.GenerationDatumSpec>` structures.
 4. Register your backend with the system (if needed) to make it accessible.
 
 This modular design allows for easy extension with new backends while maintaining a consistent interface for the rest of the system.

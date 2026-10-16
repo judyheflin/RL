@@ -1,8 +1,9 @@
-# Evaluation
-
+---
+title: "Evaluation"
+---
 This document explains how to use an evaluation script for assessing model capabilities.
 
-For a shorter quick-start version, see the [evaluation overview](../about/evaluation.md). This guide is the detailed reference for configuration, supported benchmarks, and example outputs.
+For a shorter quick-start version, see the [evaluation overview](/about/evaluation). This guide is the detailed reference for configuration, supported benchmarks, and example outputs.
 
 ## Prepare for Evaluation
 
@@ -27,7 +28,7 @@ Once the conversion is complete, you can override the `generation.model_name` to
 ### Prepare the Evaluation Configuration
 **Override with Custom Settings**
 
-To run the evaluation, you can use the [default configuration file](../../examples/configs/evals/eval.yaml). Alternatively, you can specify a custom one or override some settings via the command line.
+To run the evaluation, you can use the [default configuration file](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/evals/eval.yaml). Alternatively, you can specify a custom one or override some settings via the command line.
 
 The default configuration employs greedy sampling to evaluate Qwen2.5-Math-1.5B-Instruct on AIME-2024.
 
@@ -105,10 +106,10 @@ score=0.1000 (3.0/30)
 
 ## List of currently supported benchmarks
 
-- [AIME-2024, AIME-2025, and AIME-2026](../../nemo_rl/data/datasets/response_datasets/aime.py): the corresponding `data.dataset_name` values are `"AIME2024"`, `"AIME2025"`, and `"AIME2026"`.
-- [GPQA and GPQA-diamond](../../nemo_rl/data/datasets/eval_datasets/gpqa.py): the corresponding `data.dataset_name` are `"gpqa"` and `"gpqa_diamond"`.
-- [MATH and MATH-500](../../nemo_rl/data/datasets/eval_datasets/math.py): the corresponding `data.dataset_name` are `"math"` and `"math500"`.
-- [MMLU](../../nemo_rl/data/datasets/eval_datasets/mmlu.py): this also includes MMMLU (Multilingual MMLU), a total of 14 languages. When `data.dataset_name` is set to `mmlu`, the English version is used. If one wants to run evaluation on another language, `data.dataset_name` should be set to `mmlu_{language}` where `language` is one of following 14 values, `["AR-XY", "BN-BD", "DE-DE", "ES-LA", "FR-FR", "HI-IN", "ID-ID", "IT-IT", "JA-JP", "KO-KR", "PT-BR", "ZH-CN", "SW-KE", "YO-NG"]`.
-- [MMLU-Pro](../../nemo_rl/data/datasets/eval_datasets/mmlu_pro.py): the corresponding `data.dataset_name` is `"mmlu_pro"`.
+- [AIME-2024, AIME-2025, and AIME-2026](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/aime.py): the corresponding `data.dataset_name` values are `"AIME2024"`, `"AIME2025"`, and `"AIME2026"`.
+- [GPQA and GPQA-diamond](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/eval_datasets/gpqa.py): the corresponding `data.dataset_name` are `"gpqa"` and `"gpqa_diamond"`.
+- [MATH and MATH-500](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/eval_datasets/math.py): the corresponding `data.dataset_name` are `"math"` and `"math500"`.
+- [MMLU](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/eval_datasets/mmlu.py): this also includes MMMLU (Multilingual MMLU), a total of 14 languages. When `data.dataset_name` is set to `mmlu`, the English version is used. If one wants to run evaluation on another language, `data.dataset_name` should be set to `mmlu_{language}` where `language` is one of following 14 values, `["AR-XY", "BN-BD", "DE-DE", "ES-LA", "FR-FR", "HI-IN", "ID-ID", "IT-IT", "JA-JP", "KO-KR", "PT-BR", "ZH-CN", "SW-KE", "YO-NG"]`.
+- [MMLU-Pro](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/eval_datasets/mmlu_pro.py): the corresponding `data.dataset_name` is `"mmlu_pro"`.
 
-Response datasets such as AIME are listed in the [response dataset registry](../../nemo_rl/data/datasets/response_datasets/__init__.py). The remaining eval-only datasets are handled by [load_eval_dataset](../../nemo_rl/data/datasets/eval_datasets/__init__.py).
+Response datasets such as AIME are listed in the [response dataset registry](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/__init__.py). The remaining eval-only datasets are handled by [load_eval_dataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/eval_datasets/__init__.py).

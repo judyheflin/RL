@@ -1,11 +1,12 @@
-# Quick Start
-
+---
+title: "Quick Start"
+---
 Use this quick start to get going with either the native PyTorch DTensor or Megatron Core training backends.
 
 > [!NOTE]
 > Both training backends are independent — you can install and use either one on its own.
 
-For more examples and setup details, continue to the [Prerequisites](installation.md) section.
+For more examples and setup details, continue to the [Prerequisites](/about/installation) section.
 
 ## Quick Start Options
 
@@ -21,7 +22,7 @@ uv venv
 ```
 
 > [!NOTE]
-> If you previously ran without checking out the submodules, you may need to rebuild virtual environments by setting `NRL_FORCE_REBUILD_VENVS=true`. See [Tips and Tricks](tips-and-tricks.md).
+> If you previously ran without checking out the submodules, you may need to rebuild virtual environments by setting `NRL_FORCE_REBUILD_VENVS=true`. See [Tips and Tricks](/about/tips-and-tricks).
 
 | Native PyTorch (DTensor) | Megatron Core |
 |--------------------------|---------------|
@@ -46,4 +47,3 @@ To validate your install end-to-end more quickly, use the smoke recipe — it sw
 uv run examples/run_grpo.py \
   --config examples/configs/grpo_smoke.yaml
 ```
-

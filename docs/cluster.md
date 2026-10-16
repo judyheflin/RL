@@ -1,5 +1,6 @@
-# Set Up Clusters
-
+---
+title: "Set Up Clusters"
+---
 This guide explains how to run NeMo RL with Ray on Slurm or Kubernetes.
 
 ## Use Slurm for Batched and Interactive Jobs
@@ -90,31 +91,44 @@ sbatch ray.sub \
    ...
 ```
 #### Common Environment Configuration
-``````{list-table}
-:header-rows: 1
-
-* - Environment Variable
-  - Explanation
-* - `CONTAINER`
-  - (Required) Specifies the container image to be used for the Ray cluster.
-    Use either a docker image from a registry or a squashfs (if using enroot/pyxis).
-* - `MOUNTS`
-  - (Required) Defines paths to mount into the container. Examples:
-    ```md
-    * `MOUNTS="$PWD:$PWD"` (mount in current working directory (CWD))
-    * `MOUNTS="$PWD:$PWD,/nfs:/nfs:ro"` (mounts the current working directory and `/nfs`, with `/nfs` mounted as read-only)
-    ```
-* - `COMMAND`
-  - Command to execute after the Ray cluster starts. If empty, the cluster idles and enters interactive mode (see the [Slurm interactive instructions](#interactive-launching)).
-* - `HF_HOME`
-  - Sets the cache directory for huggingface-hub assets (e.g., models/tokenizers).
-* - `WANDB_API_KEY`
-  - Setting this allows you to use the wandb logger without having to run `wandb login`.
-* - `HF_TOKEN`
-  - Setting the token used by huggingface-hub. Avoids having to run the `huggingface-cli login`
-* - `HF_DATASETS_CACHE`
-  - Sets the cache dir for downloaded Huggingface datasets.
-``````
+<table>
+  <thead>
+    <tr>
+      <th>Environment Variable</th>
+      <th>Explanation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CONTAINER</code></td>
+      <td>(Required) Specifies the container image to be used for the Ray cluster.<br />Use either a docker image from a registry or a squashfs (if using enroot/pyxis).</td>
+    </tr>
+    <tr>
+      <td><code>MOUNTS</code></td>
+      <td>(Required) Defines paths to mount into the container. Examples:<br /><code>MOUNTS="$PWD:$PWD"</code> (mount in current working directory (CWD))<br /><code>MOUNTS="$PWD:$PWD,/nfs:/nfs:ro"</code> (mounts the current working directory and <code>/nfs</code>, with <code>/nfs</code> mounted as read-only)</td>
+    </tr>
+    <tr>
+      <td><code>COMMAND</code></td>
+      <td>Command to execute after the Ray cluster starts. If empty, the cluster idles and enters interactive mode (see the [Slurm interactive instructions](#interactive-launching)).</td>
+    </tr>
+    <tr>
+      <td><code>HF_HOME</code></td>
+      <td>Sets the cache directory for huggingface-hub assets (e.g., models/tokenizers).</td>
+    </tr>
+    <tr>
+      <td><code>WANDB_API_KEY</code></td>
+      <td>Setting this allows you to use the wandb logger without having to run <code>wandb login</code>.</td>
+    </tr>
+    <tr>
+      <td><code>HF_TOKEN</code></td>
+      <td>Setting the token used by huggingface-hub. Avoids having to run the <code>huggingface-cli login</code></td>
+    </tr>
+    <tr>
+      <td><code>HF_DATASETS_CACHE</code></td>
+      <td>Sets the cache dir for downloaded Huggingface datasets.</td>
+    </tr>
+  </tbody>
+</table>
 
 > [!TIP]
 > When `HF_TOKEN`, `WANDB_API_KEY`, `HF_HOME`, and `HF_DATASETS_CACHE` are set in your shell environment using `export`, they are automatically passed to `ray.sub`. For instance, if you set:
@@ -125,130 +139,100 @@ sbatch ray.sub \
 > this token will be available to your NeMo RL run. Consider adding these exports to your shell configuration file, such as `~/.bashrc`.
 
 #### Advanced Environment Configuration
-``````{list-table}
-:header-rows: 1
-
-* - Environment Variable
-    (and default)
-  - Explanation
-* - `UV_CACHE_DIR_OVERRIDE`
-  - By default, this variable does not need to be set. If unset, `ray.sub` uses the 
-    `UV_CACHE_DIR` defined within the container (`/opt/nemo_rl_cache/uv` in images built from `docker/Dockerfile`; set `CONTAINER_UV_CACHE_DIR` for a container that uses another path). 
-    `ray.sub` intentionally avoids using the `UV_CACHE_DIR` from the user's host 
-    environment to prevent the host's cache from interfering with the container's cache. 
-    Set `UV_CACHE_DIR_OVERRIDE` if you have a customized `uv` environment (e.g., 
-    with pre-downloaded packages or specific configurations) that you want to persist 
-    and reuse across container runs. This variable should point to a path on a shared 
-    filesystem accessible by all nodes (head and workers). This path will be mounted 
-    into the container and will override the container's default `UV_CACHE_DIR`.
-* - `CPUS_PER_WORKER`
-  - CPUs each Ray worker node claims. If unset, `ray.sub` auto-detects this from
-    Slurm (the `CPUTot` of the first allocated node) so that Ray sees every CPU
-    on the node. Detection assumes a homogeneous allocation (all nodes have the
-    same CPU count) and only queries a single node to avoid hammering the Slurm
-    controller with one RPC per node; set this explicitly for a heterogeneous
-    allocation or to override detection.
-* - `GPUS_PER_NODE=8`
-  - Number of GPUs each Ray worker node claims. To determine this, run `nvidia-smi` on a worker node.
-* - `DEDICATED_RAY_HEAD=0`
-  - Set to `1` to run the first allocated node as a GPU-free Ray head: it hosts
-    only the Ray control plane and the driver, advertises `--num-gpus=0`, and
-    carries neither `worker_units` nor the topology resources, so no GPU actor
-    or topology-constrained placement group can land on it. Use this when driver
-    or head-node memory pressure is destabilizing training.
-
-    **You must shrink the driver's node count yourself.** `ray.sub` cannot see
-    inside your `COMMAND`, so it only prints the effective GPU-node count. With
-    `--nodes=N` and `DEDICATED_RAY_HEAD=1`, `cluster.num_nodes` (plus
-    `env.nemo_gym.num_gpu_nodes` when set) must sum to `N - 1`. If you leave it
-    at `N`, cluster bringup still succeeds and the driver instead fails minutes
-    later with `Maximum number of retries reached (6). Cluster resources may be
-    insufficient...`.
-
-    **The head's GPUs are idled, not freed.** Under `#SBATCH --exclusive` the
-    head node is still allocated with `--gres`, so this costs one node's worth
-    of GPUs.
-
-    **Watch segment divisibility.** With topology-aware placement the allocation
-    becomes `--nodes=N+1`, which can trip the "`SEGMENT_SIZE` must evenly divide
-    `NUM_NODES`" check in `tools/launch`.
-* - `NRL_MOUNT_HOST_ENROOT`
-  - Unset by default; set to `1` to bind-mount the compute node's own enroot
-    installation (every `/usr/bin/enroot*` file and the enroot library, share
-    and configuration directories that exist) into the training container, so a
-    process inside it, such as a NeMo Gym agent server that runs each agent in
-    its own sandbox, can start containers. Any value other than unset, `0` or
-    `1` is rejected when the batch script starts on the first allocated node.
-    pyxis validates every mount source on each node where a step starts and
-    fails with `pyxis: --container-mounts: source path does not exist`, so every
-    allocated node needs the same enroot layout. Only enroot's own files are
-    mounted: the training container must still provide the tools enroot's
-    subcommands invoke (`unsquashfs` for `enroot create`, `squashfuse` and
-    `fuse-overlayfs` for starting a `.sqsh` image directly). With
-    `tools/launch`, pass the variable through `EXTRA_ENV`.
-* - `BASE_LOG_DIR=$SLURM_SUBMIT_DIR`
-  - Base directory for storing Ray logs. Defaults to the Slurm submission directory ([SLURM_SUBMIT_DIR](https://slurm.schedmd.com/sbatch.html#OPT_SLURM_SUBMIT_DIR)).
-* - `LOKI_PUSH_URL`
-  - Set this to stream logs to a Loki endpoint with
-    [Grafana Alloy](https://grafana.com/docs/alloy/), which runs alongside each
-    Ray container. Unset by default, which leaves log export off. Four streams
-    are shipped, distinguished by the `log_kind` label: Ray's own logs under
-    `/tmp/ray/session_*/logs` (`ray-internal`), which are otherwise lost when
-    the container exits; this container's wrapper log (`wrapper`); the driver
-    log (`driver`); and the sandbox sidecar logs (`sandbox`). Unlike
-    `RAY_LOG_SYNC_FREQUENCY`, which copies the same files to `BASE_LOG_DIR`,
-    this sends them over the network and so does not add per-file writes to the
-    shared filesystem.
-
-    It is separate from `telemetry.logs_enabled`
-    ([observability](observability/observability-stack.md)), which sends Python
-    log records from NeMo-RL processes over OTLP and does not see these files.
-
-    Requires an image providing `/usr/local/bin/alloy` (the included
-    `docker/Dockerfile` installs it) and a readable `alloy/config.alloy` under
-    the submission directory.
-
-    The shipped config authenticates with mTLS, so it also needs
-    `LOKI_CA_FILE`, `LOKI_CERT_FILE`, and `LOKI_KEY_FILE`. These are read inside
-    the container, so their directory must be listed in `MOUNTS`. For any other
-    scheme Loki supports, such as basic auth, a bearer token, or a tenant ID,
-    copy the config, edit its `loki.write` block, and point `ALLOY_CONFIG` at
-    the copy; the certificate variables are then not required.
-
-    If anything is missing, or if Alloy fails to start, `ray.sub` logs a warning
-    and the job runs normally without exporting logs.
-* - `ALLOY_CONFIG=$SLURM_SUBMIT_DIR/alloy/config.alloy`
-  - Path to the Alloy configuration, read inside the container. Override it to
-    use a config with different auth or different log sources.
-* - `CLUSTER_NAME=$SLURM_CLUSTER_NAME`
-  - Value of the `cluster` label on exported logs. Defaults to the cluster name
-    Slurm reports, so it only needs setting to label streams with something else.
-* - `NODE_MANAGER_PORT=1301`
-  - Port for the Ray node manager on worker nodes.
-* - `OBJECT_MANAGER_PORT=1303`
-  - Port for the Ray object manager on worker nodes.
-* - `RUNTIME_ENV_AGENT_PORT=1305`
-  - Port for the Ray runtime environment agent on worker nodes.
-* - `DASHBOARD_AGENT_GRPC_PORT=1307`
-  - gRPC port for the Ray dashboard agent on worker nodes.
-* - `METRICS_EXPORT_PORT=1309`
-  - Port for exporting metrics from worker nodes.
-* - `PORT=1200`
-  - Main port for the Ray head node.
-* - `RAY_CLIENT_SERVER_PORT=1201`
-  - Port for the Ray client server on the head node.
-* - `DASHBOARD_GRPC_PORT=52367`
-  - gRPC port for the Ray dashboard on the head node.
-* - `DASHBOARD_PORT=8265`
-  - Port for the Ray dashboard UI on the head node. This is also the port
-    used by the Ray distributed debugger.
-* - `DASHBOARD_AGENT_LISTEN_PORT=1311`
-  - Listening port for the dashboard agent on the head node.
-* - `MIN_WORKER_PORT=2000`
-  - Minimum port in the range for Ray worker processes.
-* - `MAX_WORKER_PORT=2999`
-  - Maximum port in the range for Ray worker processes.
-``````
+<table>
+  <thead>
+    <tr>
+      <th>Environment Variable<br />(and default)</th>
+      <th>Explanation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>UV_CACHE_DIR_OVERRIDE</code></td>
+      <td>By default, this variable does not need to be set. If unset, <code>ray.sub</code> uses the<br /><code>UV_CACHE_DIR</code> defined within the container (<code>/opt/nemo_rl_cache/uv</code> in images built from <code>docker/Dockerfile</code>; set <code>CONTAINER_UV_CACHE_DIR</code> for a container that uses another path).<br /><code>ray.sub</code> intentionally avoids using the <code>UV_CACHE_DIR</code> from the user&#x27;s host<br />environment to prevent the host&#x27;s cache from interfering with the container&#x27;s cache.<br />Set <code>UV_CACHE_DIR_OVERRIDE</code> if you have a customized <code>uv</code> environment (e.g.,<br />with pre-downloaded packages or specific configurations) that you want to persist<br />and reuse across container runs. This variable should point to a path on a shared<br />filesystem accessible by all nodes (head and workers). This path will be mounted<br />into the container and will override the container&#x27;s default <code>UV_CACHE_DIR</code>.</td>
+    </tr>
+    <tr>
+      <td><code>CPUS_PER_WORKER</code></td>
+      <td>CPUs each Ray worker node claims. If unset, <code>ray.sub</code> auto-detects this from<br />Slurm (the <code>CPUTot</code> of the first allocated node) so that Ray sees every CPU<br />on the node. Detection assumes a homogeneous allocation (all nodes have the<br />same CPU count) and only queries a single node to avoid hammering the Slurm<br />controller with one RPC per node; set this explicitly for a heterogeneous<br />allocation or to override detection.</td>
+    </tr>
+    <tr>
+      <td><code>GPUS_PER_NODE=8</code></td>
+      <td>Number of GPUs each Ray worker node claims. To determine this, run <code>nvidia-smi</code> on a worker node.</td>
+    </tr>
+    <tr>
+      <td><code>DEDICATED_RAY_HEAD=0</code></td>
+      <td>Set to <code>1</code> to run the first allocated node as a GPU-free Ray head: it hosts<br />only the Ray control plane and the driver, advertises <code>--num-gpus=0</code>, and<br />carries neither <code>worker_units</code> nor the topology resources, so no GPU actor<br />or topology-constrained placement group can land on it. Use this when driver<br />or head-node memory pressure is destabilizing training.<br />**You must shrink the driver&#x27;s node count yourself.** <code>ray.sub</code> cannot see<br />inside your <code>COMMAND</code>, so it only prints the effective GPU-node count. With<br /><code>--nodes=N</code> and <code>DEDICATED_RAY_HEAD=1</code>, <code>cluster.num_nodes</code> (plus<br /><code>env.nemo_gym.num_gpu_nodes</code> when set) must sum to <code>N - 1</code>. If you leave it<br />at <code>N</code>, cluster bringup still succeeds and the driver instead fails minutes<br />later with <code>Maximum number of retries reached (6). Cluster resources may be<br />insufficient...</code>.<br />**The head&#x27;s GPUs are idled, not freed.** Under <code>#SBATCH --exclusive</code> the<br />head node is still allocated with <code>--gres</code>, so this costs one node&#x27;s worth<br />of GPUs.<br />**Watch segment divisibility.** With topology-aware placement the allocation<br />becomes <code>--nodes=N+1</code>, which can trip the &quot;<code>SEGMENT_SIZE</code> must evenly divide<br /><code>NUM_NODES</code>&quot; check in <code>tools/launch</code>.</td>
+    </tr>
+    <tr>
+      <td><code>NRL_MOUNT_HOST_ENROOT</code></td>
+      <td>Unset by default; set to <code>1</code> to bind-mount the compute node&#x27;s own enroot<br />installation (every <code>/usr/bin/enroot*</code> file and the enroot library, share<br />and configuration directories that exist) into the training container, so a<br />process inside it, such as a NeMo Gym agent server that runs each agent in<br />its own sandbox, can start containers. Any value other than unset, <code>0</code> or<br /><code>1</code> is rejected when the batch script starts on the first allocated node.<br />pyxis validates every mount source on each node where a step starts and<br />fails with <code>pyxis: --container-mounts: source path does not exist</code>, so every<br />allocated node needs the same enroot layout. Only enroot&#x27;s own files are<br />mounted: the training container must still provide the tools enroot&#x27;s<br />subcommands invoke (<code>unsquashfs</code> for <code>enroot create</code>, <code>squashfuse</code> and<br /><code>fuse-overlayfs</code> for starting a <code>.sqsh</code> image directly). With<br /><code>tools/launch</code>, pass the variable through <code>EXTRA_ENV</code>.</td>
+    </tr>
+    <tr>
+      <td><code>BASE_LOG_DIR=$SLURM_SUBMIT_DIR</code></td>
+      <td>Base directory for storing Ray logs. Defaults to the Slurm submission directory ([SLURM_SUBMIT_DIR](https://slurm.schedmd.com/sbatch.html#OPT_SLURM_SUBMIT_DIR)).</td>
+    </tr>
+    <tr>
+      <td><code>LOKI_PUSH_URL</code></td>
+      <td>Set this to stream logs to a Loki endpoint with<br />[Grafana Alloy](https://grafana.com/docs/alloy/), which runs alongside each<br />Ray container. Unset by default, which leaves log export off. Four streams<br />are shipped, distinguished by the <code>log_kind</code> label: Ray&#x27;s own logs under<br /><code>/tmp/ray/session_*/logs</code> (<code>ray-internal</code>), which are otherwise lost when<br />the container exits; this container&#x27;s wrapper log (<code>wrapper</code>); the driver<br />log (<code>driver</code>); and the sandbox sidecar logs (<code>sandbox</code>). Unlike<br /><code>RAY_LOG_SYNC_FREQUENCY</code>, which copies the same files to <code>BASE_LOG_DIR</code>,<br />this sends them over the network and so does not add per-file writes to the<br />shared filesystem.<br />It is separate from <code>telemetry.logs_enabled</code><br />([observability](/observability/observability-stack)), which sends Python<br />log records from NeMo-RL processes over OTLP and does not see these files.<br />Requires an image providing <code>/usr/local/bin/alloy</code> (the included<br /><code>docker/Dockerfile</code> installs it) and a readable <code>alloy/config.alloy</code> under<br />the submission directory.<br />The shipped config authenticates with mTLS, so it also needs<br /><code>LOKI_CA_FILE</code>, <code>LOKI_CERT_FILE</code>, and <code>LOKI_KEY_FILE</code>. These are read inside<br />the container, so their directory must be listed in <code>MOUNTS</code>. For any other<br />scheme Loki supports, such as basic auth, a bearer token, or a tenant ID,<br />copy the config, edit its <code>loki.write</code> block, and point <code>ALLOY_CONFIG</code> at<br />the copy; the certificate variables are then not required.<br />If anything is missing, or if Alloy fails to start, <code>ray.sub</code> logs a warning<br />and the job runs normally without exporting logs.</td>
+    </tr>
+    <tr>
+      <td><code>ALLOY_CONFIG=$SLURM_SUBMIT_DIR/alloy/config.alloy</code></td>
+      <td>Path to the Alloy configuration, read inside the container. Override it to<br />use a config with different auth or different log sources.</td>
+    </tr>
+    <tr>
+      <td><code>CLUSTER_NAME=$SLURM_CLUSTER_NAME</code></td>
+      <td>Value of the <code>cluster</code> label on exported logs. Defaults to the cluster name<br />Slurm reports, so it only needs setting to label streams with something else.</td>
+    </tr>
+    <tr>
+      <td><code>NODE_MANAGER_PORT=1301</code></td>
+      <td>Port for the Ray node manager on worker nodes.</td>
+    </tr>
+    <tr>
+      <td><code>OBJECT_MANAGER_PORT=1303</code></td>
+      <td>Port for the Ray object manager on worker nodes.</td>
+    </tr>
+    <tr>
+      <td><code>RUNTIME_ENV_AGENT_PORT=1305</code></td>
+      <td>Port for the Ray runtime environment agent on worker nodes.</td>
+    </tr>
+    <tr>
+      <td><code>DASHBOARD_AGENT_GRPC_PORT=1307</code></td>
+      <td>gRPC port for the Ray dashboard agent on worker nodes.</td>
+    </tr>
+    <tr>
+      <td><code>METRICS_EXPORT_PORT=1309</code></td>
+      <td>Port for exporting metrics from worker nodes.</td>
+    </tr>
+    <tr>
+      <td><code>PORT=1200</code></td>
+      <td>Main port for the Ray head node.</td>
+    </tr>
+    <tr>
+      <td><code>RAY_CLIENT_SERVER_PORT=1201</code></td>
+      <td>Port for the Ray client server on the head node.</td>
+    </tr>
+    <tr>
+      <td><code>DASHBOARD_GRPC_PORT=52367</code></td>
+      <td>gRPC port for the Ray dashboard on the head node.</td>
+    </tr>
+    <tr>
+      <td><code>DASHBOARD_PORT=8265</code></td>
+      <td>Port for the Ray dashboard UI on the head node. This is also the port<br />used by the Ray distributed debugger.</td>
+    </tr>
+    <tr>
+      <td><code>DASHBOARD_AGENT_LISTEN_PORT=1311</code></td>
+      <td>Listening port for the dashboard agent on the head node.</td>
+    </tr>
+    <tr>
+      <td><code>MIN_WORKER_PORT=2000</code></td>
+      <td>Minimum port in the range for Ray worker processes.</td>
+    </tr>
+    <tr>
+      <td><code>MAX_WORKER_PORT=2999</code></td>
+      <td>Maximum port in the range for Ray worker processes.</td>
+    </tr>
+  </tbody>
+</table>
 
 > [!NOTE]
 > For the most part, you will not need to change ports unless these

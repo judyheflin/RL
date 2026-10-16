@@ -1,10 +1,11 @@
-# Exporting to an OTLP backend
-
+---
+title: "Exporting to an OTLP backend"
+---
 NeMo-RL's telemetry is a standard OpenTelemetry OTLP exporter: enable it, point it at an OTLP endpoint, and run your training. It works with **any OTLP-compatible backend or an OpenTelemetry Collector** — there is nothing NeMo-RL-specific about the backend, and no bundled Jaeger / Prometheus / Grafana.
 
 Choosing an observability solution — retention, scale, auth, dashboards — is your decision, driven by your organisation's existing stack (e.g. Jaeger, Grafana Tempo, or an OpenTelemetry Collector that fans out to your backend of choice). For backend-specific guidance, see [lens: backends](https://github.com/NVIDIA-NeMo/Lens).
 
-What ships here is log *records* from NeMo-RL's Python processes. The log *files* a Slurm job leaves behind — raylet and GCS logs, the per-node wrapper logs, the driver log — are a separate path that these settings do not control: see [`LOKI_PUSH_URL`](../cluster.md) for shipping those to Loki with Grafana Alloy.
+What ships here is log *records* from NeMo-RL's Python processes. The log *files* a Slurm job leaves behind — raylet and GCS logs, the per-node wrapper logs, the driver log — are a separate path that these settings do not control: see [`LOKI_PUSH_URL`](/environment-start/cluster) for shipping those to Loki with Grafana Alloy.
 
 ## Turn it on
 
@@ -53,4 +54,4 @@ uv run examples/run_grpo.py --config examples/configs/grpo_math_1B.yaml \
 
 vLLM's **native** OTLP tracing (`telemetry.vllm_native_tracing: true`) builds its own exporter rather than reusing lens's, and reads the protocol from `OTEL_EXPORTER_OTLP_TRACES_PROTOCOL` alone — defaulting to `grpc` and ignoring the generic `OTEL_EXPORTER_OTLP_PROTOCOL`. On an `http/protobuf` stack it would otherwise speak gRPC at an HTTP port, so either set `OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=http/protobuf` or add an OTLP/gRPC receiver (an OTel Collector on `:4317`) that forwards to your backend. The driver-side `rl.vllm.*` spans and `gen_ai.*` metrics (Layer 1) reach your backend regardless.
 
-Keep `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` **unset** and configure the generic `OTEL_EXPORTER_OTLP_ENDPOINT` instead: vLLM's worker processes enable tracing on the mere presence of the traces-specific variable, which the Ray `runtime_env` spreads cluster-wide, so exporting it switches on per-request worker spans even with `vllm_native_tracing: false`. See [vLLM Tracing](vllm-tracing.md).
+Keep `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` **unset** and configure the generic `OTEL_EXPORTER_OTLP_ENDPOINT` instead: vLLM's worker processes enable tracing on the mere presence of the traces-specific variable, which the Ray `runtime_env` spreads cluster-wide, so exporting it switches on per-request worker spans even with `vllm_native_tracing: false`. See [vLLM Tracing](/observability/vllm-tracing).

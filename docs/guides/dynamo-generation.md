@@ -1,10 +1,11 @@
-# Managed Dynamo generation on Slurm
-
+---
+title: "Managed Dynamo generation on Slurm"
+---
 NeMo RL can launch and own Dynamo's control plane, frontend, and a fixed vLLM
 worker fleet inside a Slurm-backed Ray allocation. This mode supports direct
 GRPO and NeMo-Gym rollouts, NCCL weight refits, cache invalidation, and
 `generation_metrics/*` telemetry sent to enabled loggers such as W&B.
-See the [Dynamo integration design](../design-docs/dynamo-integration.md) for
+See the [Dynamo integration design](/design-docs/dynamo-integration) for
 the service ownership, startup, and weight-refit architecture.
 
 This integration is managed and vLLM-only. It does not connect to an external
@@ -74,7 +75,7 @@ not rebase the patch onto the newer vLLM release.
 
 ## Configure Dynamo
 
-Start with [`examples/configs/grpo_math_1B_dynamo.yaml`](../../examples/configs/grpo_math_1B_dynamo.yaml).
+Start with [`examples/configs/grpo_math_1B_dynamo.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/grpo_math_1B_dynamo.yaml).
 The important boundary is:
 
 ```yaml

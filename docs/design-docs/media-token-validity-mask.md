@@ -1,5 +1,6 @@
-# Training on text that contains `<image>`
-
+---
+title: "Training on text that contains `<image>`"
+---
 ## Summary
 
 A media placeholder is an ordinary vocabulary entry, so text can legitimately

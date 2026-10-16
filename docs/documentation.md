@@ -1,12 +1,12 @@
-# Documentation Development
-
+---
+title: "Documentation Development"
+---
 - [Documentation Development](#documentation-development)
   - [Build the Documentation](#build-the-documentation)
   - [Live Building](#live-building)
   - [Run Tests in Python Docstrings](#run-tests-in-python-docstrings)
   - [Write Tests in Python Docstrings](#write-tests-in-python-docstrings)
   - [Documentation Version](#documentation-version)
-
 
 ## Build the Documentation
 
@@ -49,7 +49,6 @@ uv run --group docs sphinx-autobuild . _build/html --port 12345 --host 0.0.0.0
 
 Open a web browser and go to `http://${HOST_WHERE_SPHINX_COMMAND_RUN}:12345` to view the output.
 
-
 ## Run Tests in Python Docstrings
 
 We also run tests in our Python docstrings. You can run them with:
@@ -76,7 +75,7 @@ def add(x: int, y: int) -> int:
         int: The sum of x and y.
 
     Examples:
-    ```{doctest}
+    ```python
     >>> from nemo_rl.made_up_package import add
     >>> add(1, 2)
     3
@@ -93,4 +92,3 @@ The three files below control the version switcher. Before you attempt to publis
 * docs/versions1.json
 * docs/project.json
 * docs/conf.py
-

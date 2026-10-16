@@ -1,5 +1,6 @@
-# Train with Async GRPO
-
+---
+title: "Train with Async GRPO"
+---
 Async GRPO is an asynchronous training mode that allows trajectory generation and policy training to run concurrently, improving GPU utilization and throughput compared to synchronous GRPO.
 
 ## Configure Async GRPO
@@ -140,7 +141,6 @@ Example with `max_trajectory_age_steps: 1`:
    - Update weights and notify collector
 4. **Weight Sync**: Collector pauses, waits for weight refit, then resumes
 5. **Repeat**: Process continues with updated weights
-
 
 ### Architecture Diagram
 

@@ -1,5 +1,6 @@
-# ModelOpt Real-Quant Refit Architecture
-
+---
+title: "ModelOpt Real-Quant Refit Architecture"
+---
 NeMo RL supports deployment-style NVFP4 rollout generation while a Megatron
 policy is trained with ModelOpt quantization-aware training. During each
 policy refit, Megatron-Bridge exports packed quantized tensors and NeMo RL
@@ -16,11 +17,11 @@ exported and installed in the vLLM generation worker.
 
 This design builds on:
 
-- [Design and Philosophy](design-and-philosophy.md), which defines NeMo RL's
+- [Design and Philosophy](/design-docs/design-and-philosophy), which defines NeMo RL's
   controller, worker, isolation, and communication model;
-- [Generation Interface](generation.md), which defines generation backends and
+- [Generation Interface](/design-docs/generation), which defines generation backends and
   their weight-update lifecycle; and
-- [Quantization-Aware RL](../guides/quantization-aware-rl.md), which documents
+- [Quantization-Aware RL](/guides/quantization-aware-rl), which documents
   the user workflow, configuration, and supported recipes.
 
 The real-quant path preserves those abstractions: algorithms still call the
@@ -64,8 +65,8 @@ to the same mode. Unsupported or mismatched formats fail during setup.
 
 Example routed-expert recipes are provided at:
 
-- [`examples/modelopt/quant_configs/nvfp4_experts.yaml`](../../examples/modelopt/quant_configs/nvfp4_experts.yaml) for W4A4;
-- [`examples/modelopt/quant_configs/nvfp4_experts_weightonly.yaml`](../../examples/modelopt/quant_configs/nvfp4_experts_weightonly.yaml) for W4A16.
+- [`examples/modelopt/quant_configs/nvfp4_experts.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/modelopt/quant_configs/nvfp4_experts.yaml) for W4A4;
+- [`examples/modelopt/quant_configs/nvfp4_experts_weightonly.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/modelopt/quant_configs/nvfp4_experts_weightonly.yaml) for W4A16.
 
 ## Refit lifecycle
 

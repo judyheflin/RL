@@ -1,5 +1,6 @@
-# Logger
-
+---
+title: "Logger"
+---
 The logger is designed to track key training metrics (including distributed metrics with reductions and timing), as well as providing integration with logging backends like WandB, Tensorboard, MLflow and Swanlab.
 
 ## Requirements
@@ -16,7 +17,7 @@ The logger is designed to track key training metrics (including distributed metr
 
 Since there is a single controller, the single process running the main training loop will gather the metrics and do the logging.
 
-To handle multiple logger backends, we will have a {py:class}`LoggerInterface <nemo_rl.utils.logger.LoggerInterface>` interface that the {py:class}`TensorboardLogger <nemo_rl.utils.logger.TensorboardLogger>`, {py:class}`WandbLogger <nemo_rl.utils.logger.WandbLogger>`, {py:class}`MLflowLogger <nemo_rl.utils.logger.MLflowLogger>` and {py:class}`SwanlabLogger <nemo_rl.utils.logger.SwanlabLogger>` will implement:
+To handle multiple logger backends, we will have a `LoggerInterface <nemo_rl.utils.logger.LoggerInterface>` interface that the `TensorboardLogger <nemo_rl.utils.logger.TensorboardLogger>`, `WandbLogger <nemo_rl.utils.logger.WandbLogger>`, `MLflowLogger <nemo_rl.utils.logger.MLflowLogger>` and `SwanlabLogger <nemo_rl.utils.logger.SwanlabLogger>` will implement:
 
 ```python
 class LoggerInterface(ABC):
@@ -33,7 +34,7 @@ class LoggerInterface(ABC):
         pass
 ```
 
-A {py:class}`Logger <nemo_rl.utils.logger.Logger>` wrapper class will also implement {py:class}`LoggerInterface <nemo_rl.utils.logger.LoggerInterface>` and maintain a list of loggers to which it delegates writing logs. This will be the main class the user uses in the training loop. Usage example:
+A `Logger <nemo_rl.utils.logger.Logger>` wrapper class will also implement `LoggerInterface <nemo_rl.utils.logger.LoggerInterface>` and maintain a list of loggers to which it delegates writing logs. This will be the main class the user uses in the training loop. Usage example:
 
 ```python
 # Initialize logger with wandb, tensorboard, mlflow and swanlab enabled
@@ -129,7 +130,6 @@ mlflow:
 >
 > This keeps the tracking data on the local filesystem while avoiding the metric name path
 > collisions that can happen with the file-based backend.
-
 
 #### MLflow UI
 

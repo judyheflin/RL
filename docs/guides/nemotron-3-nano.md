@@ -1,7 +1,6 @@
 ---
-orphan: true
+title: "Nemotron 3 Nano"
 ---
-
 # Nemotron 3 Nano
 
 > **Note:** This document has moved and will be deprecated here. See the new location: https://github.com/NVIDIA-NeMo/RL/blob/main/docs/guides/models/nemotron/nemotron-3-nano.md
@@ -67,7 +66,6 @@ sbatch \
     --gres=gpu:8 \
     ray.sub
 ```
-
 
 ## Launch training
 ```bash

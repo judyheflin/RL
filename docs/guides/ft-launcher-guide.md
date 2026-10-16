@@ -1,5 +1,6 @@
-# Fault Tolerance Launcher Guide
-
+---
+title: "Fault Tolerance Launcher Guide"
+---
 The `ft_launcher` is provided by `nvidia-resiliency-ext` (available via the `nvrx` optional extra, e.g. `uv run --extra nvrx ft_launcher ...`) and enables automatic fault tolerance and recovery for distributed training runs.
 
 ## Key Arguments

@@ -1,7 +1,7 @@
-# SFT on OpenMathInstruct-2
-
+---
+title: "SFT on OpenMathInstruct-2"
+---
 This guide explains how to use NeMo RL to run SFT on the [nvidia/OpenMathInstruct-2](https://huggingface.co/datasets/nvidia/OpenMathInstruct-2) math instruction tuning dataset. We then show how to use NeMo RL's evaluation scripts to evaluate the trained model on the [MATH-500 benchmark](https://huggingface.co/datasets/HuggingFaceH4/MATH-500).
-
 
 ## Train the Model
 To train the model using NeMo RL, use the `examples/configs/sft_openmathinstruct2.yaml` config file. This file closely matches the experiment settings in the [original OpenMathInstruct-2 paper](https://arxiv.org/abs/2410.01560).
@@ -55,7 +55,6 @@ In this section we present the results of several reference experiments for the 
 Using the above instructions to train a Llama-3.1-8B model for 1 epoch on the `train_1M` version of the OpenMathInstruct-2 dataset, we get the following loss curve:
 
 ![image](../assets/sft-openmathinstruct2-train1M-loss.png)
-
 
 Evaluating the final checkpoint on MATH-500, we get the following result:
 

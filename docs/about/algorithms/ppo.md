@@ -1,5 +1,6 @@
-# PPO
-
+---
+title: "PPO"
+---
 [Proximal Policy Optimization (PPO)](https://arxiv.org/abs/1707.06347) is an actor-critic reinforcement learning algorithm that jointly trains a **policy** (actor) and a **value function** (critic). The value function estimates per-token state values, enabling [Generalized Advantage Estimation (GAE)](https://arxiv.org/abs/1506.02438) for lower-variance advantage signals compared to reward-only baselines.
 
 ## Key Differences from GRPO
@@ -57,8 +58,8 @@ sbatch \
 
 PPO uses two base configurations:
 
-- DTensor backend (default): [examples/configs/ppo_math_1B.yaml](../../../examples/configs/ppo_math_1B.yaml)
-- Megatron-Core backend: [examples/configs/ppo_math_1B_megatron.yaml](../../../examples/configs/ppo_math_1B_megatron.yaml)
+- DTensor backend (default): [examples/configs/ppo_math_1B.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/ppo_math_1B.yaml)
+- Megatron-Core backend: [examples/configs/ppo_math_1B_megatron.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/ppo_math_1B_megatron.yaml)
 
 Key PPO-specific parameters:
 
@@ -87,6 +88,6 @@ you explicitly override it.
 ## Additional Resources
 
 - [PPO Paper](https://arxiv.org/abs/1707.06347)
-- [PPO In-Depth Guide](../../guides/ppo.md)
+- [PPO In-Depth Guide](/guides/ppo)
 - [GAE Paper](https://arxiv.org/abs/1506.02438)
-- [GRPO Documentation](grpo.md)
+- [GRPO Documentation](/about/algorithms/grpo)

@@ -1,5 +1,6 @@
-# On-policy Distillation
-
+---
+title: "On-policy Distillation"
+---
 We provide an example on-policy distillation experiment using the [DeepScaler dataset](https://huggingface.co/agentica-org/DeepScaleR-1.5B-Preview).
 
 > [!NOTE]

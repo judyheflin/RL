@@ -1,6 +1,6 @@
-
-# Performance
-
+---
+title: "Performance"
+---
 As part of the NVIDIA NeMo Framework, NeMo RL provides optimal performance for reinforcement learning on generative AI models by incorporating the latest optimizations - such as refit optimizations, mixed-precision training, and off-policy training.
 
 This page provides performance benchmarks for LLMs and VLMs using NeMo RL across different GPU systems and configurations. The recipes to reproduce these runs, in yaml file form, can be found under [this folder](https://github.com/NVIDIA-NeMo/RL/tree/v0.7.0/examples/configs/recipes/llm/performance).
@@ -31,7 +31,6 @@ Since reinforcement learning consists of training, generation and transition bet
     $$
 
 - **Training MFU**: Model floating-point operations per second per GPU
-
 
 ## Performance Summary for Large Language Models
 

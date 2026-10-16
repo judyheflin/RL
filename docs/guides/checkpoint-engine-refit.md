@@ -1,5 +1,6 @@
-# Checkpoint-Engine Refit
-
+---
+title: "Checkpoint-Engine Refit"
+---
 Checkpoint-engine refit updates non-colocated generation workers directly from
 policy workers. The built-in backend is NIXL, which can use UCX/RDMA for large
 policy-to-vLLM refits.

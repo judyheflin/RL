@@ -1,5 +1,6 @@
-# Gemma 4
-
+---
+title: "Gemma 4"
+---
 NeMo RL supports post-training the Gemma 4 family with the AutoModel training
 backend and vLLM generation. The reference configurations cover text-only DAPO
 for the E2B, 12B, 26B-A4B, and 31B variants and multimodal GRPO for the E4B
@@ -26,14 +27,14 @@ Recipe YAML files under `examples/configs/recipes/` are the source of truth.
 
 | Model | Layout | Nodes and GPUs | Recipe |
 | --- | --- | --- | --- |
-| E2B | FSDP2, CP1 | 1n8g | [`dapo-gemma4-e2b-it-1n8g-fsdp2-automodel.yaml`](../../../../examples/configs/recipes/llm/dapo-gemma4-e2b-it-1n8g-fsdp2-automodel.yaml) |
-| E2B | FSDP2, CP2 | 1n8g | [`dapo-gemma4-e2b-it-1n8g-fsdp2cp2-automodel.yaml`](../../../../examples/configs/recipes/llm/dapo-gemma4-e2b-it-1n8g-fsdp2cp2-automodel.yaml) |
-| E4B | VLM FSDP2, CP1 | 1n8g | [`vlm_grpo-gemma4-e4b-geo3k-1n8g-automodel.yaml`](../../../../examples/configs/recipes/vlm/vlm_grpo-gemma4-e4b-geo3k-1n8g-automodel.yaml) |
-| 12B | FSDP2, CP1 | 2n8g | [`dapo-gemma4-12b-it-2n8g-fsdp2-automodel.yaml`](../../../../examples/configs/recipes/llm/dapo-gemma4-12b-it-2n8g-fsdp2-automodel.yaml) |
-| 26B-A4B | FSDP2, EP32, CP1 | 4n8g | [`dapo-gemma4-26ba4b-it-4n8g-fsdp2-automodel.yaml`](../../../../examples/configs/recipes/llm/dapo-gemma4-26ba4b-it-4n8g-fsdp2-automodel.yaml) |
-| 26B-A4B | FSDP2, EP16, CP2 | 4n8g | [`dapo-gemma4-26ba4b-it-4n8g-fsdp2ep16cp2-automodel.yaml`](../../../../examples/configs/recipes/llm/dapo-gemma4-26ba4b-it-4n8g-fsdp2ep16cp2-automodel.yaml) |
-| 31B | FSDP2, CP1 | 4n8g | [`dapo-gemma4-31b-it-4n8g-fsdp2-automodel.yaml`](../../../../examples/configs/recipes/llm/dapo-gemma4-31b-it-4n8g-fsdp2-automodel.yaml) |
-| 31B | FSDP2, CP2 | 4n8g | [`dapo-gemma4-31b-it-4n8g-fsdp2cp2-automodel.yaml`](../../../../examples/configs/recipes/llm/dapo-gemma4-31b-it-4n8g-fsdp2cp2-automodel.yaml) |
+| E2B | FSDP2, CP1 | 1n8g | [`dapo-gemma4-e2b-it-1n8g-fsdp2-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-gemma4-e2b-it-1n8g-fsdp2-automodel.yaml) |
+| E2B | FSDP2, CP2 | 1n8g | [`dapo-gemma4-e2b-it-1n8g-fsdp2cp2-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-gemma4-e2b-it-1n8g-fsdp2cp2-automodel.yaml) |
+| E4B | VLM FSDP2, CP1 | 1n8g | [`vlm_grpo-gemma4-e4b-geo3k-1n8g-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/vlm/vlm_grpo-gemma4-e4b-geo3k-1n8g-automodel.yaml) |
+| 12B | FSDP2, CP1 | 2n8g | [`dapo-gemma4-12b-it-2n8g-fsdp2-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-gemma4-12b-it-2n8g-fsdp2-automodel.yaml) |
+| 26B-A4B | FSDP2, EP32, CP1 | 4n8g | [`dapo-gemma4-26ba4b-it-4n8g-fsdp2-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-gemma4-26ba4b-it-4n8g-fsdp2-automodel.yaml) |
+| 26B-A4B | FSDP2, EP16, CP2 | 4n8g | [`dapo-gemma4-26ba4b-it-4n8g-fsdp2ep16cp2-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-gemma4-26ba4b-it-4n8g-fsdp2ep16cp2-automodel.yaml) |
+| 31B | FSDP2, CP1 | 4n8g | [`dapo-gemma4-31b-it-4n8g-fsdp2-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-gemma4-31b-it-4n8g-fsdp2-automodel.yaml) |
+| 31B | FSDP2, CP2 | 4n8g | [`dapo-gemma4-31b-it-4n8g-fsdp2cp2-automodel.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-gemma4-31b-it-4n8g-fsdp2cp2-automodel.yaml) |
 
 ## Run a Recipe
 
@@ -45,7 +46,7 @@ uv run examples/run_grpo.py \
   --config examples/configs/recipes/llm/dapo-gemma4-12b-it-2n8g-fsdp2-automodel.yaml
 ```
 
-See the [GRPO guide](../../grpo.md) for algorithm and launch details.
+See the [GRPO guide](/guides/grpo) for algorithm and launch details.
 
 ## Context Parallel
 

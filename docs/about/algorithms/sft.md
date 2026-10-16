@@ -1,6 +1,7 @@
-# Supervised Fine-Tuning (SFT)
-
-We provide example SFT experiments using various datasets including [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/), OpenAI format datasets (with tool calling support), and custom JSONL datasets. For detailed documentation on supported datasets and configurations, see the [SFT documentation](../../guides/sft.md).
+---
+title: "Supervised Fine-Tuning (SFT)"
+---
+We provide example SFT experiments using various datasets including [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/), OpenAI format datasets (with tool calling support), and custom JSONL datasets. For detailed documentation on supported datasets and configurations, see the [SFT documentation](/guides/sft).
 
 ## SFT Single Node
 

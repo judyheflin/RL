@@ -1,5 +1,6 @@
-# Configuration
-
+---
+title: "Configuration"
+---
 Telemetry is configured by the `telemetry:` block of your run config. Keep it there: a run's telemetry settings should be recoverable from the file that describes the run, not from whatever happened to be in a shell.
 
 Two things do belong in the environment, because they describe *where* you are running rather than *what* you are measuring: the standard [`OTEL_EXPORTER_OTLP_*`](#standard-otel-sdk-variables) endpoint/protocol/headers, and `OTEL_SERVICE_NAME`.
@@ -52,7 +53,7 @@ Endpoint, protocol, and headers are honoured by the OTel SDK directly:
 | `OTEL_EXPORTER_OTLP_PROTOCOL` | `grpc` or `http/protobuf` |
 | `OTEL_EXPORTER_OTLP_HEADERS` | `<header>=<value>,<header>=<value>` (e.g. auth headers your backend requires) |
 
-Pick the protocol to match your backend: a local collector or Jaeger typically speaks gRPC on `:4317`; a direct-to-SaaS OTLP endpoint typically speaks `http/protobuf` on `:443`. See [Observability Stack](observability-stack.md).
+Pick the protocol to match your backend: a local collector or Jaeger typically speaks gRPC on `:4317`; a direct-to-SaaS OTLP endpoint typically speaks `http/protobuf` on `:443`. See [Exporting to an OTLP backend](/observability/observability-stack).
 
 ## Which ranks export
 
@@ -75,7 +76,7 @@ Every run gets an id that flows to all backends as the **`nemo.run.id`** resourc
 2. `SLURM_JOB_ID` (auto-detected on SLURM clusters).
 3. Auto-generated 12-character hex id (fallback).
 
-The run id is written to the environment on the driver **before** `init_ray()`, so every worker inherits the same value and correlates to the same run. This is also how vLLM's native spans are correlated back to the RL run — see [vLLM Tracing](vllm-tracing.md).
+The run id is written to the environment on the driver **before** `init_ray()`, so every worker inherits the same value and correlates to the same run. This is also how vLLM's native spans are correlated back to the RL run — see [vLLM Tracing](/observability/vllm-tracing).
 
 Filter by `nemo.run.id` in your backend to isolate a specific run.
 
@@ -120,7 +121,7 @@ uv run examples/run_grpo.py --config examples/configs/grpo_math_1B.yaml \
   ++telemetry.enabled=true
 ```
 
-See [Observability Stack](observability-stack.md) for the full backend-export setup.
+See [Exporting to an OTLP backend](/observability/observability-stack) for the full backend-export setup.
 
 ### Per-step granularity
 
@@ -134,4 +135,4 @@ telemetry:
 export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
 ```
 
-`per_step` adds the per-step phases (rollout, generation, reward, advantage, policy update) on top of the run-level `job` span, so the whole run is one trace. See [Span Groups](span-groups.md).
+`per_step` adds the per-step phases (rollout, generation, reward, advantage, policy update) on top of the run-level `job` span, so the whole run is one trace. See [Span Groups](/observability/span-groups).

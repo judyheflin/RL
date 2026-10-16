@@ -1,5 +1,6 @@
-# Overview
-
+---
+title: "Overview"
+---
 **NeMo RL** is an open-source post-training library within the [NeMo Framework](https://github.com/NVIDIA-NeMo), designed to streamline and scale reinforcement learning methods for multimodal models (LLMs, VLMs, etc.). Designed for flexibility, reproducibility, and scale, NeMo RL enables both small-scale experiments and massive multi-GPU, multi-node deployments for fast experimentation in research and production environments.
 
 ## What You Can Expect
@@ -11,7 +12,7 @@
 - **Seamless integration with Hugging Face** for ease of use, allowing users to leverage a wide range of pre-trained models and tools.
 - **Comprehensive documentation** that is both detailed and user-friendly, with practical examples.
 
-For more details on the architecture and design philosophy, see the [design documents](../design-docs/design-and-philosophy.md).
+For more details on the architecture and design philosophy, see the [design documents](/design-docs/design-and-philosophy).
 
 ## Releases
 

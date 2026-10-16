@@ -1,5 +1,6 @@
-# Nemotron 3.5 Lightning
-
+---
+title: "Nemotron 3.5 Lightning"
+---
 This guide covers two ways to post-train Nemotron 3.5 Lightning with NeMo RL:
 
 - [RLVR with NeMo Gym (GB200 reference run)](#rlvr-with-nemo-gym-gb200-reference-run) —
@@ -126,7 +127,7 @@ It contains `rlvr.jsonl` and `fill_placeholders.py`. Math rows originating from
 `BytedTsinghua-SIA/DAPO-Math-17k` and `Skywork/Skywork-OR1-RL-Data` are
 represented by placeholders; the bundled script restores them from the
 original datasets on Hugging Face. This is the same general preparation flow
-used by the [Nemotron 3 Ultra recipe](nemotron-3-ultra.md#download-and-prepare-the-data).
+used by the [Nemotron 3 Ultra recipe](/guides/models/nemotron/nemotron-3-ultra#download-and-prepare-the-data).
 
 ```bash
 export DATA_DIR=/path/to/lightning/data
@@ -289,7 +290,7 @@ uv run examples/run_grpo.py \
 ```
 
 For launching on a multi-node Slurm or Kubernetes cluster, see the
-[cluster guide](../../../cluster.md). Interrupted runs resume automatically
+[cluster guide](/environment-start/cluster). Interrupted runs resume automatically
 from the latest checkpoint in `checkpointing.checkpoint_dir`.
 
 ### Results

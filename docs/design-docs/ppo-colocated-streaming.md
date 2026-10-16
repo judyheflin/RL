@@ -1,5 +1,6 @@
-# Colocated PPO streaming
-
+---
+title: "Colocated PPO streaming"
+---
 In async PPO setup policy and value share the training GPUs; generation uses
 separate GPUs. Streaming runs value forward, policy/reference forward, GAE, and
 policy backward on completed rollout chunks while the rest of the batch finishes.

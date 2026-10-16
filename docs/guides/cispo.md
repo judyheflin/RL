@@ -1,10 +1,11 @@
-# An in-depth Walkthrough of CISPO in NeMo RL
-
+---
+title: "An in-depth Walkthrough of CISPO in NeMo RL"
+---
 This guide covers the [Clipped Importance Sampling Policy Optimization (CISPO)](https://arxiv.org/abs/2506.13585) implementation in NeMo RL.
 
 CISPO is a GRPO-family policy-gradient objective that clips the importance-sampling weight as a detached coefficient instead of using PPO-style hard ratio clipping. This keeps a gradient flowing through `log pi_theta` for *every* token while still bounding the scalar importance weight, whereas standard GRPO/PPO-style clipping can zero out the gradient contribution for tokens whose ratios leave the clip range.
 
-This document focuses on CISPO-specific behavior. For foundational concepts on GRPO including data handling, policy training, generation, and loss functions, see the [NeMo RL GRPO Guide](grpo.md). For a concise algorithm reference, see the [CISPO algorithm page](../about/algorithms/cispo.md).
+This document focuses on CISPO-specific behavior. For foundational concepts on GRPO including data handling, policy training, generation, and loss functions, see the [NeMo RL GRPO Guide](/guides/grpo). For a concise algorithm reference, see the [CISPO algorithm page](/about/algorithms/cispo).
 
 ## Quickstart: Launch a CISPO Run
 
@@ -14,7 +15,7 @@ CISPO reuses the GRPO training path and `ClippedPGLossFn`, so it launches with t
 bash tests/test_suites/llm/grpo-cispo-mm1-async-lag1-highoffpolicy-qwen3-30ba3b-3n8g-megatron-cispo.sh
 ```
 
-The corresponding config is [examples/configs/recipes/llm/grpo-cispo-mm1-async-lag1-highoffpolicy-qwen3-30ba3b-3n8g-megatron-cispo.yaml](../../examples/configs/recipes/llm/grpo-cispo-mm1-async-lag1-highoffpolicy-qwen3-30ba3b-3n8g-megatron-cispo.yaml). It uses `Qwen/Qwen3-30B-A3B`, Megatron policy training, async GRPO with `max_trajectory_age_steps: 1`, and a separate non-colocated vLLM generation node.
+The corresponding config is [examples/configs/recipes/llm/grpo-cispo-mm1-async-lag1-highoffpolicy-qwen3-30ba3b-3n8g-megatron-cispo.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-cispo-mm1-async-lag1-highoffpolicy-qwen3-30ba3b-3n8g-megatron-cispo.yaml). It uses `Qwen/Qwen3-30B-A3B`, Megatron policy training, async GRPO with `max_trajectory_age_steps: 1`, and a separate non-colocated vLLM generation node.
 
 **Reminder**: Don't forget to set your `HF_HOME`, `WANDB_API_KEY`, and `HF_DATASETS_CACHE` (if needed). You'll need to do a `huggingface-cli login` as well for gated models.
 
@@ -53,7 +54,7 @@ loss_fn:
 - **`use_cispo`**: Enables the CISPO objective in the shared `ClippedPGLossFn`.
 - **`ratio_clip_min` / `ratio_clip_max`**: Follow the paper's additive epsilon convention. The effective clamp range is `[1 - ratio_clip_min, 1 + ratio_clip_max]`. For example, `ratio_clip_min: 1.0` and `ratio_clip_max: 5.0` clamp ratios to `[0, 6]`; since policy ratios are non-negative, this is effectively an upper-only clamp at `6`.
 - **`ratio_clip_c`**: Must be `null` for CISPO — dual clipping is incompatible with the CISPO objective.
-- **`token_level_loss`**: CISPO is defined per token, so keep this `true`. Setting it to `false` is rejected at construction time. See [Loss Normalization](grpo.md#loss-normalization-token_level_loss) for what this parameter controls.
+- **`token_level_loss`**: CISPO is defined per token, so keep this `true`. Setting it to `false` is rejected at construction time. See [Loss Normalization](/guides/grpo#loss-normalization-token_level_loss) for what this parameter controls.
 
 > [!NOTE]
 > When `use_importance_sampling_correction: true`, the shared GRPO loss path additionally multiplies the CISPO token loss by the actor-vs-generation correction `exp(prev_logprobs - generation_logprobs)`. This correction is separate from CISPO's clipped `pi_theta / pi_old` weight.
@@ -62,6 +63,6 @@ loss_fn:
 
 - **CISPO / MiniMax-M1 Paper**: [MiniMax-M1: Scaling Test-Time Compute Efficiently with Lightning Attention](https://arxiv.org/abs/2506.13585)
 - **GRPO Paper**: [Group Relative Policy Optimization](https://arxiv.org/abs/2402.03300)
-- [CISPO algorithm reference](../about/algorithms/cispo.md)
-- [NeMo RL GRPO Guide](grpo.md)
-- [NeMo RL DAPO Guide](dapo.md)
+- [CISPO algorithm reference](/about/algorithms/cispo)
+- [NeMo RL GRPO Guide](/guides/grpo)
+- [NeMo RL DAPO Guide](/guides/dapo)

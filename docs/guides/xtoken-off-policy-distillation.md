@@ -1,5 +1,6 @@
-# Cross-Tokenizer (X-Token) Off-Policy Distillation
-
+---
+title: "Cross-Tokenizer (X-Token) Off-Policy Distillation"
+---
 NeMo RL supports off-policy distillation between a student and a teacher that
 **do not share a tokenizer** — for example, distilling a Qwen3-4B teacher into
 a Llama-3.2-1B student. Cross-tokenizer ("x-token") distillation handles the
@@ -70,7 +71,7 @@ The projection matrix is a sparse `[V_student, top_k]` tensor that the
 training-time loss multiplies against the student logits to project them into
 the teacher's vocab space.
 
-<img src="../assets/projection_matrix_colour_matching.png" alt="Projection-matrix weights mapping student tokens (rows) to teacher tokens (columns)" width="600">
+<img src="../assets/projection_matrix_colour_matching.png" alt="Projection-matrix weights mapping student tokens (rows) to teacher tokens (columns)" width="600" />
 
 Each row of the matrix holds the weights `W_{s,t}` that distribute a student
 token `s ∈ V_S` over the teacher tokens `t ∈ V_T` it corresponds to. Tokens
@@ -264,7 +265,7 @@ Nemotron-Pretraining-Specialized-v1.1 / Formal-Logic corpus. The distillation
 objective converges and the student tracks both teachers more closely over
 training:
 
-<img src="../assets/xtoken_mt_curves.png" alt="train/loss, train/kl_loss, train/ce_loss, and train/accuracy over 100 multi-teacher distillation steps" width="900">
+<img src="../assets/xtoken_mt_curves.png" alt="train/loss, train/kl_loss, train/ce_loss, and train/accuracy over 100 multi-teacher distillation steps" width="900" />
 
 - **Loss** falls from ≈1.51 to ≈0.70.
 - **KL loss** (summed over both teachers) falls from ≈4.89 to ≈1.97. Almost
@@ -313,7 +314,7 @@ play.
 
 Listed in the order they run during a training step:
 
-- Config exemplar: [`examples/configs/xtoken_off_policy_distillation.yaml`](../../examples/configs/xtoken_off_policy_distillation.yaml)
+- Config exemplar: [`examples/configs/xtoken_off_policy_distillation.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/xtoken_off_policy_distillation.yaml)
 - Trainer module: `nemo_rl/algorithms/xtoken_off_policy_distillation.py`
 - KD data processor: `nemo_rl/data/processors.py::kd_data_processor`
 - Cross-tokenizer collator: `nemo_rl/data/cross_tokenizer_collate.py::CrossTokenizerCollator`

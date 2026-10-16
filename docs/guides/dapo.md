@@ -1,5 +1,6 @@
-# An in-depth Walkthrough of DAPO in NeMo RL
-
+---
+title: "An in-depth Walkthrough of DAPO in NeMo RL"
+---
 This guide covers the [Decoupled Clip and Dynamic Sampling Policy Optimization (DAPO)](https://arxiv.org/pdf/2503.14476) implementation in NeMo RL.
 
 DAPO introduces four key improvements over Group Relative Policy Optimization (GRPO):
@@ -8,12 +9,11 @@ DAPO introduces four key improvements over Group Relative Policy Optimization (G
 3. **Token-Level Policy Gradient Loss**, which is critical in long-CoT RL scenarios
 4. **Overlong Reward Shaping**, which reduces reward noise and stabilizes training
 
-This document focuses on DAPO-specific features: Dynamic Sampling and Overlong Reward Shaping. For foundational concepts on GRPO including data handling, policy training, generation, and loss functions, see the [NeMo RL GRPO Guide](grpo.md).
-
+This document focuses on DAPO-specific features: Dynamic Sampling and Overlong Reward Shaping. For foundational concepts on GRPO including data handling, policy training, generation, and loss functions, see the [NeMo RL GRPO Guide](/guides/grpo).
 
 ## Quickstart: Launch a DAPO Run
 
-To get started quickly, use the example configuration [examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml](../../examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml). You can launch this using the same script as GRPO:
+To get started quickly, use the example configuration [examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml). You can launch this using the same script as GRPO:
 
 ```bash
 uv run examples/run_grpo.py --config examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml {overrides}
@@ -23,7 +23,7 @@ uv run examples/run_grpo.py --config examples/configs/recipes/llm/dapo-qwen2.5-7
 
 ## Dynamic Sampling
 
-Standard GRPO trains on all generated responses, even when they have identical rewards (zero gradient signal) within a prompt group of generations. Dynamic sampling filters to keep only groups with diverse rewards (`std > 0`), and accumulates them across batches until reaching the target batch size. Dynamic sampling can be enabled by setting `use_dynamic_sampling=True` in your configuration. For implementation details, see the [`dynamic_sampling`](../../nemo_rl/algorithms/grpo.py) function. 
+Standard GRPO trains on all generated responses, even when they have identical rewards (zero gradient signal) within a prompt group of generations. Dynamic sampling filters to keep only groups with diverse rewards (`std > 0`), and accumulates them across batches until reaching the target batch size. Dynamic sampling can be enabled by setting `use_dynamic_sampling=True` in your configuration. For implementation details, see the [`dynamic_sampling`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/grpo.py) function. 
 
 **Algorithm**: For each training step:
 
@@ -45,7 +45,7 @@ Standard GRPO trains on all generated responses, even when they have identical r
 ## Reward Shaping
 DAPO introduces an overlong reward shaping mechanism to reduce reward noise and stabilize training. This approach penalizes responses that exceed a specified length threshold, helping to prevent the model from generating excessively long outputs while maintaining solution quality.
 
-For a detailed explanation of the overlong reward shaping mechanism, please refer to Section 3.4 of the [DAPO paper](https://arxiv.org/pdf/2503.14476). For implementation details, see the [`apply_reward_shaping`](../../nemo_rl/algorithms/reward_functions.py) function.
+For a detailed explanation of the overlong reward shaping mechanism, please refer to Section 3.4 of the [DAPO paper](https://arxiv.org/pdf/2503.14476). For implementation details, see the [`apply_reward_shaping`](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/reward_functions.py) function.
 
 ## Configuration
 
@@ -78,17 +78,17 @@ grpo:
 - **`reward_shaping`**: When enabled, applies the overlong penalty mechanism described in the Reward Shaping section above. Responses exceeding `max_response_length - overlong_buffer_length` receive penalties proportional to their excess length, helping to reduce reward noise and stabilize training.
 
 > [!NOTE]
-> When dynamic sampling is enabled, monitor the `filtered_reward` metric to track the average reward of the prompts with std > 0.
+> When dynamic sampling is enabled, monitor the `filtered_reward` metric to track the average reward of the prompts with std &gt;0.
 
 > [!NOTE]
 > **Clip-Higher** and **Token-Level Policy Gradient Loss** are already supported in NeMo RL and can be configured through the `loss_fn` section of your experiment config:
-> - Set `ratio_clip_max` to enable Clip-Higher (e.g., `ratio_clip_max: 0.28`)
-> - Set `token_level_loss: true` to enable Token-Level Policy Gradient Loss (see [Loss Normalization](grpo.md#loss-normalization-token_level_loss) for what this changes and the tradeoff against sequence-level normalization)
+- Set `ratio_clip_max` to enable Clip-Higher (e.g., `ratio_clip_max: 0.28`)
+- Set `token_level_loss: true` to enable Token-Level Policy Gradient Loss (see [Loss Normalization](/guides/grpo#loss-normalization-token_level_loss) for what this changes and the tradeoff against sequence-level normalization)
 > 
-> See the full [DAPO example config](../../examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml) for reference.
+> See the full [DAPO example config](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml) for reference.
 
 ## Example Training Results
-Using the [DAPO example config](../../examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml), you can expect to see intermediate plots such as the training reward curve and validation accuracy on AIME24 for Qwen/Qwen2.5-Math-7B. These plots serve as reference outputs to help verify reproducibility. They are not intended to reflect the best accuracy that can be achieved using DAPO for this model.
+Using the [DAPO example config](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/dapo-qwen2.5-7b.v2.yaml), you can expect to see intermediate plots such as the training reward curve and validation accuracy on AIME24 for Qwen/Qwen2.5-Math-7B. These plots serve as reference outputs to help verify reproducibility. They are not intended to reflect the best accuracy that can be achieved using DAPO for this model.
 
 ![DAPO Qwen2.5-7B Training Reward](../assets/dapo_train_reward.png)
 ![DAPO Qwen2.5-7B Validation Accuracy](../assets/dapo_val_acc.png)
@@ -97,4 +97,4 @@ Using the [DAPO example config](../../examples/configs/recipes/llm/dapo-qwen2.5-
 
 - **DAPO Paper**: [Decoupled Clip and Dynamic Sampling Policy Optimization](https://arxiv.org/pdf/2503.14476)
 - **GRPO Paper**: [Group Relative Policy Optimization](https://arxiv.org/abs/2402.03300)
-- **[NeMo RL GRPO Guide](grpo.md)**
+- **[NeMo RL GRPO Guide](/guides/grpo)**

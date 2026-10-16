@@ -1,5 +1,6 @@
-# Add New Models
-
+---
+title: "Add New Models"
+---
 This guide outlines how to integrate and validate a new model within NeMo RL. Each new model must pass a standard set of compatibility tests before being considered ready to be used in RL pipelines. The guide also details diagnostic scripts to help identify and resolve common issues during model integration.
 
 ## Importance of Log Probability Consistency in Training and Inference
@@ -55,7 +56,6 @@ When validating models across different backends, you may encounter discrepancie
 - **Batch size**: In some cases, `batch_size>1` may produce larger errors than `batch_size=1`
 
 When investigating discrepancies beyond the acceptable threshold, focus on these areas and determine whether the differences appear systematically or only in specific contexts.
-
 
 ---
 
@@ -121,7 +121,6 @@ When validating your model, you should analyze the results across different conf
 ---
 
 By following these validation steps and ensuring your model's outputs remain consistent across backends, you can confirm that your new model meets the requirements of NeMo RL.
-
 
 # Model Diagnostics
 
@@ -343,7 +342,7 @@ The different compilation modes offer distinct trade-offs between accuracy and p
 
 ## [5.prefix_caching_nan.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/5.prefix_caching_nan.py)
 
-Tests that prefix caching doesn't produce NaN logprobs when prior generation is rolled back into the prompt (the standard RL / multi-turn pattern). In vLLM >= 0.14, the second request can return all-NaN logprobs with `token_id=0` (`<unk>`) for every token after the first.
+Tests that prefix caching doesn't produce NaN logprobs when prior generation is rolled back into the prompt (the standard RL / multi-turn pattern). In vLLM &gt;= 0.14, the second request can return all-NaN logprobs with `token_id=0` (`<unk>`) for every token after the first.
 
 ```sh
 # Single version (requires 2+ GPUs for TP=2)

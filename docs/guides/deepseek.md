@@ -1,5 +1,6 @@
-# DeepSeek-V3
-
+---
+title: "DeepSeek-V3"
+---
 ## Create BF16 Hugging Face checkpoint
 
 (adapted from https://docs.nvidia.com/nemo-framework/user-guide/latest/llms/deepseek_v3.html)

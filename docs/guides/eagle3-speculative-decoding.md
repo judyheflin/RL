@@ -1,8 +1,9 @@
-# Train with Eagle3 Speculative Decoding
-
+---
+title: "Train with Eagle3 Speculative Decoding"
+---
 Eagle3 speculative decoding speeds up rollout generation by running a smaller draft model in vLLM and having the policy model verify its proposals. In NeMo RL, you can either use a fixed Eagle3 draft model only for generation, or train that draft model online during RL so it stays aligned with the policy.
 
-This guide covers the NeMo RL-specific runtime and training path. For a high-level overview of speculative decoding, see [An Introduction to Speculative Decoding for Reducing Latency in AI Inference](https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/). For GRPO fundamentals, see the [GRPO guide](grpo.md). For asynchronous rollout collection, see the [Async GRPO guide](async-grpo.md).
+This guide covers the NeMo RL-specific runtime and training path. For a high-level overview of speculative decoding, see [An Introduction to Speculative Decoding for Reducing Latency in AI Inference](https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/). For GRPO fundamentals, see the [GRPO guide](/guides/grpo). For asynchronous rollout collection, see the [Async GRPO guide](/guides/async-grpo).
 
 ## Offline vs Online
 

@@ -1,5 +1,6 @@
-# Tips and Tricks
-
+---
+title: "Tips and Tricks"
+---
 ## Missing Submodules Error
 
 If you forget to initialize the NeMo and Megatron submodules when cloning the NeMo-RL repository, you may run into an error like this:
@@ -40,4 +41,3 @@ policy:
     env_vars:
       PYTORCH_CUDA_ALLOC_CONF: "max_split_size_mb:64"
 ```
-

@@ -1,5 +1,6 @@
-# Model Support
-
+---
+title: "Model Support"
+---
 ## Broad coverage for 🤗Hugging Face models via [NeMo AutoModel](https://github.com/NVIDIA-NeMo/Automodel)
 
 NeMo RL supports 🤗Hugging Face models from the following classes
@@ -28,4 +29,4 @@ for model sizes under 70B at up to 32k sequence length.
 
 - **Qwen**: Qwen3.5-35B-A3B/397B-A17B, Qwen2.5VL-3B
 
-In addition, please refer to our [performance page](https://docs.nvidia.com/nemo/rl/latest/about/performance-summary.html) for benchmarks and full reproducible yaml recipe configs.
+In addition, please refer to our [performance page](/about/performance-summary) for benchmarks and full reproducible yaml recipe configs.

@@ -1,7 +1,6 @@
 ---
-orphan: true
+title: "Nemotron 3 Nano Omni"
 ---
-
 # Nemotron 3 Nano Omni
 
 > **Note:** This document has moved and will be deprecated here. See the new location: https://github.com/NVIDIA-NeMo/RL/blob/main/docs/guides/models/nemotron/nemotron-3-nano-omni.md
@@ -36,7 +35,7 @@ Both share the same checkpoint, model code, and reward pipeline; they differ onl
 
 ### Recipe 1 — CLEVR-CoGenT (single-node)
 
-The CLEVR-CoGenT recipe uses [`examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-clevr-1n8g-automodel-ep8.v2.yaml`](../../examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-clevr-1n8g-automodel-ep8.v2.yaml). It expects 8 GPUs on a single node, EP=8 across the experts, and TP=8 in vLLM.
+The CLEVR-CoGenT recipe uses [`examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-clevr-1n8g-automodel-ep8.v2.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-clevr-1n8g-automodel-ep8.v2.yaml). It expects 8 GPUs on a single node, EP=8 across the experts, and TP=8 in vLLM.
 
 Key knobs in the config:
 
@@ -74,7 +73,7 @@ uv run examples/run_vlm_grpo.py --config examples/configs/recipes/vlm/vlm_grpo-n
 
 ### Recipe 2 — MMPR-Tiny (4-node Slurm)
 
-The MMPR-Tiny recipe uses [`examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-mmpr-4n8g-automodel-ep8.v1.yaml`](../../examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-mmpr-4n8g-automodel-ep8.v1.yaml). Differences vs. the CLEVR recipe:
+The MMPR-Tiny recipe uses [`examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-mmpr-4n8g-automodel-ep8.v1.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-mmpr-4n8g-automodel-ep8.v1.yaml). Differences vs. the CLEVR recipe:
 
 | Field | Value |
 |---|---|
@@ -83,7 +82,6 @@ The MMPR-Tiny recipe uses [`examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-
 | `data.train.split_validation_size` | `0.008` (val split carved out of train) |
 | `policy.max_total_sequence_length` | 8192 |
 | `env.mmpr-tiny.reward_functions` | `geo3k` (1.0, `format_score: 0.1`) |
-
 
 ### Launch (4-node Slurm)
 
@@ -151,8 +149,8 @@ Use the `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16` Hugging Face checkp
 
 | Workload | Recipe | Topology |
 |---|---|---|
-| CLEVR-CoGenT | [`vlm_grpo-nemotron-omni-30ba3b-clevr-2n8g-megatron-tp8ep8.v1.yaml`](../../examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-clevr-2n8g-megatron-tp8ep8.v1.yaml) | 2 nodes, 8 GPUs per node, TP=8, EP=8 |
-| MMPR-Tiny | [`vlm_grpo-nemotron-omni-30ba3b-mmpr-4n8g-megatron-tp8ep16.v1.yaml`](../../examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-mmpr-4n8g-megatron-tp8ep16.v1.yaml) | 4 nodes, 8 GPUs per node, TP=8, EP=16, vLLM TP=2 |
+| CLEVR-CoGenT | [`vlm_grpo-nemotron-omni-30ba3b-clevr-2n8g-megatron-tp8ep8.v1.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-clevr-2n8g-megatron-tp8ep8.v1.yaml) | 2 nodes, 8 GPUs per node, TP=8, EP=8 |
+| MMPR-Tiny | [`vlm_grpo-nemotron-omni-30ba3b-mmpr-4n8g-megatron-tp8ep16.v1.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/vlm/vlm_grpo-nemotron-omni-30ba3b-mmpr-4n8g-megatron-tp8ep16.v1.yaml) | 4 nodes, 8 GPUs per node, TP=8, EP=16, vLLM TP=2 |
 
 For a Slurm run, use the `ray.sub` example above with the matching configuration path and omit the AutoModel-specific `PYTHONPATH` addition:
 

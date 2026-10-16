@@ -1,5 +1,6 @@
-# FP8 Quantization in NeMo RL
-
+---
+title: "FP8 Quantization in NeMo RL"
+---
 This module provides a suite of tools to enable FP8 quantization for large language models. It is currently under active development.
 
 ## Supported Features
@@ -30,7 +31,6 @@ When the `init_fp8` function is called, it modifies the following:
 
 ### Weight Loading
 - A custom `load_weights` function performs on-the-fly quantization of model weights from higher-precision formats to FP8.
-
 
 ## Usage
 
@@ -178,7 +178,7 @@ are rejected; use `fp8_cfg.fp8_param` for supported FP8 parameter storage.
 
 ## Compatibility Note for DeepSeek-Style FP8 Training
 
-The TransformerEngine implementation for this recipe requires **CUDA version ≥ 12.9**. The current NeMo RL container uses CUDA 13.2 (via `docker/Dockerfile`), which satisfies this requirement. Users on older setups should check out the latest code and build the container from `docker/Dockerfile` ([instructions](docker.md)).
+The TransformerEngine implementation for this recipe requires **CUDA version ≥ 12.9**. The current NeMo RL container uses CUDA 13.2 (via `docker/Dockerfile`), which satisfies this requirement. Users on older setups should check out the latest code and build the container from `docker/Dockerfile` ([instructions](/containers/docker)).
 
 If you are using nemo-rl before this [commit](https://github.com/NVIDIA-NeMo/RL/commit/3f36d14b53e906b27c01c06e36dbbd2b8eb300cd), you will see the following error when trying to use fp8 training:
 
@@ -191,10 +191,9 @@ assert fp8_block_available, reason_for_no_fp8_block
 AssertionError: FP8 block scaled GEMM requires Hopper and CUDA >= 12.9.
 ```
 
-
 ## Accuracy
 
-![Llama-3.1-8B-Instruct GRPO Curve BF16 vs FP8](assets/fp8_e2e_curve.png)
+![Llama-3.1-8B-Instruct GRPO Curve BF16 vs FP8](./assets/fp8_e2e_curve.png)
 
 The above results are from Llama-3.1-8B-Instruct GRPO experiments. You can run them with the following example configs:
 * For BF16: `examples/configs/grpo_math_8B_megatron.yaml`

@@ -1,5 +1,6 @@
-# Model Quirks
-
+---
+title: "Model Quirks"
+---
 This document outlines special cases and model-specific behaviors that require custom handling in NeMo RL. These special cases are controlled by the `ModelFlag` enum.
 
 ## Gemma-3

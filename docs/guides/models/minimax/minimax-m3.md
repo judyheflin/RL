@@ -1,5 +1,6 @@
-# MiniMax-M3
-
+---
+title: "MiniMax-M3"
+---
 This guide describes GRPO training of MiniMax-M3 with the AutoModel training
 backend and BF16 vLLM generation.
 
@@ -40,10 +41,10 @@ resource, parallelism, dataset, and checkpointing settings.
 ### 1. Prepare the Environment
 
 Use the standard NeMo-RL environment described in the
-[installation guide](../../../about/installation.md). MiniMax-M3 requires no
+[installation guide](/about/installation). MiniMax-M3 requires no
 additional manual compilation or custom AutoModel and vLLM source checkouts.
 For container and worker environment details, see
-[Dependency Management](../../../design-docs/dependency-management.md).
+[Dependency Management](/design-docs/dependency-management).
 
 The recipe uses the `MiniMaxAI/MiniMax-M3` checkpoint and the DAPO Math training
 and validation datasets from Hugging Face. Set `HF_HOME` to a cache visible
@@ -61,7 +62,7 @@ The reference recipe enables W&B logging. If W&B is not configured, pass
 
 | Model | Algorithm | Backend | Scale | Recipe |
 | --- | --- | --- | --- | --- |
-| MiniMax-M3 | GRPO | AutoModel | 32n8g | [`grpo-minimax-m3-32n8g-automodel-cp8ep128-noncolocated.yaml`](../../../../examples/configs/recipes/llm/grpo-minimax-m3-32n8g-automodel-cp8ep128-noncolocated.yaml) |
+| MiniMax-M3 | GRPO | AutoModel | 32n8g | [`grpo-minimax-m3-32n8g-automodel-cp8ep128-noncolocated.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-minimax-m3-32n8g-automodel-cp8ep128-noncolocated.yaml) |
 
 ### 3. Launch
 
@@ -73,8 +74,8 @@ uv run examples/run_grpo.py \
   --config examples/configs/recipes/llm/grpo-minimax-m3-32n8g-automodel-cp8ep128-noncolocated.yaml
 ```
 
-See the [GRPO guide](../../grpo.md) for algorithm and common configuration
-details and [Cluster Setup](../../../cluster.md) for multi-node launch setup.
+See the [GRPO guide](/guides/grpo) for algorithm and common configuration
+details and [Cluster Setup](/environment-start/cluster) for multi-node launch setup.
 Before changing the node count, review the training and generation parallel
 dimensions and the separate generation allocation.
 

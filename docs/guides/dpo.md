@@ -1,22 +1,23 @@
-# Direct Preference Optimization in NeMo RL
-
+---
+title: "Direct Preference Optimization in NeMo RL"
+---
 [Direct Preference Optimization (DPO)](https://arxiv.org/pdf/2305.18290) is an RL-free alignment algorithm that operates on preference data. Given a prompt and a pair of chosen and rejected responses, DPO aims
 to increase the probability of the chosen response and decrease the probability of the rejected response relative to a frozen reference model. The actor is initialized using the reference model. For more details, refer to the
 [DPO paper](https://arxiv.org/pdf/2305.18290).
 
 ## Launch a DPO Run
 
-The script [examples/run_dpo.py](../../examples/run_dpo.py) can be used to launch a DPO experiment. This script can either be launched locally or via Slurm. For details on how to set up Ray and launch a job using Slurm, refer to the [cluster documentation](../cluster.md).
+The script [examples/run_dpo.py](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/run_dpo.py) can be used to launch a DPO experiment. This script can either be launched locally or via Slurm. For details on how to set up Ray and launch a job using Slurm, refer to the [cluster documentation](/environment-start/cluster).
 
 Be sure to launch the job using `uv`. The command to launch a DPO job is as follows:
 ```bash
 uv run examples/run_dpo.py --config <PATH TO YAML CONFIG> <OVERRIDES>
 ```
-If not specified, `config` will default to [examples/configs/dpo.yaml](../../examples/configs/dpo.yaml).
+If not specified, `config` will default to [examples/configs/dpo.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/dpo.yaml).
 
 ## Configuration
 
-NeMo RL allows users to configure DPO experiments using `yaml` config files. An example DPO configuration file can be found [here](../../examples/configs/dpo.yaml).
+NeMo RL allows users to configure DPO experiments using `yaml` config files. An example DPO configuration file can be found [here](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/dpo.yaml).
 
 To override a value in the config, either update the value in the `yaml` file directly, or pass the override via the command line. For example:
 
@@ -36,7 +37,7 @@ DPO datasets in NeMo RL are encapsulated using classes. Each DPO data class is e
   1. `dataset`: A dictionary containing the formatted datasets. Each example in the dataset must conform to the format described below.
   2. `task_name`: A string identifier that uniquely identifies the dataset.
 
-If your data is not in the correct format, simply write a preprocessing script to convert the data into this format. An example implementation can be found in [preference_datasets/tulu3.py](../../nemo_rl/data/datasets/preference_datasets/tulu3.py).
+If your data is not in the correct format, simply write a preprocessing script to convert the data into this format. An example implementation can be found in [preference_datasets/tulu3.py](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/tulu3.py).
 
 **Note:** The `task_name` field is required in each formatted example.
 
@@ -98,9 +99,9 @@ DPO training supports only two completions (where the lowest rank is preferred a
 }
 ```
 
-By default, NeMo RL has support for [HelpSteer3](../../nemo_rl/data/datasets/preference_datasets/helpsteer3.py) and [Tulu3Preference](../../nemo_rl/data/datasets/preference_datasets/tulu3.py) datasets. Both of these datasets are downloaded from HuggingFace and preprocessed on-the-fly, so there's no need to provide a path to any datasets on disk.
+By default, NeMo RL has support for [HelpSteer3](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/helpsteer3.py) and [Tulu3Preference](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/tulu3.py) datasets. Both of these datasets are downloaded from HuggingFace and preprocessed on-the-fly, so there's no need to provide a path to any datasets on disk.
 
-We provide a [PreferenceDataset](../../nemo_rl/data/datasets/preference_datasets/preference_dataset.py) class that is compatible with jsonl-formatted preference datasets for loading datasets from local path or HuggingFace. You can modify your config as follows to use such a custom preference dataset:
+We provide a [PreferenceDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/preference_dataset.py) class that is compatible with jsonl-formatted preference datasets for loading datasets from local path or HuggingFace. You can modify your config as follows to use such a custom preference dataset:
 ```yaml
 data:
   # other data settings, see `examples/configs/dpo.yaml` for more details
@@ -144,7 +145,7 @@ Your JSONL files should contain one JSON object per line with the following stru
 }
 ```
 
-We also provide a [BinaryPreferenceDataset](../../nemo_rl/data/datasets/preference_datasets/binary_preference_dataset.py) class, which is a simplified version of PreferenceDataset for pairwise ranked preference with single turn completions. You can use `prompt_key`, `chosen_key` and `rejected_key` to specify which fields in your data correspond to the question, chosen answer and rejected answer respectively. Here's an example configuration:
+We also provide a [BinaryPreferenceDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/binary_preference_dataset.py) class, which is a simplified version of PreferenceDataset for pairwise ranked preference with single turn completions. You can use `prompt_key`, `chosen_key` and `rejected_key` to specify which fields in your data correspond to the question, chosen answer and rejected answer respectively. Here's an example configuration:
 ```yaml
 data:
   # other data settings, see `examples/configs/dpo.yaml` for more details
@@ -221,7 +222,7 @@ DPO supports LoRA on both the DTensor and Megatron backends. To enable LoRA on t
 uv run examples/run_dpo.py policy.automodel_cfg.lora_cfg.enabled=true
 ```
 
-For the full reference — backend support, the DTensor vs Megatron schema comparison, config examples, parameter details, and example recipes — see the dedicated [LoRA guide](lora.md).
+For the full reference — backend support, the DTensor vs Megatron schema comparison, config examples, parameter details, and example recipes — see the dedicated [LoRA guide](/guides/lora).
 
 ## Optimizations
 
@@ -255,4 +256,4 @@ policy:
 
 ## Evaluate the Trained Model
 
-Upon completion of the training process, you can refer to our [evaluation guide](eval.md) to assess model capabilities.
+Upon completion of the training process, you can refer to our [evaluation guide](/guides/eval) to assess model capabilities.

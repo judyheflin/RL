@@ -1,5 +1,6 @@
-# Muon Optimizer
-
+---
+title: "Muon Optimizer"
+---
 This guide explains how to use the Muon optimizer with NeMo RL for training large language models.
 
 ## What is Muon?
@@ -87,7 +88,7 @@ Muon support in NeMo-RL is experimental. We have tested Muon for SFT and RL on m
 For example, the following is a comparison between Adam and Muon for running SFT on Qwen3-235B-A22B:
 
 <p align="center">
-<img src="../assets/muon-sft-comparison.png" alt="Muon vs Adam SFT Comparison" width="600">
+<img src="../assets/muon-sft-comparison.png" alt="Muon vs Adam SFT Comparison" width="600" />
 </p>
 
 The full Muon command used for this run is:
@@ -120,12 +121,11 @@ uv run examples/run_sft.py \
   policy.megatron_cfg.num_layers_in_last_pipeline_stage=11
 ```
 
-
 Here is a comparison of Muon vs Adam for DAPO with Qwen2.5-7B:
 
 <p align="center">
-<img src="../assets/muon-dapo-reward.png" alt="Muon vs Adam DAPO Train Reward" height="300">
-<img src="../assets/muon-dapo-val-acc.png" alt="Muon vs Adam DAPO Validation Accuracy" height="300">
+<img src="../assets/muon-dapo-reward.png" alt="Muon vs Adam DAPO Train Reward" height="300" />
+<img src="../assets/muon-dapo-val-acc.png" alt="Muon vs Adam DAPO Validation Accuracy" height="300" />
 </p>
 
 The command to generate the Muon results is:

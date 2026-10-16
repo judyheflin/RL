@@ -1,5 +1,6 @@
-# DeepSeek V4 Flash
-
+---
+title: "DeepSeek V4 Flash"
+---
 This guide describes GRPO training of DeepSeek V4 Flash and Flash Base with the
 AutoModel training backend and vLLM generation.
 
@@ -54,8 +55,8 @@ uv sync --locked
 
 For a large multi-node run, use a container built from the same checkout so its
 backend-specific worker environments match the lockfile. See the
-[installation guide](../../../about/installation.md) and
-[Dependency Management](../../../design-docs/dependency-management.md) for
+[installation guide](/about/installation) and
+[Dependency Management](/design-docs/dependency-management) for
 container and development setup details.
 
 The recipe downloads the following model and datasets from Hugging Face:
@@ -79,12 +80,12 @@ The reference recipe enables W&B logging. If W&B is not configured, pass
 
 | Model | Algorithm | Backend | Scale | Recipe |
 | --- | --- | --- | --- | --- |
-| DeepSeek-V4-Flash-0731 | GRPO | AutoModel | 16n8g | [`grpo-deepseek-v4-flash-0731-16n8g-automodel-cp8ep128.yaml`](../../../../examples/configs/recipes/llm/grpo-deepseek-v4-flash-0731-16n8g-automodel-cp8ep128.yaml) |
+| DeepSeek-V4-Flash-0731 | GRPO | AutoModel | 16n8g | [`grpo-deepseek-v4-flash-0731-16n8g-automodel-cp8ep128.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-deepseek-v4-flash-0731-16n8g-automodel-cp8ep128.yaml) |
 
 The associated
-[`grpo-deepseek-v4-flash-0731-16n8g-automodel-cp8ep128.sh`](../../../../tests/test_suites/llm/grpo-deepseek-v4-flash-0731-16n8g-automodel-cp8ep128.sh)
+[`grpo-deepseek-v4-flash-0731-16n8g-automodel-cp8ep128.sh`](https://github.com/NVIDIA-NeMo/RL/blob/main/tests/test_suites/llm/grpo-deepseek-v4-flash-0731-16n8g-automodel-cp8ep128.sh)
 test runs five training steps and is registered as a recurring nightly
-functional test in [`nightly.txt`](../../../../tests/test_suites/nightly.txt).
+functional test in [`nightly.txt`](https://github.com/NVIDIA-NeMo/RL/blob/main/tests/test_suites/nightly.txt).
 
 ### 3. Launch
 
@@ -106,8 +107,8 @@ uv run examples/run_grpo.py \
   policy.tokenizer.name=deepseek-ai/DeepSeek-V4-Flash-Base
 ```
 
-See the [GRPO guide](../../grpo.md) for algorithm and common configuration
-details and [Cluster Setup](../../../cluster.md) for multi-node launch setup.
+See the [GRPO guide](/guides/grpo) for algorithm and common configuration
+details and [Cluster Setup](/environment-start/cluster) for multi-node launch setup.
 Before changing the node count, review the training and generation parallel
 dimensions instead of changing `cluster.num_nodes` alone.
 

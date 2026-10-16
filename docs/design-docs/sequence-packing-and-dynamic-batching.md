@@ -1,5 +1,6 @@
-# Sequence Packing and Dynamic Batching
-
+---
+title: "Sequence Packing and Dynamic Batching"
+---
 This document describes the sequence packing and dynamic batching features implemented in NeMo-RL to optimize training efficiency for variable-length sequences.
 
 ## Table of Contents
@@ -85,7 +86,6 @@ This method **does not** actually concatenate the sequences and create the packe
 
 We have the policy backends perform the actual packing because implementations can vary widely on how exactly it should be done and what metadata needs to be collected.
 
-
 #### 2. Packing Algorithms (`nemo_rl/data/packing/algorithms.py`)
 
 Six packing algorithms are implemented. Modified First Fit Decreasing is the
@@ -129,7 +129,7 @@ sequences evenly across physical packs.
 
 ### Usage with Context Parallelism
 
-For long sequences with context parallelism (CP > 1):
+For long sequences with context parallelism (CP &gt;1):
 - Individual sequences must be padded to a multiple of `cp_size * 2 * tp_size`, where the factor of 2 ensures load balancing for causal attention
 
 #### Understanding CP Load balancing:
@@ -147,7 +147,6 @@ The attention mask is:
 3 | 1 1 1 1 0 0
 4 | 1 1 1 1 1 0
 5 | 1 1 1 1 1 1
-
 
 If we were to naively chunk this sequence into CP chunks, we would have:
 
@@ -180,7 +179,6 @@ CP0:
 --+----                                         --+------------
 0 | 1 0   +   send KV 0 1, recv KV 2 3 4 5   +  p | 1 1 1 1 1 0
 1 | 1 1                                         p | 1 1 1 1 1 1
-
 
 CP1:
   | 2 3 4 5                                           | 0 1

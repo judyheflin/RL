@@ -1,10 +1,11 @@
-# Reward Model Training in NeMo RL
-
+---
+title: "Reward Model Training in NeMo RL"
+---
 This document explains how to train reward models (RM) within NeMo RL. Currently, only Bradley-Terry reward models are supported on the DTensor backend. Megatron backend support is tracked [here](https://github.com/NVIDIA-NeMo/RL/issues/720).
 
 ## Launch a Training Job
 
-The script, [examples/run_rm.py](../../examples/run_rm.py), is used to train a Bradley-Terry reward model. This script can be launched either locally or via Slurm. For details on how to set up Ray and launch a job using Slurm, refer to the [cluster documentation](../cluster.md).
+The script, [examples/run_rm.py](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/run_rm.py), is used to train a Bradley-Terry reward model. This script can be launched either locally or via Slurm. For details on how to set up Ray and launch a job using Slurm, refer to the [cluster documentation](/environment-start/cluster).
 
 Be sure to launch the job using `uv`. The command to launch a training job is as follows:
 
@@ -15,7 +16,7 @@ uv run examples/run_rm.py
 uv run examples/run_rm.py --config examples/configs/rm.yaml policy.model_name=Qwen/Qwen2.5-1.5B
 ```
 
-The default YAML config shares the same base template as the SFT config but includes a new `reward_model_cfg` section with `enabled: true` to load the model as a Reward Model. You can find an example RM config file at [examples/configs/rm.yaml](../../examples/configs/rm.yaml).
+The default YAML config shares the same base template as the SFT config but includes a new `reward_model_cfg` section with `enabled: true` to load the model as a Reward Model. You can find an example RM config file at [examples/configs/rm.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/rm.yaml).
 
 **Reminder**: Set your `HF_HOME`, `WANDB_API_KEY`, and `HF_DATASETS_CACHE` (if needed). Make sure to log in using `huggingface-cli` if you're working with Llama models.
 
@@ -25,7 +26,7 @@ RM datasets in NeMo RL are encapsulated using classes. Each RM data class is exp
   1. `dataset`: A dictionary containing the formatted datasets. Each example in the dataset must conform to the format described below.
   2. `task_name`: A string identifier that uniquely identifies the dataset.
 
-If your data is not in the correct format, simply write a preprocessing script to convert the data into this format. An example implementation can be found in [preference_datasets/tulu3.py](../../nemo_rl/data/datasets/preference_datasets/tulu3.py).
+If your data is not in the correct format, simply write a preprocessing script to convert the data into this format. An example implementation can be found in [preference_datasets/tulu3.py](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/tulu3.py).
 
 **Note:** The `task_name` field is required in each formatted example.
 
@@ -87,9 +88,9 @@ Currently, RM training supports only two completions (where the lowest rank is p
 }
 ```
 
-By default, NeMo RL has support for [HelpSteer3](../../nemo_rl/data/datasets/preference_datasets/helpsteer3.py) and [Tulu3Preference](../../nemo_rl/data/datasets/preference_datasets/tulu3.py) datasets. Both of these datasets are downloaded from HuggingFace and preprocessed on-the-fly, so there's no need to provide a path to any datasets on disk.
+By default, NeMo RL has support for [HelpSteer3](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/helpsteer3.py) and [Tulu3Preference](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/tulu3.py) datasets. Both of these datasets are downloaded from HuggingFace and preprocessed on-the-fly, so there's no need to provide a path to any datasets on disk.
 
-We provide a [PreferenceDataset](../../nemo_rl/data/datasets/preference_datasets/preference_dataset.py) class that is compatible with jsonl-formatted preference datasets for loading datasets from local path or Hugging Face. You can modify your config as follows to use such a custom preference dataset:
+We provide a [PreferenceDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/preference_dataset.py) class that is compatible with jsonl-formatted preference datasets for loading datasets from local path or Hugging Face. You can modify your config as follows to use such a custom preference dataset:
 ```yaml
 data:
   # other data settings, see `examples/configs/dpo.yaml` for more details
@@ -133,7 +134,7 @@ Your JSONL files should contain one JSON object per line with the following stru
 }
 ```
 
-We also provide a [BinaryPreferenceDataset](../../nemo_rl/data/datasets/preference_datasets/binary_preference_dataset.py) class, which is a simplified version of PreferenceDataset for pairwise ranked preference with single turn completions. You can use `prompt_key`, `chosen_key` and `rejected_key` to specify which fields in your data correspond to the question, chosen answer and rejected answer respectively. Here's an example configuration:
+We also provide a [BinaryPreferenceDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/preference_datasets/binary_preference_dataset.py) class, which is a simplified version of PreferenceDataset for pairwise ranked preference with single turn completions. You can use `prompt_key`, `chosen_key` and `rejected_key` to specify which fields in your data correspond to the question, chosen answer and rejected answer respectively. Here's an example configuration:
 ```yaml
 data:
   # other data settings, see `examples/configs/dpo.yaml` for more details
@@ -219,7 +220,7 @@ reward_env = RewardModelEnvironment.remote(env_config)
 
 ### Integration with GRPO
 
-To use your trained reward model with GRPO, you can use the [examples/run_grpo.py](../../examples/run_grpo.py) script with the [examples/configs/grpo_rm_1B.yaml](../../examples/configs/grpo_rm_1B.yaml) config:
+To use your trained reward model with GRPO, you can use the [examples/run_grpo.py](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/run_grpo.py) script with the [examples/configs/grpo_rm_1B.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/grpo_rm_1B.yaml) config:
 
 ```bash
 # Run GRPO training with your trained reward model
@@ -246,4 +247,3 @@ env:
       enabled: true
       reward_model_type: "bradley_terry"
 ```
-

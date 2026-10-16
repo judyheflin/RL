@@ -1,5 +1,6 @@
-# Data Format
-
+---
+title: "Data Format"
+---
 This guide outlines the required data format for Hugging Face chat datasets and demonstrates how to use chat templates with Hugging Face tokenizers to add special tokens or task-specific information.
 
 ## Hugging Face Chat Datasets
@@ -32,7 +33,7 @@ Formatting the data in this way allows us to take advantage of the Hugging Face 
 By default, `apply_chat_template` attempts to apply the `chat_template` associated with the tokenizer. However, in some cases, users might want to specify their own chat template. Also, note that many tokenizers do not have associated `chat_template`s, in which case an explicit chat template is required. Users can specify an explicit chat template string using Jinja format and can pass that string to `apply_chat_template`. 
 The following is an example using a simple template which prepends a role header to each turn:
 
-```{testcode}
+```python
 from transformers import AutoTokenizer
 
 example_template = "{% for message in messages %}{% set content = '<|start_header_id|>' + message['role'] + '<|end_header_id|>\n\n'+ message['content'] | trim + '<|eot_id|>' %}{{ content }}{% endfor %}"
@@ -55,9 +56,5 @@ expected_output = '<|start_header_id|>user<|end_header_id|>\n\nHello!<|eot_id|><
 assert output == expected_output
 ```
 
-<!-- This testoutput is intentionally empty-->
-```{testoutput}
-:hide:
-```
-
+{/* This testoutput is intentionally empty */}
 For more details on creating chat templates, refer to the [Hugging Face documentation](https://huggingface.co/docs/transformers/en/chat_templating_writing).

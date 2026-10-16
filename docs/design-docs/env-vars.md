@@ -1,5 +1,6 @@
-# Environment Variable Precedence in NeMo RL
-
+---
+title: "Environment Variable Precedence in NeMo RL"
+---
 There are a number of ways to pass environment variables to Ray workers in NeMo RL. This document explains each of the methods and why they are useful.
 
 ## Precedence Order

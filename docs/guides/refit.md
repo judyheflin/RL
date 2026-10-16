@@ -1,5 +1,6 @@
-# Weight Refit: Choosing a Transport
-
+---
+title: "Weight Refit: Choosing a Transport"
+---
 Weight refit copies updated policy weights into the rollout model. Choose the
 topology first, then select one transport with
 `policy.generation.refit_transport`.
@@ -12,7 +13,7 @@ topology first, then select one transport with
 | `colocated.enabled: true` | `mcore` | MCore wake-reshard | Megatron policy and generation share GPUs. |
 | `colocated.enabled: false` | `null` | NCCL broadcast | vLLM and Megatron use the default full-weight collective; SGLang uses its own weight-update group. |
 | `colocated.enabled: false` | `mcore` | MCore native refit | Megatron policy sends directly to Megatron generation through an MCore copy service. |
-| `colocated.enabled: false` | `nccl_reshard` | NCCL reshard | Provides the best performance for large models (>100s B models). |
+| `colocated.enabled: false` | `nccl_reshard` | NCCL reshard | Provides the best performance for large models (&gt;100s B models). |
 | `colocated.enabled: false` | `vllm_zmq_sparse` | Sparse delta over ZeroMQ | The link is bandwidth-limited and workers can reach a relay over TCP. |
 | `colocated.enabled: false` | `vllm_s3_sparse` | Sparse delta through S3 | Workers communicate through shared object storage. |
 | `colocated.enabled: false` | `nixl` | NIXL checkpoint engine | The cluster has a fast UCX/RDMA fabric for full-weight refit. |
@@ -55,7 +56,7 @@ for those cases.
 | NCCL + reload API | vLLM | DTensor or Megatron | Default non-colocated NCCL only. Rejects colocated refit, `nccl_reshard`, sparse delta, NIXL/checkpoint-engine transports, ModelOpt quantization (`real_quant` or `quant_cfg`), and Eagle/MTP trainer-refit draft weights. |
 | MCore native refit | Megatron | Megatron | Supports MCore's configured copy-service backend. |
 | SGLang NCCL weight-update group | SGLang | Megatron | Trainer rank 0 broadcasts finalized HF tensors to the engine leaders. |
-| NCCL reshard | vLLM or Megatron | Megatron | Supports BF16 and the documented FP8/MXFP8 combinations; see the [NCCL Reshard Refit design](../design-docs/nccl-reshard-refit.md). |
+| NCCL reshard | vLLM or Megatron | Megatron | Supports BF16 and the documented FP8/MXFP8 combinations; see the [NCCL Reshard Refit design](/design-docs/nccl-reshard-refit). |
 | Sparse delta | vLLM | Megatron | BF16/FP16, unquantized rollout only. |
 | NIXL, full weights | vLLM | DTensor or Megatron | Supports the standard full-weight FP8 loader. DTensor FP8 KV-cache scale transfer is not yet supported. |
 | NIXL, sharded experts | vLLM | DTensor or Megatron | Unquantized BF16/FP16 Triton MoE only; FP8/MXFP8 and dynamic expert placement are rejected. |
@@ -175,13 +176,13 @@ policy:
 
 ## Learn More
 
-- [NCCL Reshard Refit](../design-docs/nccl-reshard-refit.md) describes its
+- [NCCL Reshard Refit](/design-docs/nccl-reshard-refit) describes its
   requirements, architecture, and shard-to-shard transfer.
-- [Sparse Delta Refit](../design-docs/sparse-delta-refit.md) explains baseline,
+- [Remote Sparse-Delta vLLM Refit](/design-docs/sparse-delta-refit) explains baseline,
   compression, ZeroMQ, and S3 behavior.
-- [Checkpoint-Engine Refit](checkpoint-engine-refit.md) covers NIXL setup,
+- [Checkpoint-Engine Refit](/guides/checkpoint-engine-refit) covers NIXL setup,
   performance tuning, FP8, sharded experts, and fault tolerance.
-- [Checkpoint Engines](../design-docs/checkpoint-engines.md) describes the
+- [Checkpoint Engine Design](/design-docs/checkpoint-engines) describes the
   checkpoint-engine protocol and implementation.
-- [Training and Generation Backends](../about/backends.md) summarizes backend
+- [Training and Generation Backends](/about/backends) summarizes backend
   compatibility.

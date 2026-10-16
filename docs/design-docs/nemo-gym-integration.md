@@ -1,5 +1,6 @@
-# NeMo Gym Integration
-
+---
+title: "NeMo Gym Integration"
+---
 This document describes how NeMo RL integrates with [NeMo Gym](https://docs.nvidia.com/nemo/gym/v0.2.1/index.html) for multi-step and multi-turn rollout collection. NeMo Gym rollouts are supported by GRPO and on-policy distillation.
 
 ## Overview
@@ -249,15 +250,15 @@ sequenceDiagram
 ```
 
 > **NeMo Gym server types** (see [Core Components](https://docs.nvidia.com/nemo/gym/v0.2.1/about/concepts/core-components/)):
-> - **Agent Server**: Orchestrates the rollout loop
-> - **Model Server**: HTTP proxy to vLLM; translates Responses API ↔ Chat Completions
-> - **Resource Server**: Provides tools and rewards
+- **Agent Server**: Orchestrates the rollout loop
+- **Model Server**: HTTP proxy to vLLM; translates Responses API ↔ Chat Completions
+- **Resource Server**: Provides tools and rewards
 
 ### Key Steps
 
 | Step | Location | Description |
 |------|----------|-------------|
-| **Refit** | NeMo RL | Synchronizes policy weights to vLLM workers. For async RL, refit timing may differ—see {doc}`generation` for details. |
+| **Refit** | NeMo RL | Synchronizes policy weights to vLLM workers. For async RL, refit timing may differ—see [Generation Interface](/design-docs/generation) for details. |
 | **Streaming `run_rollouts()`** | NeMo RL | Ray generator call from the rollout layer to the NemoGym actor; rows can arrive out of input order |
 | **POST /run** | NeMo RL → NeMo Gym | HTTP request from NemoGym actor to Agent Server subprocess |
 | **Rollout orchestration** | NeMo Gym | Agent calls Model Server and Resources Server via HTTP |
@@ -333,4 +334,4 @@ Token IDs are extracted at the NeMo RL vLLM layer via the `/tokenize` endpoint. 
 - Tokenization matches the exact model and tokenizer used for generation
 - No re-tokenization drift between generation and training
 
-For details on on-policy token ID handling, see {doc}`../guides/environments` and the [NeMo Gym on-policy corrections documentation](https://docs.nvidia.com/nemo/gym/v0.2.1/contribute/rl-framework-integration/openai-compatible-http-server-on-policy-correction.html).
+For details on on-policy token ID handling, see [Environments for GRPO Training](/guides/environments) and the [NeMo Gym on-policy corrections documentation](https://docs.nvidia.com/nemo/gym/v0.2.1/contribute/rl-framework-integration/openai-compatible-http-server-on-policy-correction.html).

@@ -1,5 +1,6 @@
-# Test NeMo RL
-
+---
+title: "Test NeMo RL"
+---
 This guide outlines how to test NeMo RL using unit and functional tests, detailing steps for local or Docker-based execution, dependency setup, and metric tracking to ensure effective and reliable testing.
 
 ## Unit Tests
@@ -12,7 +13,6 @@ This guide outlines how to test NeMo RL using unit and functional tests, detaili
 > ```sh
 > uv run tests/unit/prepare_unit_test_assets.py
 > ```
-
 
 ```sh
 # Run the unit tests using local GPUs
@@ -64,7 +64,6 @@ To rebuild them, delete the following files at the repo root and re-run with `--
 rm .nrl_remote_map.json .nrl_remote_state.json
 ```
 
-
 ### Run Unit Tests in a Hermetic Environment
 
 For environments lacking necessary dependencies (e.g., `gcc`, `nvcc`) or where environmental configuration may be problematic, tests can be run in Docker with this script:
@@ -73,7 +72,7 @@ For environments lacking necessary dependencies (e.g., `gcc`, `nvcc`) or where e
 CONTAINER=... bash tests/run_unit_in_docker.sh
 ```
 
-The required `CONTAINER` can be built by following the instructions in the [Docker documentation](docker.md).
+The required `CONTAINER` can be built by following the instructions in the [Docker documentation](/containers/docker).
 
 ### Track Metrics in Unit Tests
 
@@ -171,7 +170,7 @@ For environments lacking necessary dependencies (e.g., `gcc`, `nvcc`) or where e
 CONTAINER=... bash tests/run_functional_in_docker.sh tests/functional/sft.sh
 ```
 
-The required `CONTAINER` can be built by following the instructions in the [Docker documentation](docker.md).
+The required `CONTAINER` can be built by following the instructions in the [Docker documentation](/containers/docker).
 
 ## Bisecting Failing Tests
 
@@ -242,9 +241,10 @@ BAD=HEAD \
   tools.bisect/bisect-run.sh tools.bisect/launch-bisect.sh "$TEST_CASE"
 ```
 
-::::{note}
+<Note>
 The command `GOOD=$(git log --format="%h" --diff-filter=A -- "$TEST_CASE")` selects the commit that introduced the test script. Because the path is typically added only once, this yields the introduction commit to use as the known good baseline.
-::::
+
+</Note>
 
 - `tools.bisect/launch-bisect-helper.sh` ensures each commit runs in a fresh venv, creates an isolated code snapshot per commit, blocks until metrics are checked, and returns a suitable exit code for bisect.
 
@@ -269,9 +269,10 @@ BAD=HEAD \
 
 - If the nightly script supports Hydra/CLI overrides, pass them via `EXTRA_SCRIPT_ARGS` so each run adopts those overrides (e.g., fix a transient incompatibility):
 
-:::{important}
+<Info>
 Changing script arguments can materially affect performance characteristics and/or convergence behavior. This may influence the validity of the bisect outcome relative to your baseline configuration. Prefer the smallest, clearly-justified overrides, keep them consistent across all commits, and document them alongside your results so conclusions are interpreted correctly.
-:::
+
+</Info>
 
 ```sh
 EXTRA_SCRIPT_ARGS="++data.num_workers=1" \

@@ -1,5 +1,6 @@
-# Build Docker Images
-
+---
+title: "Build Docker Images"
+---
 This guide explains how to build the NeMo RL Docker image.
 
 The **release** image is our recommended option as it provides the most complete environment. It includes the base image with pre-fetched NeMo RL python packages in the `uv` cache, plus the nemo-rl source code and pre-fetched virtual environments for isolated workers. This is the ideal choice for production deployments.

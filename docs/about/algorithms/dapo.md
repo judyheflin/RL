@@ -1,5 +1,6 @@
-# DAPO
-
+---
+title: "DAPO"
+---
 [Dual-Clip Asymmetric Policy Optimization (DAPO)](https://arxiv.org/pdf/2503.14476) extends GRPO by allowing asymmetric clipping with distinct minimum and maximum clip parameters. This provides more fine-grained control over policy updates.
 
 DAPO is implemented through the same `ClippedPGLossFn` as GRPO, but with the ability to set different values for `ratio_clip_min` and `ratio_clip_max`. For standard GRPO/PPO, these parameters are set to the same value.
@@ -78,10 +79,10 @@ grpo:
   # ... other GRPO parameters ...
 ```
 
-For more details on other configuration options, refer to the [GRPO documentation](grpo.md).
+For more details on other configuration options, refer to the [GRPO documentation](/about/algorithms/grpo).
 
 ## Additional Resources
 
 - [DAPO Paper](https://arxiv.org/pdf/2503.14476)
-- [GRPO Documentation](grpo.md)
-- [Training Backends](../../design-docs/training-backends.md)
+- [GRPO Documentation](/about/algorithms/grpo)
+- [Training Backends](/design-docs/training-backends)

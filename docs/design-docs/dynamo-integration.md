@@ -1,5 +1,6 @@
-# Managed Dynamo generation design
-
+---
+title: "Managed Dynamo generation design"
+---
 The managed Dynamo backend owns a fixed vLLM fleet inside the Ray allocation.
 It is deliberately narrower than Dynamo itself: there is no external-runtime,
 Kubernetes, DGD, multi-node engine-group, or non-vLLM mode.
@@ -60,5 +61,5 @@ applies the backport, and records upstream merge commit
 vLLM release containing that fix. At that point delete the patch, application
 logic, marker assertion, and backport text rather than rebasing the patch.
 
-See [Managed Dynamo generation on Slurm](../guides/dynamo-generation.md) for
+See [Managed Dynamo generation on Slurm](/guides/dynamo-generation) for
 build, configuration, and launch instructions.

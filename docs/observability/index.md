@@ -1,5 +1,6 @@
-# Observability
-
+---
+title: "Observability"
+---
 NeMo RL is instrumented with [OpenTelemetry](https://opentelemetry.io/) via the [`nemo-lens`](https://github.com/NVIDIA-NeMo/Lens) library. It emits **traces** at RL-algorithm boundaries (rollout, generation, reward, advantage, policy update, ...) and **metrics** for async efficiency accounting and vLLM generation.
 
 Telemetry exports OTLP and works with any OTLP-compatible backend or an OpenTelemetry Collector (e.g. Jaeger, Grafana Tempo, or an OpenTelemetry Collector that fans out to your backend of choice).
@@ -7,17 +8,6 @@ Telemetry exports OTLP and works with any OTLP-compatible backend or an OpenTele
 Telemetry is **off by default**. nemo-lens ships as a base dependency, so it reaches every worker venv, and `telemetry.enabled` is the single switch: while it is false every instrumentation site is a ~0-cost no-op.
 
 ## What's in this section
-
-```{toctree}
-:maxdepth: 1
-
-configuration
-span-groups
-metrics
-vllm-tracing
-observability-stack
-extending
-```
 
 ## Scope
 
@@ -56,7 +46,7 @@ uv run examples/run_grpo.py --config examples/configs/grpo_math_1B.yaml
 
 With `default` span groups, NeMo-RL emits a handful of coarse spans (startup, job, checkpoint, evaluate, model load) plus whatever `rl.*` metrics the driver's logger produces. Switch to `per_step` for per-step traces (rollout/generation/reward/...), or `all` for everything.
 
-Keeping the settings in the config file is what makes a run's telemetry reproducible from the file alone. The endpoint is the exception: `OTEL_EXPORTER_OTLP_*` are the standard OpenTelemetry variables, and they belong in the environment because they describe where you are running, not what you are measuring. See [Configuration](configuration.md).
+Keeping the settings in the config file is what makes a run's telemetry reproducible from the file alone. The endpoint is the exception: `OTEL_EXPORTER_OTLP_*` are the standard OpenTelemetry variables, and they belong in the environment because they describe where you are running, not what you are measuring. See [Configuration](/observability/configuration).
 
 ## What gets instrumented
 
@@ -75,20 +65,20 @@ Each algorithm's `examples/run_<algo>.py` calls `init_telemetry_driver(config, a
 
 The SingleController path differs in where the spans come from. Its driver only builds resources and launches `SingleControllerActor`, so the actor opens the job and step spans and flushes its own telemetry; the entrypoint still calls `init_telemetry_driver` before `init_ray()`, because that is what puts the resolved settings in the environment the actor inherits.
 
-Each span belongs to a **span group** that controls whether it is emitted at runtime. See [Span Groups](span-groups.md) for the full per-algorithm span table.
+Each span belongs to a **span group** that controls whether it is emitted at runtime. See [Span Groups](/observability/span-groups) for the full per-algorithm span table.
 
 ## What gets exported
 
 - **Traces**: any OTLP-compatible backend (Jaeger, Grafana Tempo, an OpenTelemetry Collector, ...) via OTLP.
-- **Metrics**: the `rl.efficiency.*` async accounting teed from the driver's metrics logger, the training scalars (`rl.reward.mean`, `rl.policy.loss`, …), `rl.setup.duration` for the startup phases, the `rl.vllm.*` engine deltas, and the driver-side `gen_ai.*` generation series — see [Metrics](metrics.md).
+- **Metrics**: the `rl.efficiency.*` async accounting teed from the driver's metrics logger, the training scalars (`rl.reward.mean`, `rl.policy.loss`, …), `rl.setup.duration` for the startup phases, the `rl.vllm.*` engine deltas, and the driver-side `gen_ai.*` generation series — see [Metrics](/observability/metrics).
 - **Logs** (optional): via the OTel log bridge when `telemetry.logs_enabled` is true — correlates Python `logging` records with the active span's trace ID.
 
-**Every** process that enables telemetry exports, each labelled with `nv.dl.rank` / `nv.dl.world_size`. Narrowing a large fleet down is a collector-side filter rather than a config setting — see [Configuration — Which ranks export](configuration.md#which-ranks-export).
+**Every** process that enables telemetry exports, each labelled with `nv.dl.rank` / `nv.dl.world_size`. Narrowing a large fleet down is a collector-side filter rather than a config setting — see [Configuration — Which ranks export](/observability/configuration#which-ranks-export).
 
 ## Related
 
-- Exporting to an OTLP backend: [Observability Stack](observability-stack.md)
-- vLLM tracing (driver spans + native OTLP): [vLLM Tracing](vllm-tracing.md)
-- Adding new spans / metrics: [Extending Instrumentation](extending.md)
+- Exporting to an OTLP backend: [Exporting to an OTLP backend](/observability/observability-stack)
+- vLLM tracing (driver spans + native OTLP): [vLLM Tracing](/observability/vllm-tracing)
+- Adding new spans / metrics: [Extending Instrumentation](/observability/extending)
 - Lens configuration model and env vars: [lens: configuration](https://github.com/NVIDIA-NeMo/Lens)
 - Instrumentation primitives (`managed_span`, `trace_fn`, `span_cm`): [lens: instrumentation](https://github.com/NVIDIA-NeMo/Lens)

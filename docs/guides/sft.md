@@ -1,10 +1,11 @@
-# Supervised Fine-Tuning in NeMo RL
-
+---
+title: "Supervised Fine-Tuning in NeMo RL"
+---
 This document explains how to perform SFT within NeMo RL. It outlines key operations, including initiating SFT runs, managing experiment configurations using YAML, and integrating custom datasets that conform to the required structure and attributes.
 
 ## Launch an SFT Run
 
-The script, [examples/run_sft.py](../../examples/run_sft.py), can be used to launch an experiment. This script can be launched either locally or via Slurm. For details on how to set up Ray and launch a job using Slurm, refer to the [cluster documentation](../cluster.md).
+The script, [examples/run_sft.py](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/run_sft.py), can be used to launch an experiment. This script can be launched either locally or via Slurm. For details on how to set up Ray and launch a job using Slurm, refer to the [cluster documentation](/environment-start/cluster).
 
 Be sure to launch the job using `uv`. The command to launch an SFT job is as follows:
 
@@ -12,11 +13,11 @@ Be sure to launch the job using `uv`. The command to launch an SFT job is as fol
 uv run examples/run_sft.py --config <PATH TO YAML CONFIG> <OVERRIDES>
 ```
 
-If not specified, `config` will default to [examples/configs/sft.yaml](../../examples/configs/sft.yaml).
+If not specified, `config` will default to [examples/configs/sft.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/sft.yaml).
 
 ## Example Configuration File
 
-NeMo RL allows users to configure experiments using `yaml` config files. An example SFT configuration file can be found [here](../../examples/configs/sft.yaml).
+NeMo RL allows users to configure experiments using `yaml` config files. An example SFT configuration file can be found [here](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/sft.yaml).
 
 To override a value in the config, either update the value in the `yaml` file directly, or pass the override via the command line. For example:
 
@@ -34,7 +35,7 @@ SFT datasets in NeMo RL are encapsulated using classes. Each SFT data class is e
   1. `dataset`: A dictionary containing the formatted datasets. Each example in the dataset must conform to the format described below.
   2. `task_name`: A string identifier that uniquely identifies the dataset.
 
-SFT datasets are expected to follow the HuggingFace chat format. Refer to the [chat dataset document](../design-docs/chat-datasets.md) for details. If your data is not in the correct format, simply write a preprocessing script to convert the data into this format. [response_datasets/squad.py](../../nemo_rl/data/datasets/response_datasets/squad.py) has an example:
+SFT datasets are expected to follow the HuggingFace chat format. Refer to the [chat dataset document](/design-docs/chat-datasets) for details. If your data is not in the correct format, simply write a preprocessing script to convert the data into this format. [response_datasets/squad.py](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/squad.py) has an example:
 
 **Note:** The `task_name` field is required in each formatted example.
 
@@ -59,7 +60,7 @@ def format_data(self, data: dict[str, Any]) -> dict[str, Any]:
     }
 ```
 
-NeMo RL SFT uses Hugging Face chat templates to format the individual examples. Three types of chat templates are supported, which can be configured using the `tokenizer.chat_template` in your YAML config (see [sft.yaml](../../examples/configs/sft.yaml) for an example):
+NeMo RL SFT uses Hugging Face chat templates to format the individual examples. Three types of chat templates are supported, which can be configured using the `tokenizer.chat_template` in your YAML config (see [sft.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/sft.yaml) for an example):
 
 1. Apply the tokenizer's default chat template. To use the tokenizer's default, either omit `tokenizer.chat_template` from the config altogether, or set `tokenizer.chat_template="default"`.
 2. Use a "passthrough" template which simply concatenates all messages. This is desirable if the chat template has been applied to your dataset as an offline preprocessing step. In this case, you should set `tokenizer.chat_template` to None as follows:
@@ -74,10 +75,10 @@ NeMo RL SFT uses Hugging Face chat templates to format the individual examples. 
       chat_template: "{% for message in messages %}{%- if message['role'] == 'system'  %}{{'Context: ' + message['content'].strip()}}{%- elif message['role'] == 'user'  %}{{' Question: ' + message['content'].strip() + ' Answer: '}}{%- elif message['role'] == 'assistant'  %}{{message['content'].strip()}}{%- endif %}{% endfor %}"
     ```
 
-By default, NeMo RL has some built-in supported datasets (e.g., [OpenAssistant](../../nemo_rl/data/datasets/response_datasets/oasst.py), [NuminaMath-1.5](../../nemo_rl/data/datasets/response_datasets/numinamath.py), [OpenMathInstruct-2](../../nemo_rl/data/datasets/response_datasets/openmathinstruct2.py), [Squad](../../nemo_rl/data/datasets/response_datasets/squad.py), etc.), you can see the full list [here](../../nemo_rl/data/datasets/response_datasets/__init__.py).
+By default, NeMo RL has some built-in supported datasets (e.g., [OpenAssistant](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/oasst.py), [NuminaMath-1.5](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/numinamath.py), [OpenMathInstruct-2](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/openmathinstruct2.py), [Squad](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/squad.py), etc.), you can see the full list [here](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/__init__.py).
 All of these datasets are downloaded from HuggingFace and preprocessed on-the-fly, so there's no need to provide a path to any datasets on disk.
 
-We provide a [ResponseDataset](../../nemo_rl/data/datasets/response_datasets/response_dataset.py) class that is compatible with JSONL-formatted response datasets for loading datasets from local path or Hugging Face. You can use `input_key`, `output_key` to specify which fields in your data correspond to the question and answer respectively. Here's an example configuration:
+We provide a [ResponseDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/response_dataset.py) class that is compatible with JSONL-formatted response datasets for loading datasets from local path or Hugging Face. You can use `input_key`, `output_key` to specify which fields in your data correspond to the question and answer respectively. Here's an example configuration:
 ```yaml
 data:
   # other data settings, see `examples/configs/sft.yaml` for more details
@@ -159,9 +160,9 @@ The class must be importable — install it as a package or add its
 parent directory to `PYTHONPATH` before launching training.
 
 We support using a single dataset for both train and validation by using `split_validation_size` to set the ratio of validation.
-This works for any dataset class that calls `split_train_validation` in its `__init__` — which today includes most built-in datasets, among them [OpenAssistant](../../nemo_rl/data/datasets/response_datasets/oasst.py), [OpenMathInstruct-2](../../nemo_rl/data/datasets/response_datasets/openmathinstruct2.py), [OpenR1-Math-220k](../../nemo_rl/data/datasets/response_datasets/openr1_math.py), [ResponseDataset](../../nemo_rl/data/datasets/response_datasets/response_dataset.py), and [Tulu3SftMixtureDataset](../../nemo_rl/data/datasets/response_datasets/tulu3.py).
+This works for any dataset class that calls `split_train_validation` in its `__init__` — which today includes most built-in datasets, among them [OpenAssistant](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/oasst.py), [OpenMathInstruct-2](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/openmathinstruct2.py), [OpenR1-Math-220k](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/openr1_math.py), [ResponseDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/response_dataset.py), and [Tulu3SftMixtureDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/tulu3.py).
 A dataset class that does not call it ignores `split_validation_size`; the dataset dispatcher emits a warning in that case, so a misconfigured run is not silent.
-If you want to support this feature for your custom datasets or other built-in datasets, you can simply add the code to the dataset like [ResponseDataset](../../nemo_rl/data/datasets/response_datasets/response_dataset.py).
+If you want to support this feature for your custom datasets or other built-in datasets, you can simply add the code to the dataset like [ResponseDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/response_dataset.py).
 ```python
 # `self.val_dataset` is used (not None) only when current dataset is used for both training and validation
 self.val_dataset = None
@@ -473,11 +474,9 @@ Without `use_preserving_dataset: true`, the loader would incorrectly add:
 
 This corrupts your training data and can lead to models generating invalid tool calls. The `PreservingDataset` mode maintains the exact structure of each tool call.
 
-
 ## Evaluate the Trained Model
 
-Upon completion of the training process, you can refer to our [evaluation guide](eval.md) to assess model capabilities.
-
+Upon completion of the training process, you can refer to our [evaluation guide](/guides/eval) to assess model capabilities.
 
 ## LoRA Configuration
 
@@ -487,7 +486,7 @@ NeMo RL supports LoRA (Low-Rank Adaptation) for parameter-efficient fine-tuning 
 uv run examples/run_sft.py policy.automodel_cfg.lora_cfg.enabled=true
 ```
 
-For the full reference — backend support, the DTensor vs Megatron schema comparison, config examples, parameter details, example recipes, and Hugging Face export — see the dedicated [LoRA guide](lora.md).
+For the full reference — backend support, the DTensor vs Megatron schema comparison, config examples, parameter details, example recipes, and Hugging Face export — see the dedicated [LoRA guide](/guides/lora).
 
 ## Optimizations
 
@@ -497,7 +496,7 @@ During standard SFT training the model materializes a full logit tensor of shape
 
 **Benefits:**
 
-- Extends the maximum trainable sequence length significantly (e.g. from <65K to >100K tokens) by eliminating the large logit tensor from GPU memory.
+- Extends the maximum trainable sequence length significantly (e.g. from &lt;65K to &gt;100K tokens) by eliminating the large logit tensor from GPU memory.
 - Produces numerically equivalent loss values to the standard path.
 
 **How to enable:**
@@ -514,6 +513,6 @@ policy:
 
 **Notes:**
 
-- This optimization applies to SFT training with `NLLLoss` and DPO training. See the [DPO guide](dpo.md#chunked-fused-linear-logprobs) for DPO-specific details.
+- This optimization applies to SFT training with `NLLLoss` and DPO training. See the [DPO guide](/guides/dpo#chunked-fused-linear-logprobs) for DPO-specific details.
 - Context parallelism is not supported when fused linear logprobs are enabled.
 - The `fused_linear_logprobs_chunk_size` parameter controls the trade-off between memory savings and compute throughput. The default value of 256 is a good starting point.

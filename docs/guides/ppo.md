@@ -1,10 +1,11 @@
-# An In-Depth Walkthrough of PPO in NeMo RL
-
+---
+title: "An In-Depth Walkthrough of PPO in NeMo RL"
+---
 This guide details the [Proximal Policy Optimization (PPO)](https://arxiv.org/abs/1707.06347) implementation within NeMo RL. PPO is an actor-critic reinforcement learning algorithm that jointly trains a **policy** (actor) and a **value function** (critic). The value function estimates per-token state values $V(s_t)$, enabling [Generalized Advantage Estimation (GAE)](https://arxiv.org/abs/1506.02438) — a temporal-difference method that provides lower-variance advantage signals compared to reward-only baselines. PPO was the core RLHF algorithm used in [InstructGPT](https://arxiv.org/abs/2203.02155) and remains widely used for LLM alignment.
 
 ## Quickstart: Launch a PPO Run
 
-To get started quickly, use the script [examples/run_ppo.py](../../examples/run_ppo.py), which demonstrates how to train a model on math problems using PPO. You can launch this script locally or through Slurm. For detailed instructions on setting up Ray and launching a job with Slurm, refer to the [cluster documentation](../cluster.md).
+To get started quickly, use the script [examples/run_ppo.py](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/run_ppo.py), which demonstrates how to train a model on math problems using PPO. You can launch this script locally or through Slurm. For detailed instructions on setting up Ray and launching a job with Slurm, refer to the [cluster documentation](/environment-start/cluster).
 
 We recommend launching the job using `uv`:
 
@@ -12,7 +13,7 @@ We recommend launching the job using `uv`:
 uv run examples/run_ppo.py --config <PATH TO YAML CONFIG> {overrides}
 ```
 
-If not specified, `config` will default to [examples/configs/ppo_math_1B.yaml](../../examples/configs/ppo_math_1B.yaml).
+If not specified, `config` will default to [examples/configs/ppo_math_1B.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/ppo_math_1B.yaml).
 
 **Reminder**: Do not forget to set your HF_HOME, WANDB_API_KEY, and HF_DATASETS_CACHE (if needed). You'll need to do a `huggingface-cli login` as well for gated models.
 
@@ -26,7 +27,7 @@ In this guide, we'll walk through how we handle:
 
 ### Data, Environments, Policy, and Generation
 
-PPO uses the same data handling, environments, policy model, and generation infrastructure as GRPO. For details on datasets, data processors, task–environment mapping, the policy interface, vLLM generation, and performance optimizations (sequence packing, dynamic batching), see the [NeMo RL GRPO Guide](grpo.md).
+PPO uses the same data handling, environments, policy model, and generation infrastructure as GRPO. For details on datasets, data processors, task–environment mapping, the policy interface, vLLM generation, and performance optimizations (sequence packing, dynamic batching), see the [NeMo RL GRPO Guide](/guides/grpo).
 
 The PPO configuration uses the `ppo:` key instead of `grpo:`, but data, environment, policy, and generation sections remain identical.
 
@@ -34,7 +35,7 @@ The PPO configuration uses the `ppo:` key instead of `grpo:`, but data, environm
 
 The value model is the key addition in PPO compared to GRPO. It is a language model with a scalar value head that predicts per-token state values $V(s_t)$, providing the temporal bootstrapping signal needed for GAE.
 
-We define a [ValueInterface](../../nemo_rl/models/value/interfaces.py) that contains everything needed to run a Value model. Similar to the policy, the Value object holds a [RayWorkerGroup](../../nemo_rl/distributed/worker_groups.py) of SPMD (1 proc/GPU) processes coordinated so it appears like 1 GPU.
+We define a [ValueInterface](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/models/value/interfaces.py) that contains everything needed to run a Value model. Similar to the policy, the Value object holds a [RayWorkerGroup](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/distributed/worker_groups.py) of SPMD (1 proc/GPU) processes coordinated so it appears like 1 GPU.
 
 The value model supports the **Megatron-Core backend** (`value.megatron_cfg.enabled: true`) and the **Automodel backend** (`value.automodel_cfg.enabled: true`). It uses the same architecture and tokenizer as the policy (configured via `value.model_name`), but is trained with a separate MSE loss on GAE returns.
 
@@ -61,13 +62,13 @@ When only one node remains for policy and generation after other resources are r
 
 Set `ppo.async_ppo.enabled: true` to overlap rollout generation with training. A background collector fills a replay buffer on the non-colocated vLLM GPUs while the policy and value model train on their shared cluster. Values and policy/reference log probabilities are recomputed when a trajectory is sampled, then PPO runs GAE, all `critic_ppo_epochs` critic updates, and all `ppo_epochs` policy updates before publishing one new policy version to vLLM.
 
-Async PPO reuses the trajectory collector, replay buffer, and weight-versioning infrastructure described in the [Async GRPO guide](async-grpo.md); this section focuses on PPO-specific behavior and constraints.
+Async PPO reuses the trajectory collector, replay buffer, and weight-versioning infrastructure described in the [Async GRPO guide](/guides/async-grpo); this section focuses on PPO-specific behavior and constraints.
 
 Async PPO requires non-colocated vLLM generation with `vllm_cfg.async_engine: true`, `loss_fn.use_importance_sampling_correction: true`, and `loss_fn.force_on_policy_ratio: false`. Dynamic sampling, reward scaling, reward shaping, multiple dataloaders, NeMo Gym, colocated generation, and FP8 KV-scale synchronization are not supported yet.
 
 `max_trajectory_age_steps` is the normal policy-training age limit. The recommended value is `1`; larger values improve overlap but increase off-policy bias in GAE. When `policy_training_start_step > 0`, set `warmup_generation_lead_steps` to a larger value to bank additional rollout batches while the policy is frozen for critic warmup. The collector caps frozen-policy targets at `policy_training_start_step + max_trajectory_age_steps`, so their actual policy-update age remains within the normal limit. The buffer keeps these batches valid through that frontier and then restores the normal age limit. `null` uses `max_trajectory_age_steps` as the generation lead throughout.
 
-Async training stops at `max_num_steps`; the collector cycles the training dataloader as needed. `max_num_epochs` is not supported yet and must be set to `-1`; use `max_num_steps` to control training length. This is a v1-only convention — the SingleController path rejects any non-positive `max_num_epochs`, so set a positive value there (see [single-controller.md](single-controller.md#migrating-a-legacy-async-config)). Async checkpoints save the collector dataloader and replay-buffer state together with policy and value state. By default, incomplete restored targets are retained and gap-filled. Setting `drop_incomplete_targets_on_restore: true` discards their restored rows and fills the target from subsequent dataloader prompts; it does not regenerate the original prompts.
+Async training stops at `max_num_steps`; the collector cycles the training dataloader as needed. `max_num_epochs` is not supported yet and must be set to `-1`; use `max_num_steps` to control training length. This is a v1-only convention — the SingleController path rejects any non-positive `max_num_epochs`, so set a positive value there (see [single-controller.md](/guides/single-controller#migrating-a-legacy-async-config)). Async checkpoints save the collector dataloader and replay-buffer state together with policy and value state. By default, incomplete restored targets are retained and gap-filled. Setting `drop_incomplete_targets_on_restore: true` discards their restored rows and fills the target from subsequent dataloader prompts; it does not regenerate the original prompts.
 
 ### Value Model Configuration
 
@@ -102,7 +103,7 @@ value:
       data_parallel_sharding_strategy: "optim_grads_params"
 ```
 
-For a DTensor PPO recipe, see [ppo-qwen2.5-1.5b-gsm8k-1n8g-automodel-valuetp2sp.yaml](../../examples/configs/recipes/llm/ppo-qwen2.5-1.5b-gsm8k-1n8g-automodel-valuetp2sp.yaml).
+For a DTensor PPO recipe, see [ppo-qwen2.5-1.5b-gsm8k-1n8g-automodel-valuetp2sp.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/ppo-qwen2.5-1.5b-gsm8k-1n8g-automodel-valuetp2sp.yaml).
 
 ## Generalized Advantage Estimation (GAE)
 
@@ -124,7 +125,7 @@ Token-level rewards are constructed as:
 
 The implementation uses carry-forward masking: at masked positions (padding, separators in multi-turn) the running accumulators are preserved from the last valid token rather than being zeroed, correctly skipping over non-response tokens without introducing phantom TD errors.
 
-For implementation details, see [GeneralizedAdvantageEstimator](../../nemo_rl/algorithms/advantage_estimator.py).
+For implementation details, see [GeneralizedAdvantageEstimator](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/advantage_estimator.py).
 
 ### GAE Configuration
 
@@ -168,7 +169,7 @@ While GAE is the default for PPO, the implementation also supports running witho
 
 ## PPO Training Loop
 
-The PPO training loop, [ppo_train](../../nemo_rl/algorithms/ppo.py), follows this sequence each step:
+The PPO training loop, [ppo_train](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/ppo.py), follows this sequence each step:
 
 1. **Generation**: vLLM generates responses from prompts
 2. **Environment scoring**: responses are evaluated by task-specific environments (e.g., math verification)
@@ -228,17 +229,17 @@ The warm start applies to a fresh run only: once the run has written a checkpoin
 
 ### Policy Loss
 
-PPO uses the same [ClippedPGLossFn](../../nemo_rl/algorithms/loss/loss_functions.py) as GRPO:
+PPO uses the same [ClippedPGLossFn](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/loss/loss_functions.py) as GRPO:
 
 $$
 L(\theta) = E_{x \sim \pi_{\theta_{\text{old}}}} \Big[ \min \Big(\frac{\pi_\theta(x)}{\pi_{\theta_{\text{old}}}(x)}A_t, \text{clip} \big( \frac{\pi_\theta(x)}{\pi_{\theta_{\text{old}}}(x)}, 1 - \varepsilon, 1 + \varepsilon \big) A_t \Big) \Big] - \beta D_{\text{KL}} (\pi_\theta \| \pi_\text{ref})
 $$
 
-The key difference is that $A_t$ comes from GAE (temporal bootstrapping with value function) rather than group-relative baselines. All loss improvements documented in the [GRPO Guide](grpo.md) (dual-clipping, on-policy KL approximation, importance sampling correction, overlong filtering, top-p/top-k filtering) apply equally to PPO.
+The key difference is that $A_t$ comes from GAE (temporal bootstrapping with value function) rather than group-relative baselines. All loss improvements documented in the [GRPO Guide](/guides/grpo) (dual-clipping, on-policy KL approximation, importance sampling correction, overlong filtering, top-p/top-k filtering) apply equally to PPO.
 
 ### Value Loss
 
-The value function is trained with a clipped MSE loss via [MseValueLossFn](../../nemo_rl/algorithms/loss/loss_functions.py):
+The value function is trained with a clipped MSE loss via [MseValueLossFn](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/loss/loss_functions.py):
 
 $$L_V = \frac{1}{2} \max\left((V_\theta - R)^2,\; (V_{\text{clipped}} - R)^2\right)$$
 
@@ -329,11 +330,11 @@ value_loss_fn:
 - **`value_loss_fn.cliprange`**: Clip range for value function predictions
 - **`loss_fn.positive_example_nll_weight`**: VAPO NLL auxiliary loss weight on correct samples (0 = disabled)
 
-For synchronous PPO, the remaining clipping, KL, sampling, and reward options work as documented in the [GRPO Guide](grpo.md). Async PPO has the limitations listed above.
+For synchronous PPO, the remaining clipping, KL, sampling, and reward options work as documented in the [GRPO Guide](/guides/grpo). Async PPO has the limitations listed above.
 
 ## Metrics
 
-PPO logs all the same metrics as GRPO (see [GRPO Metrics](grpo.md#metrics)). It also logs the following PPO-specific metrics:
+PPO logs all the same metrics as GRPO (see [GRPO Metrics](/guides/grpo#metrics)). It also logs the following PPO-specific metrics:
 
 | Metric | Description |
 |--------|-------------|
@@ -355,7 +356,7 @@ PPO logs all the same metrics as GRPO (see [GRPO Metrics](grpo.md#metrics)). It 
 
 ## Evaluate the Trained Model
 
-Upon completion of the training process, you can refer to our [evaluation guide](eval.md) to assess model capabilities.
+Upon completion of the training process, you can refer to our [evaluation guide](/guides/eval) to assess model capabilities.
 
 ## References
 
@@ -364,5 +365,5 @@ Upon completion of the training process, you can refer to our [evaluation guide]
 - **GAE Paper**: [High-Dimensional Continuous Control Using Generalized Advantage Estimation](https://arxiv.org/abs/1506.02438)
 - **VAPO Paper**: [VAPO: Efficient and Reliable Reinforcement Learning for Advanced Reasoning Tasks](https://arxiv.org/abs/2504.05118)
 - **veRL**: [veRL: An Efficient and Flexible Library for Post-Training of LLMs](https://arxiv.org/abs/2412.09613)
-- **[NeMo RL GRPO Guide](grpo.md)**
-- **[NeMo RL DAPO Guide](dapo.md)**
+- **[NeMo RL GRPO Guide](/guides/grpo)**
+- **[NeMo RL DAPO Guide](/guides/dapo)**

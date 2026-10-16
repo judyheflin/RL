@@ -1,5 +1,6 @@
-# Evaluation
-
+---
+title: "Evaluation"
+---
 We provide evaluation tools to assess model capabilities.
 
 ## Convert Model Format (Optional)
@@ -27,7 +28,7 @@ uv run --extra mcore python examples/converters/convert_megatron_to_hf.py \
 > [!NOTE]
 > Adjust the paths according to your training output directory structure.
 
-For an in-depth explanation of checkpointing, refer to the [Checkpointing documentation](../design-docs/checkpointing.md).
+For an in-depth explanation of checkpointing, refer to the [Checkpointing documentation](/design-docs/checkpointing).
 
 ## Run Evaluation
 
@@ -56,5 +57,4 @@ uv run python examples/run_eval.py \
 > [!NOTE]
 > Evaluation results may vary slightly due to various factors, such as sampling parameters, random seed, inference engine version, and inference engine settings.
 
-Refer to `examples/configs/evals/eval.yaml` for a full list of parameters that can be overridden. For an in-depth explanation of evaluation, refer to the [Evaluation documentation](../guides/eval.md).
-
+Refer to `examples/configs/evals/eval.yaml` for a full list of parameters that can be overridden. For an in-depth explanation of evaluation, refer to the [Evaluation documentation](/guides/eval).

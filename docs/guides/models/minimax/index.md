@@ -1,16 +1,10 @@
-# MiniMax
-
+---
+title: "MiniMax"
+---
 This section contains guides for running MiniMax models with NeMo RL. For the
-complete support matrix, see [Model Support](../../../about/model-support.md).
+complete support matrix, see [Model Support](/about/model-support).
 
 ## Version Guides
 
-- **[MiniMax-M3](minimax-m3.md)** — Run GRPO with the AutoModel training
+- **[MiniMax-M3](/guides/models/minimax/minimax-m3)** — Run GRPO with the AutoModel training
   backend and BF16 vLLM generation, including validated scope and known limitations.
-
-```{toctree}
-:hidden:
-:maxdepth: 1
-
-minimax-m3.md
-```

@@ -1,5 +1,6 @@
-# Checkpoint Engine Design
-
+---
+title: "Checkpoint Engine Design"
+---
 Checkpoint engines are runtime refit transports for non-colocated generation.
 They let GRPO move policy weights directly from policy workers to generation
 workers without using the driver as a model-sized staging point.
@@ -10,7 +11,7 @@ engines, vLLM uses ZMQ/CUDA IPC when colocated and NCCL when non-colocated.
 SGLang uses Ray CUDA IPC when colocated and its own NCCL weight-update group
 with a Megatron policy when non-colocated.
 
-The user-facing guide is [Checkpoint-Engine Refit](../guides/checkpoint-engine-refit.md).
+The user-facing guide is [Checkpoint-Engine Refit](/guides/checkpoint-engine-refit).
 
 ## Goals
 
@@ -111,7 +112,6 @@ from typing import Any
 import torch
 
 from nemo_rl.utils.checkpoint_engines.base import CheckpointEngine
-
 
 class MyCheckpointEngine(CheckpointEngine):
     def __init__(self, bucket_size: int, transport: str) -> None:
@@ -297,7 +297,7 @@ Each rollout rank received 45,395 destination-local tensors in 18 batches, or
 69.95 GiB. That cluster was tuned with eight explicitly selected HCAs and
 `MAX_RMA_RAILS=8`; those device names are not portable defaults. Performance
 and correctness-control results are recorded in the
-[user guide](../guides/checkpoint-engine-refit.md#deepseek-v3-benchmark).
+[user guide](/guides/checkpoint-engine-refit#deepseek-v3-benchmark).
 
 ## NIXL Preinit
 

@@ -1,5 +1,6 @@
-# Profile GPU with Nsys
-
+---
+title: "Profile GPU with Nsys"
+---
 NeMo RL supports Nsight profiling for Ray workers through environment variable pattern matching. This allows you to selectively profile specific worker types without modifying code or affecting the performance of workers that don't need profiling.
 
 **Note**: To prevent profile files from becoming too large, consider limiting profiling to a smaller number of steps (e.g., 10 steps).
@@ -134,7 +135,6 @@ To analyze the generated profile files, load the `.nsys-rep` files into the NVID
 ### How to Analyze the End-to-End RL Loop All at Once
 
 Nsight Systems supports [multi-report view](https://docs.nvidia.com/nsight-systems/UserGuide/index.html#viewing-multiple-reports-in-the-same-timeline) functionality. If you open the profiles from different workers (e.g., `*policy_worker*.nsys-rep` and `*generation_worker*.nsys-rep`) in a single multi-report view, you can analyze the behavior of the end-to-end RL loop on the same timeline.
-
 
 ![Nsys multi report view](./assets/nsys-multi-report-view.png)
 

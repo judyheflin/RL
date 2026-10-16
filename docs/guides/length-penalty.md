@@ -1,5 +1,6 @@
-# Length Penalties for GRPO (NeMo-Gym)
-
+---
+title: "Length Penalties for GRPO (NeMo-Gym)"
+---
 This guide documents the length-penalty and length-bonus algorithms implemented in
 `nemo_rl/utils/length_penalty.py`.
 

@@ -1,5 +1,6 @@
-# CISPO
-
+---
+title: "CISPO"
+---
 [Clipped Importance Sampling Policy Optimization (CISPO)](https://arxiv.org/abs/2506.13585) is a GRPO-family policy-gradient objective that clips the importance-sampling weight as a detached coefficient instead of using PPO-style hard ratio clipping.
 
 For each generated token, CISPO computes the policy ratio
@@ -59,7 +60,7 @@ The recipe uses `Qwen/Qwen3-30B-A3B`, Megatron policy training, async GRPO with 
 
 ## Additional Resources
 
-- [In-depth CISPO Guide](../../guides/cispo.md)
+- [In-depth CISPO Guide](/guides/cispo)
 - [MiniMax-M1 paper](https://arxiv.org/abs/2506.13585)
-- [GRPO documentation](grpo.md)
-- [DAPO documentation](dapo.md)
+- [GRPO documentation](/about/algorithms/grpo)
+- [DAPO documentation](/about/algorithms/dapo)

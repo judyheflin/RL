@@ -1,5 +1,6 @@
-# YaRN Long-Context Training
-
+---
+title: "YaRN Long-Context Training"
+---
 [**YaRN** (Yet another RoPE extensioN)](https://arxiv.org/abs/2309.00071) extends a model's usable context window beyond the length it was pretrained on by rescaling RoPE frequencies. NeMo RL supports YaRN RoPE scaling for SFT, GRPO, DPO, RM, and distillation workflows, letting you fine-tune or RL-train models at sequence lengths much larger than their original pretraining context.
 
 ## Requirements
@@ -74,14 +75,14 @@ policy:
     force_reconvert_from_hf: true  # Default: false
 ```
 
-This re-runs the HF → Megatron conversion and overwrites the cached checkpoint. It is equivalent to deleting the cached directory and rerunning. See also the [Training Backends design doc](../design-docs/training-backends.md#force-reconvert) for background on the checkpoint cache.
+This re-runs the HF → Megatron conversion and overwrites the cached checkpoint. It is equivalent to deleting the cached directory and rerunning. See also the [Training Backends design doc](/design-docs/training-backends#force-reconvert) for background on the checkpoint cache.
 
 ## Example Recipes
 
 Two end-to-end YaRN recipes ship with NeMo RL:
 
-- **SFT, 128K context**: [`examples/configs/recipes/llm/sft-qwen3-0.6B-1n8g-megatron-yarn-128k.yaml`](../../examples/configs/recipes/llm/sft-qwen3-0.6B-1n8g-megatron-yarn-128k.yaml) — Qwen3-0.6B fine-tuned to a 128K sequence length on Nemotron-Cascade-2-SFT-Math using `factor: 3.2` (128K / 40960).
-- **GRPO, 256K context**: [`examples/configs/recipes/llm/grpo-qwen2.5-1.5B-4n8g-megatron-yarn-256k.yaml`](../../examples/configs/recipes/llm/grpo-qwen2.5-1.5B-4n8g-megatron-yarn-256k.yaml) — Qwen2.5-1.5B trained at 256K sequence length with `factor` derived from `max_total_sequence_length / original_max_position_embeddings`.
+- **SFT, 128K context**: [`examples/configs/recipes/llm/sft-qwen3-0.6B-1n8g-megatron-yarn-128k.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/sft-qwen3-0.6B-1n8g-megatron-yarn-128k.yaml) — Qwen3-0.6B fine-tuned to a 128K sequence length on Nemotron-Cascade-2-SFT-Math using `factor: 3.2` (128K / 40960).
+- **GRPO, 256K context**: [`examples/configs/recipes/llm/grpo-qwen2.5-1.5B-4n8g-megatron-yarn-256k.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen2.5-1.5B-4n8g-megatron-yarn-256k.yaml) — Qwen2.5-1.5B trained at 256K sequence length with `factor` derived from `max_total_sequence_length / original_max_position_embeddings`.
 
 Launch them the same way as any other recipe:
 

@@ -1,5 +1,6 @@
-# Environments for GRPO Training
-
+---
+title: "Environments for GRPO Training"
+---
 GRPO includes multiple environments, each offering a standard interface for reward computation and evaluation.
 
 ## Math Environment
@@ -180,7 +181,7 @@ In the future, the resource control part will be refactored to enable fine-grain
 
 ### Complete GRPO Training with Reward Model Environments
 
-See [examples/run_grpo.py](../../examples/run_grpo.py) with [examples/configs/grpo_rm_1B.yaml](../../examples/configs/grpo_rm_1B.yaml) for a complete example of using the reward model environment with GRPO training.
+See [examples/run_grpo.py](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/run_grpo.py) with [examples/configs/grpo_rm_1B.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/grpo_rm_1B.yaml) for a complete example of using the reward model environment with GRPO training.
 
 ```bash
 uv run examples/run_grpo.py --config examples/configs/grpo_rm_1B.yaml

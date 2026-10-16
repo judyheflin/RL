@@ -1,5 +1,6 @@
-# RM
-
+---
+title: "RM"
+---
 We provide a sample RM experiment that uses the [HelpSteer3 dataset](https://huggingface.co/datasets/nvidia/HelpSteer3) for preference-based training.
 
 ## RM Single Node
@@ -18,7 +19,7 @@ If you have access to more GPUs, you can update the experiment accordingly. To r
 uv run python examples/run_rm.py cluster.gpus_per_node=8
 ```
 
-Refer to the [RM documentation](../../guides/rm.md) for more information.
+Refer to the [RM documentation](/guides/rm) for more information.
 
 ## RM Multi-node
 

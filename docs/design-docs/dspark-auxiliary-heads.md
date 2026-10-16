@@ -1,5 +1,6 @@
-# DSpark Auxiliary Heads
-
+---
+title: "DSpark Auxiliary Heads"
+---
 `nemo_rl/models/megatron/draft/dspark.py` defines two heads for DSpark block
 drafting. The DSpark draft provider in PR #3726 constructs both heads. This
 module does not define a training objective or rollout execution.

@@ -1,5 +1,6 @@
-# Qwen3.8
-
+---
+title: "Qwen3.8"
+---
 This page describes the initial NeMo RL support for the dense
 `Qwen/Qwen3.8-27B` model.
 
@@ -35,7 +36,7 @@ authoritative settings.
 
 | Model | Modality | Algorithm | Backend | Scale | Recipe |
 |---|---|---|---|---|---|
-| Qwen3.8-27B | LLM | GRPO | Megatron | 2n8g | [`grpo-qwen3.8-27b-2n8g-megatron-tp4pp2cp2.yaml`](../../../../examples/configs/recipes/llm/grpo-qwen3.8-27b-2n8g-megatron-tp4pp2cp2.yaml) |
+| Qwen3.8-27B | LLM | GRPO | Megatron | 2n8g | [`grpo-qwen3.8-27b-2n8g-megatron-tp4pp2cp2.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3.8-27b-2n8g-megatron-tp4pp2cp2.yaml) |
 
 ## Choose a Recipe
 

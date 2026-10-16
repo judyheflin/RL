@@ -1,10 +1,11 @@
-# An In-depth Walkthrough of GRPO in NeMo RL
-
+---
+title: "An In-depth Walkthrough of GRPO in NeMo RL"
+---
 This guide details the Group Relative Policy Optimization (GRPO) implementation within NeMo RL. We walk through data handling, policy model training, fast generation, and the GRPO loss function.
 
 ## Quickstart: Launch a GRPO Run
 
-To get started quickly, use the script [examples/run_grpo.py](../../examples/run_grpo.py), which demonstrates how to train a model on math problems using GRPO. You can launch this script locally or through Slurm. For detailed instructions on setting up Ray and launching a job with Slurm, refer to the [cluster documentation](../cluster.md).
+To get started quickly, use the script [examples/run_grpo.py](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/run_grpo.py), which demonstrates how to train a model on math problems using GRPO. You can launch this script locally or through Slurm. For detailed instructions on setting up Ray and launching a job with Slurm, refer to the [cluster documentation](/environment-start/cluster).
 
 We recommend launching the job using `uv`:
 
@@ -12,7 +13,7 @@ We recommend launching the job using `uv`:
 uv run examples/run_grpo.py --config <PATH TO YAML CONFIG> {overrides}
 ```
 
-If not specified, `config` will default to [examples/configs/grpo_math_1B.yaml](../../examples/configs/grpo_math_1B.yaml).
+If not specified, `config` will default to [examples/configs/grpo_math_1B.yaml](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/grpo_math_1B.yaml).
 
 **Reminder**: Do not forget to set your HF_HOME, WANDB_API_KEY, and HF_DATASETS_CACHE (if needed). You'll need to do a `huggingface-cli login` as well for Llama models.
 
@@ -28,7 +29,7 @@ In this guide, we'll walk through how we handle:
 
 We support training with multiple RL "Environments" at the same time.
 
-An [Environment](../../nemo_rl/environments/interfaces.py) is an object that accepts a state/action history and returns an updated state and rewards for the step. They run as Ray Remote Actors. Example [MathEnvironment](../../nemo_rl/environments/math_environment.py).
+An [Environment](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/environments/interfaces.py) is an object that accepts a state/action history and returns an updated state and rewards for the step. They run as Ray Remote Actors. Example [MathEnvironment](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/environments/math_environment.py).
 
 To support this, we need to know:
 
@@ -42,7 +43,7 @@ GRPO datasets in NeMo RL are encapsulated using classes. Each GRPO data class is
   1. `dataset`: A dictionary containing the formatted datasets. Each example in the dataset must conform to the format described below.
   2. `task_name`: A string identifier that uniquely identifies the dataset.
 
-GRPO datasets are expected to follow the HuggingFace chat format. Refer to the [chat dataset document](../design-docs/chat-datasets.md) for details. If your data is not in the correct format, simply write a preprocessing script to convert the data into this format. [response_datasets/deepscaler.py](../../nemo_rl/data/datasets/response_datasets/deepscaler.py) has an example:
+GRPO datasets are expected to follow the HuggingFace chat format. Refer to the [chat dataset document](/design-docs/chat-datasets) for details. If your data is not in the correct format, simply write a preprocessing script to convert the data into this format. [response_datasets/deepscaler.py](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/deepscaler.py) has an example:
 
 **Note:** The `task_name` field is required in each formatted example.
 
@@ -57,10 +58,10 @@ def format_data(self, data: dict[str, Any]) -> dict[str, Any]:
     }
 ```
 
-By default, NeMo RL has some built-in supported datasets (e.g., [OpenAssistant](../../nemo_rl/data/datasets/response_datasets/oasst.py), [NuminaMath-1.5](../../nemo_rl/data/datasets/response_datasets/numinamath.py), [OpenMathInstruct-2](../../nemo_rl/data/datasets/response_datasets/openmathinstruct2.py), [Squad](../../nemo_rl/data/datasets/response_datasets/squad.py), etc.). You can see the full list [here](../../nemo_rl/data/datasets/response_datasets/__init__.py).
+By default, NeMo RL has some built-in supported datasets (e.g., [OpenAssistant](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/oasst.py), [NuminaMath-1.5](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/numinamath.py), [OpenMathInstruct-2](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/openmathinstruct2.py), [Squad](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/squad.py), etc.). You can see the full list [here](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/__init__.py).
 All of these datasets are downloaded from HuggingFace and preprocessed on-the-fly, so there's no need to provide a path to any datasets on disk.
 
-We provide a [ResponseDataset](../../nemo_rl/data/datasets/response_datasets/response_dataset.py) class that is compatible with JSONL-formatted response datasets for loading datasets from local path or Hugging Face. You can use `input_key`, `output_key` to specify which fields in your data correspond to the question and answer respectively. Here's an example configuration:
+We provide a [ResponseDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/response_dataset.py) class that is compatible with JSONL-formatted response datasets for loading datasets from local path or Hugging Face. You can use `input_key`, `output_key` to specify which fields in your data correspond to the question and answer respectively. Here's an example configuration:
 ```yaml
 data:
   # other data settings, see `examples/configs/grpo_math_1B.yaml` for more details
@@ -143,9 +144,9 @@ The class must be importable — install it as a package or add its
 parent directory to `PYTHONPATH` before launching training.
 
 We support using a single dataset for both train and validation by using `split_validation_size` to set the validation ratio.
-This works for any dataset class that calls `split_train_validation` in its `__init__` — which today includes most built-in datasets, among them [OpenAssistant](../../nemo_rl/data/datasets/response_datasets/oasst.py), [OpenMathInstruct-2](../../nemo_rl/data/datasets/response_datasets/openmathinstruct2.py), [OpenR1-Math-220k](../../nemo_rl/data/datasets/response_datasets/openr1_math.py), [ResponseDataset](../../nemo_rl/data/datasets/response_datasets/response_dataset.py), and [Tulu3SftMixtureDataset](../../nemo_rl/data/datasets/response_datasets/tulu3.py).
+This works for any dataset class that calls `split_train_validation` in its `__init__` — which today includes most built-in datasets, among them [OpenAssistant](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/oasst.py), [OpenMathInstruct-2](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/openmathinstruct2.py), [OpenR1-Math-220k](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/openr1_math.py), [ResponseDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/response_dataset.py), and [Tulu3SftMixtureDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/tulu3.py).
 A dataset class that does not call it ignores `split_validation_size`; the dataset dispatcher emits a warning in that case, so a misconfigured run is not silent.
-If you want to support this feature for your custom datasets or other built-in datasets, you can simply add the code to the dataset like [ResponseDataset](../../nemo_rl/data/datasets/response_datasets/response_dataset.py).
+If you want to support this feature for your custom datasets or other built-in datasets, you can simply add the code to the dataset like [ResponseDataset](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/datasets/response_datasets/response_dataset.py).
 ```python
 # `self.val_dataset` is used (not None) only when current dataset is used for both training and validation
 self.val_dataset = None
@@ -154,7 +155,7 @@ self.split_train_validation(split_validation_size, seed)
 
 #### Common Data Format
 
-We define a [DatumSpec](../../nemo_rl/data/interfaces.py) that holds all relevant information for each training example:
+We define a [DatumSpec](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/interfaces.py) that holds all relevant information for each training example:
 
 ```python
 class DatumSpec(TypedDict):
@@ -171,7 +172,7 @@ class DatumSpec(TypedDict):
 
 We refer to each distinct environment your model aims to optimize against as a "task." For example, you might define tasks like "math" or "code."
 
-For each task, you should provide a data processor that reads from your dataset and returns a [DatumSpec](../../nemo_rl/data/interfaces.py).
+For each task, you should provide a data processor that reads from your dataset and returns a [DatumSpec](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/interfaces.py).
 
 ```python
 def my_data_processor(
@@ -183,7 +184,7 @@ def my_data_processor(
 ) -> DatumSpec:
 ```
 
-We have an example of this as `math_data_processor` in [processors.py](../../nemo_rl/data/processors.py).
+We have an example of this as `math_data_processor` in [processors.py](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/processors.py).
 
 #### Multiple Dataloaders
 
@@ -225,7 +226,7 @@ Batch 3: [a, b, 5, 6]
 The file `examples/custom_dataloader/custom_dataloader.py` provides a reference implementation that samples `data.num_prompts_per_dataloader` entries from each dataloader.
 
 When a single dataloader is exhausted, the data iterator must be reset in the custom dataloader function (as demonstrated in `examples/custom_dataloader/custom_dataloader.py`).
-This design ensures that the [MultipleDataloaderWrapper](../../nemo_rl/data/dataloader.py) operates as an infinite iterator, where `__next__()` will not raise StopIteration and `__len__()` is not supported.
+This design ensures that the [MultipleDataloaderWrapper](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/data/dataloader.py) operates as an infinite iterator, where `__next__()` will not raise StopIteration and `__len__()` is not supported.
 
 Additionally, custom dataloaders can access recorded metrics from the training loop. Use `wrapped_dataloader.set_records()` in `nemo_rl/algorithms/grpo.py` to store relevant information, which can then be retrieved in your custom dataloader implementation:
 
@@ -322,9 +323,9 @@ Ensure you provide a mapping of tasks to their processors so the dataset knows w
 
 ## Environments
 
-GRPO supports various types of environments for different tasks, including **[Math](../../nemo_rl/environments/math_environment.py)**, **[Code](../../nemo_rl/environments/code_environment.py)**, and **[Reward Model](../../nemo_rl/environments/reward_model_environment.py)** environments. Each environment provides a standardized interface for reward computation and evaluation, enabling consistent training across diverse domains.
+GRPO supports various types of environments for different tasks, including **[Math](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/environments/math_environment.py)**, **[Code](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/environments/code_environment.py)**, and **[Reward Model](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/environments/reward_model_environment.py)** environments. Each environment provides a standardized interface for reward computation and evaluation, enabling consistent training across diverse domains.
 
-For more information about environments, see the [Environments Guide](environments.md).
+For more information about environments, see the [Environments Guide](/guides/environments).
 
 ### Env–Task Mapping
 
@@ -349,15 +350,15 @@ val_task_to_env = task_to_env  # validation usually mirrors training mapping
 
 ## Policy Model
 
-We define a {py:class}`~nemo_rl.models.policy.interfaces.PolicyInterface` that contains everything you need to train a Policy model.
+We define a `PolicyInterface` that contains everything you need to train a Policy model.
 
-This Policy object holds a [RayWorkerGroup](../../nemo_rl/distributed/worker_groups.py) of SPMD (1 proc/GPU) processes that run HF/MCore, all coordinated by this object so it appears to you like 1 GPU!
+This Policy object holds a [RayWorkerGroup](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/distributed/worker_groups.py) of SPMD (1 proc/GPU) processes that run HF/MCore, all coordinated by this object so it appears to you like 1 GPU!
 
 ## Fast Generation
 
-We support vLLM through the [VllmGeneration](../../nemo_rl/models/generation/vllm/vllm_generation.py) class right now.
+We support vLLM through the [VllmGeneration](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/models/generation/vllm/vllm_generation.py) class right now.
 
-The function, [grpo_train](../../nemo_rl/algorithms/grpo.py), contains the core GRPO training loop.
+The function, [grpo_train](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/grpo.py), contains the core GRPO training loop.
 
 ### Generation Sampling Parameters (temperature, top-p, top-k)
 
@@ -367,13 +368,13 @@ GRPO uses temperature, top-p (nucleus sampling), and top-k sampling during rollo
 
 ## Performance Optimizations
 
-RL generations typically produce highly variable sequence lengths, which result in a significant amount of padding if approached naively. We address this with Sequence Packing and Dynamic Batching, which are techniques to reduce the amount of padding required. You can read more about these in the [design doc](../design-docs/sequence-packing-and-dynamic-batching.md).
+RL generations typically produce highly variable sequence lengths, which result in a significant amount of padding if approached naively. We address this with Sequence Packing and Dynamic Batching, which are techniques to reduce the amount of padding required. You can read more about these in the [design doc](/design-docs/sequence-packing-and-dynamic-batching).
 
 ### Chunked Fused Linear Logprobs
 
 During standard GRPO training the model materializes a full logit tensor of shape `[batch_size, seq_length, vocab_size]` for the policy forward-backward pass as well as for the previous-policy and reference-policy logprob computations. This can cause out-of-memory (OOM) errors for long sequences or large vocabularies. The **chunked fused linear logprobs** path avoids this by computing the per-token log probabilities directly from the hidden states with a fused linear cross-entropy kernel: it chunks the sequence dimension, projects each chunk to logits on the fly, gathers the realized-token log probabilities, and discards the logits before moving to the next chunk. (GRPO uses the kernel only to read logprobs; it does not compute a cross-entropy loss.)
 
-This works for GRPO because [ClippedPGLossFn](../../nemo_rl/algorithms/loss/loss_functions.py) only consumes the per-token log probability of the realized token (`next_token_logprobs`), which is exactly what the fused forward returns.
+This works for GRPO because [ClippedPGLossFn](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/loss/loss_functions.py) only consumes the per-token log probability of the realized token (`next_token_logprobs`), which is exactly what the fused forward returns.
 
 **Benefits:**
 
@@ -403,7 +404,7 @@ policy:
 - The `fused_linear_logprobs_chunk_size` parameter controls the trade-off between memory savings and compute throughput. The default value of 256 is a good starting point.
 
 ## Loss
-We use the [ClippedPGLossFn](../../nemo_rl/algorithms/loss/loss_functions.py) to calculate the loss for GRPO. Formally,
+We use the [ClippedPGLossFn](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/loss/loss_functions.py) to calculate the loss for GRPO. Formally,
 
 $$
 L(\theta) = E_{x \sim \pi_{\theta_{\text{old}}}} \Big[ \min \Big(\frac{\pi_\theta(x)}{\pi_{\theta_{\text{old}}}(x)}A_t, \text{clip} \big( \frac{\pi_\theta(x)}{\pi_{\theta_{\text{old}}}(x)}, 1 - \varepsilon, 1 + \varepsilon \big) A_t \Big) \Big] - \beta D_{\text{KL}} (\pi_\theta \| \pi_\text{ref})
@@ -421,7 +422,7 @@ where:
 It also supports "Dual-Clipping" from [Ye et al. (2019)](https://arxiv.org/pdf/1912.09729), which
 imposes an additional upper bound on the probability ratio when advantages are negative.
 This prevents excessive policy updates. $rA \ll 0$ -> $cA$(clipped).
-The loss function is modified to the following when A_t < 0:
+The loss function is modified to the following when A_t &lt; 0:
 
 $$
 L(\theta) = E_t \Big[ \max \Big( \min \big(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\varepsilon, 1+\varepsilon) A_t \big), c A_t \Big) \Big] - \beta D_{\text{KL}} (\pi_\theta \| \pi_\text{ref})
@@ -448,7 +449,7 @@ L_{\text{token}}(\theta) = \frac{1}{\sum_{i=1}^{N} |o_i|} \sum_{i=1}^{N} \sum_{t
 L_{\text{seq}}(\theta) = \frac{1}{N} \sum_{i=1}^{N} \frac{1}{|o_i|} \sum_{t=1}^{|o_i|} \ell_{i,t}
 $$
 
-Both denominators — $\sum_i |o_i|$ and $N$ — are counts over the whole global batch, not over a single microbatch. Each microbatch divides by the global count and contributes a partial sum, so the microbatch losses can simply be summed to recover the global-batch loss. See [Loss Functions](../design-docs/loss-functions.md) for how that normalization factor is computed and passed in.
+Both denominators — $\sum_i |o_i|$ and $N$ — are counts over the whole global batch, not over a single microbatch. Each microbatch divides by the global count and contributes a partial sum, so the microbatch losses can simply be summed to recover the global-batch loss. See [Loss functions in NeMo RL](/design-docs/loss-functions) for how that normalization factor is computed and passed in.
 
 The same choice also normalizes the KL penalty term, so `reference_policy_kl_penalty` is applied on whichever scale you select.
 
@@ -538,9 +539,8 @@ $$
 
 To enable the on-policy KL approximation, set the config `use_on_policy_kl_approximation=True` in the `ClippedPGLossConfig`. By default, we set this config to False to align with standard GRPO.
 
-
 #### Importance Sampling Correction
-This feature is controlled by the parameter `use_importance_sampling_correction`. It applies importance sampling to adjust for discrepancies between the behavior policy and the target policy, improving the accuracy of off-policy estimates. The policy we use to draw samples, $\pi_{\theta_{\text{old}}}$, is used in both the inference framework and the training framework. To account for this distinction, we refer to the inference framework policy as $\pi_{\text{inference}}$ and the training framework policy as $\pi_{\text{training}}$. As noted in [Adding New Models](../adding-new-models.md#understand-discrepancies-between-backends), it is possible for the token probabilities from $\pi_{\text{training}}$ and $\pi_{\text{inference}}$ to have discrepancies (from numerics, precision differences, bugs, etc.), leading to off-policy samples. We can correct for this by introducing importance weights between $\pi_{\text{training}}$ and $\pi_{\text{inference}}$ to the first term of the loss function. 
+This feature is controlled by the parameter `use_importance_sampling_correction`. It applies importance sampling to adjust for discrepancies between the behavior policy and the target policy, improving the accuracy of off-policy estimates. The policy we use to draw samples, $\pi_{\theta_{\text{old}}}$, is used in both the inference framework and the training framework. To account for this distinction, we refer to the inference framework policy as $\pi_{\text{inference}}$ and the training framework policy as $\pi_{\text{training}}$. As noted in [Adding New Models](/guides/adding-new-models#understand-discrepancies-between-backends), it is possible for the token probabilities from $\pi_{\text{training}}$ and $\pi_{\text{inference}}$ to have discrepancies (from numerics, precision differences, bugs, etc.), leading to off-policy samples. We can correct for this by introducing importance weights between $\pi_{\text{training}}$ and $\pi_{\text{inference}}$ to the first term of the loss function. 
 
 Let $f_\theta(x) = \min \Big(\frac{\pi_\theta(x)}{\pi_{\theta_{\text{old}}}(x)}A_t, \text{clip} \big( \frac{\pi_\theta(x)}{\pi_{\theta_{\text{old}}}(x)}, 1 - \varepsilon, 1 + \varepsilon \big) A_t \Big)$ represent the first term of loss function. Then,
 
@@ -555,7 +555,6 @@ $$
 By multiplying the first term of the loss function by the importance weights $\frac{\pi_\text{training}(x)}{\pi_\text{inference}(x)}$, we can correct for the distribution mismatch between $\pi_{\text{training}}$ and $\pi_{\text{inference}}$ while still sampling from $\pi_{\text{inference}}$.
 
 To enable the importance sampling correction, set the config `use_importance_sampling_correction=True` in the `ClippedPGLossConfig`. By default, we set this config to False to align with standard GRPO.
-
 
 #### Single-forward sequence-logprob filtering
 
@@ -574,7 +573,7 @@ loss_fn:
 
 The default is `false`, retaining the existing pre-training check. This mode requires the `grpo` advantage estimator and one optimizer update per rollout batch (`force_on_policy_ratio`'s existing constraint). It supports synchronous and legacy asynchronous training, including synchronous data-plane training, sequence packing, and gradient accumulation. SingleController is rejected because its advantage baselines depend on the earlier filtering decision. DTensor, KL-in-reward, MTP, draft training, positive-example NLL, and distillation are not supported by this mode. A reference-model forward is still needed if reference KL is enabled; the example disables it. Existing recipes using MTP (such as the NeMo-Gym Nemotron recipes), distillation (`mopd`), or Automodel must first satisfy these constraints; setting the flag alone does not make them compatible.
 
-The [Qwen2.5-Math-1.5B single-forward recipe](../../examples/configs/recipes/llm/grpo-qwen2.5-math-1.5b-instruct-1n8g-megatron-single-forward.yaml) provides a complete configuration for one node with eight GPUs. The comparison below used two GB300 nodes with four GPUs each, with overrides `cluster.num_nodes=2 cluster.gpus_per_node=4 cluster.segment_size=2`. The reported step times therefore do not describe the recipe's default topology and also depend on the benchmark hardware and runtime.
+The [Qwen2.5-Math-1.5B single-forward recipe](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen2.5-math-1.5b-instruct-1n8g-megatron-single-forward.yaml) provides a complete configuration for one node with eight GPUs. The comparison below used two GB300 nodes with four GPUs each, with overrides `cluster.num_nodes=2 cluster.gpus_per_node=4 cluster.segment_size=2`. The reported step times therefore do not describe the recipe's default topology and also depend on the benchmark hardware and runtime.
 
 The loss computes the same mean `exp(abs(policy_logprob - generation_logprob))` over valid response tokens, using detached logprobs from the training forward. Both seq_logprob_error_in_loss true and false ignore nonfinite logprobs at masked-out positions. Rejected sequences contribute zero loss but are still processed by the batched forward/backward. The worker sums survivor counts over every microbatch and DP rank, then rescales accumulated gradients before gradient clipping and the optimizer step. Thus the denominator excludes threshold-rejected tokens, regardless of how sequences were packed. Existing `seq-mask-tis` remains active: TIS-only failures still count in that denominator. An optimizer batch with no surviving response tokens raises an error before the optimizer or scheduler updates.
 
@@ -630,7 +629,7 @@ After advantage normalization, per-token advantages can become very large when t
 When both values are `null` (the default), no clipping is applied. When set, advantages are clamped after normalization:
 
 $$
-A_{\text{clipped}} = \text{clamp}(A,\ \text{advantage\_clip\_low},\ \text{advantage\_clip\_high})
+A_{\text{clipped}} = \text{clamp}(A,\ \text{advantage_clip_low},\ \text{advantage_clip_high})
 $$
 
 To configure:
@@ -712,7 +711,7 @@ be enabled separately to compile the tensor-only actor objective (it is opt-in
 because backend and distributed-layout support should be validated first).
 
 ### Multiplicative Token Probability Error
-This feature is controlled by the parameter `token_mult_prob_error`. It measures the error introduced when token probabilities are scaled multiplicatively, which can affect model calibration and output consistency. This is equal to the 'Logprob consistency metric' defined in [Adding New Models](../adding-new-models.md#importance-of-log-probability-consistency-in-training-and-inference):
+This feature is controlled by the parameter `token_mult_prob_error`. It measures the error introduced when token probabilities are scaled multiplicatively, which can affect model calibration and output consistency. This is equal to the 'Logprob consistency metric' defined in [Adding New Models](/guides/adding-new-models#importance-of-log-probability-consistency-in-training-and-inference):
 
 $$
 \text{token-mult-prob-error} = \frac{1}{n}\sum_{i=1}^{n\text{(tokens)}}\exp\left(\left\|\text{log-train-fwk}_i - \text{logprobs-inference-fwk}_i\right\|\right)
@@ -772,7 +771,7 @@ We use this to track if our models are experiencing entropy collapse too quickly
 ### GDPO: Group reward-Decoupled Normalization Policy Optimization for Multi-reward RL Optimization
 GDPO is a reinforcement learning optimization method designed for multi-reward training. While existing approaches commonly apply Group Relative Policy Optimization (GRPO) in multi-reward settings, the authors show that this leads to reward advantages collapse, reducing training signal resolution and causing unstable or failed convergence. GDPO resolves this issue by decoupling reward normalization across individual rewards, preserving their relative differences and enabling more faithful preference optimization. 
 
-For a group of  \\( N \\) rewards and  \\( G \\) samples per group, GDPO normalizes each reward independently:
+For a group of  $N$ rewards and  $G$ samples per group, GDPO normalizes each reward independently:
 
 $$
 A_n^{(i,j)} = \frac{r_n^{(i,j)} - \text{mean}\{r_n^{(i,1)}, \ldots, r_n^{(i,G)}\}}{\text{std}\{r_n^{(i,1)}, \ldots, r_n^{(i,G)}\} + \epsilon}
@@ -790,7 +789,7 @@ $$
 \hat{A}^{(i,j)} = \frac{A^{(i,j)} - \text{mean}_{i',j'}\{A^{(i',j')}\}}{\text{std}_{i',j'}\{A^{(i',j')}\} + \epsilon}
 $$
 
-Here,  \\( \text{mean}_{i',j'}\{A^{(i',j')}\} \\) and  \\( \text{std}_{i',j'}\{A^{(i',j')}\} \\) denote statistics over all groups in the batch.
+Here,  $\text{mean}_{i',j'}\{A^{(i',j')}\}$ and  $\text{std}_{i',j'}\{A^{(i',j')}\}$ denote statistics over all groups in the batch.
 
 To enable GDPO for multi-reward RL training, simply set:
 ```
@@ -804,7 +803,7 @@ Note that this method only has an effect when training involves more than one re
 
 #### Per-reward weights
 
-The aggregation weights \\( w_n \\) in \\( A^{(i,j)} = \sum_{n=1}^{N} w_n A_n^{(i,j)} \\)
+The aggregation weights $w_n$ in $A^{(i,j)} = \sum_{n=1}^{N} w_n A_n^{(i,j)}$
 are configurable via `reward_weights`, an optional list with one entry per reward
 component, ordered alphabetically by component name (matching the sorted `reward/<name>`
 keys). When omitted, all weights default to `1.0` (equal weighting). For example, to
@@ -858,8 +857,8 @@ uv run examples/run_grpo.py policy.automodel_cfg.lora_cfg.enabled=true
 
 The DTensor GRPO LoRA path uses a merge-weight approach: during generation, LoRA adapter weights are merged into the base linear weights. This improves performance, with a small training-inference mismatch that we consider acceptable. If you require strict training-inference parity, use the [split-weight variant branch](https://github.com/NVIDIA-NeMo/RL/tree/ruit/lora_grpo_async), which may trade off some performance. For a comparison between merge-weight and split-weight, see [PR 1797: Support lora in dtensor grpo workflow by merging weight](https://github.com/NVIDIA-NeMo/RL/pull/1797).
 
-For the full reference — backend support, the DTensor vs Megatron schema comparison, config examples, parameter details, and example recipes — see the dedicated [LoRA guide](lora.md).
+For the full reference — backend support, the DTensor vs Megatron schema comparison, config examples, parameter details, and example recipes — see the dedicated [LoRA guide](/guides/lora).
 
 ## Evaluate the Trained Model
 
-Upon completion of the training process, you can refer to our [evaluation guide](eval.md) to assess model capabilities.
+Upon completion of the training process, you can refer to our [evaluation guide](/guides/eval) to assess model capabilities.

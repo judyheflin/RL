@@ -1,5 +1,6 @@
-# Design and Philosophy
-
+---
+title: "Design and Philosophy"
+---
 This section introduces the NeMo RL APIs, configuration patterns (Pydantic `BaseModel` for user-facing config, `@dataclass` for internal classes, and `TypedDict` for legacy config still being migrated), and addresses the challenges of online Reinforcement Learning (RL). Coordinating various software components, known as RL Actors, requires effective resource allocation, isolation, coordination, and communication. Our design philosophy focuses on creating modular abstractions for these tasks, ensuring scalability from one GPU to thousands, regardless of the RL Actor's implementation.
 
 ## Motivation
@@ -20,8 +21,8 @@ Fundamentally, managing these RL Actors requires four key capabilities:
 ## Design
 
 We create composable and hackable abstractions for each layer of the tasks above
-- Resourcing: {py:class}`RayVirtualCluster <nemo_rl.distributed.virtual_cluster.RayVirtualCluster>`
-- Isolation: {py:class}`RayWorkerGroup <nemo_rl.distributed.worker_groups.RayWorkerGroup>`
+- Resourcing: `RayVirtualCluster <nemo_rl.distributed.virtual_cluster.RayVirtualCluster>`
+- Isolation: `RayWorkerGroup <nemo_rl.distributed.worker_groups.RayWorkerGroup>`
 - Coordination: A Single-Process Controller using Ray
 - Communication: Data flows through one of the following:
   - the single controller 
@@ -33,7 +34,7 @@ By creating a common interface for these four tasks, the RL algorithm code can s
 
 ![actor-wg-worker-vc](../assets/actor-wg-worker-vc.png)
 
-### {py:class}`RayVirtualCluster <nemo_rl.distributed.virtual_cluster.RayVirtualCluster>`
+### `RayVirtualCluster <nemo_rl.distributed.virtual_cluster.RayVirtualCluster>`
 VirtualCluster provides a basic abstraction on top of Ray Placement Groups that allow you to section off a part of your compute resources for WorkerGroups to run on as though they had their own cluster. They support running just one WorkerGroup on each VirtualCluster, or *colocation*, where multiple WorkerGroups share resources (i.e running policy training(hf) and generation(vllm) on the same GPUs in-turn).
 
 ```python
@@ -68,7 +69,7 @@ class RayVirtualCluster:
         """
 ```
 
-### {py:class}`RayWorkerGroup <nemo_rl.distributed.worker_groups.RayWorkerGroup>`
+### `RayWorkerGroup <nemo_rl.distributed.worker_groups.RayWorkerGroup>`
 All work is done by "Worker Processes" (Ray Actors) that run on a small unit of resources (usually 1 CPU or 1 CPU+GPU). These workers are managed by the *RayWorkerGroup*.
 ```python
 class RayWorkerGroup:
@@ -85,7 +86,6 @@ class RayWorkerGroup:
     """
 ```
 `RayWorkerGroup` provides functions like `run_all_workers_single_data` and `run_all_workers_multiple_data` to control and communicate to individual worker processes.
-
 
 ### Single-Controller and Execution Diagram
 
@@ -111,8 +111,7 @@ def grpo_train(
         training_data = calculate_grpo_training_data(generations, logprobs, reference_logprobs, rewards)
         policy.train(generations, logprobs, reference_logprobs, GRPOLossFn)
 ```
-For a complete implementation of GRPO, including validation, checkpointing, memory movement, and the data processing steps not detailed here, see [grpo_train](../../nemo_rl/algorithms/grpo.py).
-
+For a complete implementation of GRPO, including validation, checkpointing, memory movement, and the data processing steps not detailed here, see [grpo_train](https://github.com/NVIDIA-NeMo/RL/blob/main/nemo_rl/algorithms/grpo.py).
 
 ### Configuration Schema: BaseModel, dataclass, and TypedDict
 

@@ -1,5 +1,6 @@
-# Nemotron 3 Ultra
-
+---
+title: "Nemotron 3 Ultra"
+---
 **Technical Report:** [NVIDIA Nemotron 3 Ultra Technical Report](https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Ultra-Technical-Report.pdf)
 
 This guide explains how to post-train the Nemotron 3 Ultra model with NeMo RL on

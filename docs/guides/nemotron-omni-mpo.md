@@ -1,5 +1,6 @@
-# Nemotron Omni MPO
-
+---
+title: "Nemotron Omni MPO"
+---
 Mixed Preference Optimization (MPO) combines preference, supervised
 fine-tuning, and binary-classification losses for offline preference data.
 Nemotron Omni MPO uses `NemotronOmniModel` with NeMo-RL's Megatron data

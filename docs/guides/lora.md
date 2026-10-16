@@ -1,5 +1,6 @@
-# LoRA (Low-Rank Adaptation)
-
+---
+title: "LoRA (Low-Rank Adaptation)"
+---
 NeMo RL supports LoRA for parameter-efficient fine-tuning. LoRA reduces the number of
 trainable parameters by learning low-rank update matrices for selected linear layers while
 keeping the base model frozen. This lowers memory usage and checkpoint size, and enables
@@ -23,10 +24,10 @@ LoRA is implemented on two training backends, each with its own config schema:
 
 LoRA is supported across the SFT, GRPO, and DPO algorithms on both backends.
 
-```{note}
+<Note>
 Automodel does not support Triton kernels when `tensor_parallel_size > 1`, so set
 `use_triton: false` in that case (see the parameter details below).
-```
+</Note>
 
 ## Schema Comparison
 
@@ -85,7 +86,7 @@ policy:
 - **`dropout`** (float): Dropout probability for regularization.
 - **`dropout_position`** (str): Apply dropout before (`"pre"`) or after (`"post"`) LoRA.
 - **`lora_A_init`** (str): Initialization method for the LoRA A matrix (`"xavier"` or `"uniform"`). The B matrix is always initialized to zero.
-- **`use_triton`** (bool): Use Triton-optimized kernels for better performance. **Note**: [Automodel does not support Triton for TP > 1](https://github.com/NVIDIA-NeMo/Automodel/blob/b2db55eee98dfe81a8bfe5e23ac4e57afd8ab261/nemo_automodel/recipes/llm/train_ft.py#L199). Set to `false` when `tensor_parallel_size > 1` to avoid compatibility issues.
+- **`use_triton`** (bool): Use Triton-optimized kernels for better performance. **Note**: [Automodel does not support Triton for TP >1](https://github.com/NVIDIA-NeMo/Automodel/blob/b2db55eee98dfe81a8bfe5e23ac4e57afd8ab261/nemo_automodel/recipes/llm/train_ft.py#L199). Set to `false` when `tensor_parallel_size > 1` to avoid compatibility issues.
 - **`restore_from`** (str, optional): Path to a donor PEFT adapter checkpoint (a directory containing `adapter_model.safetensors` + `adapter_config.json`, e.g. a previous run's `step_*/policy/weights`) whose adapter weights initialize this run's LoRA modules. See [Warm-Starting from a LoRA Checkpoint](#warm-starting-from-a-lora-checkpoint).
 
 ## Megatron Configuration
@@ -172,7 +173,7 @@ uv run examples/run_sft.py \
   policy.megatron_cfg.peft.enabled=true
 ```
 
-See the [SFT guide](sft.md) for the full SFT workflow.
+See the [SFT guide](/guides/sft) for the full SFT workflow.
 
 ### GRPO
 
@@ -190,7 +191,7 @@ train/inference parity, use the
 which may trade off some performance. For a comparison between merge-weight and split-weight,
 see [PR 1797: Support lora in dtensor grpo workflow by merging weight](https://github.com/NVIDIA-NeMo/RL/pull/1797).
 
-See the [GRPO guide](grpo.md) for the full GRPO workflow.
+See the [GRPO guide](/guides/grpo) for the full GRPO workflow.
 
 ### DPO
 
@@ -212,7 +213,7 @@ uv run examples/run_dpo.py \
   policy.megatron_cfg.peft.enabled=true
 ```
 
-See the [DPO guide](dpo.md) for the full DPO workflow.
+See the [DPO guide](/guides/dpo) for the full DPO workflow.
 
 ## Example Recipes
 
@@ -220,13 +221,13 @@ Ready-to-run LoRA recipes live under `examples/configs/recipes/llm/`:
 
 | Recipe | Algorithm | Backend |
 | --- | --- | --- |
-| [`sft-llama3.1-8b-1n8g-fsdp2tp1-lora.yaml`](../../examples/configs/recipes/llm/sft-llama3.1-8b-1n8g-fsdp2tp1-lora.yaml) | SFT | DTensor |
-| [`sft-llama3.1-8b-1n8g-megatron-lora.yaml`](../../examples/configs/recipes/llm/sft-llama3.1-8b-1n8g-megatron-lora.yaml) | SFT | Megatron |
-| [`sft-nanov3-30BA3B-2n8g-fsdp2-lora.yaml`](../../examples/configs/recipes/llm/sft-nanov3-30BA3B-2n8g-fsdp2-lora.yaml) | SFT | DTensor |
-| [`grpo-qwen3-8B-base-1n8g-fsdp2-lora.yaml`](../../examples/configs/recipes/llm/grpo-qwen3-8B-base-1n8g-fsdp2-lora.yaml) | GRPO | DTensor |
-| [`grpo-qwen3-8b-base-1n8g-megatron-lora.yaml`](../../examples/configs/recipes/llm/grpo-qwen3-8b-base-1n8g-megatron-lora.yaml) | GRPO | Megatron |
-| [`grpo-nanov3-30BA3B-2n8g-fsdp2-lora.yaml`](../../examples/configs/recipes/llm/grpo-nanov3-30BA3B-2n8g-fsdp2-lora.yaml) | GRPO | DTensor |
-| [`grpo-nanov3-30BA3B-2n8g-megatron-lora.yaml`](../../examples/configs/recipes/llm/grpo-nanov3-30BA3B-2n8g-megatron-lora.yaml) | GRPO | Megatron |
+| [`sft-llama3.1-8b-1n8g-fsdp2tp1-lora.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/sft-llama3.1-8b-1n8g-fsdp2tp1-lora.yaml) | SFT | DTensor |
+| [`sft-llama3.1-8b-1n8g-megatron-lora.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/sft-llama3.1-8b-1n8g-megatron-lora.yaml) | SFT | Megatron |
+| [`sft-nanov3-30BA3B-2n8g-fsdp2-lora.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/sft-nanov3-30BA3B-2n8g-fsdp2-lora.yaml) | SFT | DTensor |
+| [`grpo-qwen3-8B-base-1n8g-fsdp2-lora.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3-8B-base-1n8g-fsdp2-lora.yaml) | GRPO | DTensor |
+| [`grpo-qwen3-8b-base-1n8g-megatron-lora.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-qwen3-8b-base-1n8g-megatron-lora.yaml) | GRPO | Megatron |
+| [`grpo-nanov3-30BA3B-2n8g-fsdp2-lora.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-nanov3-30BA3B-2n8g-fsdp2-lora.yaml) | GRPO | DTensor |
+| [`grpo-nanov3-30BA3B-2n8g-megatron-lora.yaml`](https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/recipes/llm/grpo-nanov3-30BA3B-2n8g-megatron-lora.yaml) | GRPO | Megatron |
 
 DPO LoRA is supported on both backends but ships no dedicated recipe — enable it on an existing DPO config with the overrides shown in [Usage by Algorithm → DPO](#dpo).
 
@@ -238,4 +239,4 @@ two export modes:
 - **Merged**: fold the adapter into the base model and export a single standalone Hugging Face checkpoint for inference or evaluation.
 - **Adapter-only**: export only the adapter weights in Hugging Face PEFT format, keeping the base model separate (e.g. for use with vLLM's LoRA support).
 
-See the [Checkpointing documentation](../design-docs/checkpointing.md#converting-megatron-lora-adapter-checkpoints-to-hugging-face-format) for full usage details and examples.
+See the [Checkpointing documentation](/design-docs/checkpointing#converting-megatron-lora-adapter-checkpoints-to-hugging-face-format) for full usage details and examples.

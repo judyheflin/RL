@@ -1,5 +1,6 @@
-# DTensor Tensor Parallel Accuracy Issue
-
+---
+title: "DTensor Tensor Parallel Accuracy Issue"
+---
 During reinforcement learning (RL) post-training, maintaining accuracy is both **critical and challenging**. Minor numerical deviations can propagate and amplify across policy updates, ultimately distorting reward signals and affecting convergence. Consequently, understanding and mitigating accuracy issues is central to ensuring consistent and reliable training behavior in large-scale distributed RL settings.
 
 ## Observed Accuracy Issues Under Tensor Parallelism with DTensor Backend
@@ -10,7 +11,7 @@ We have encountered several accuracy issues related to TP in **DTensor**, includ
 
 1. **For policy models**: We observed severe `token_mult_prob_error` spikes when TP was enabled during post-training of a Qwen3 dense model (e.g., [Qwen/Qwen3-4B-Instruct-2507 · Hugging Face](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507)), indicating a significant difference between the training and inference engines.
 2. **For reward models**: The reward model exhibited large discrepancies under different TP configurations.
-3. **For overall model training performance**: Using a $TP > 1$ configuration often leads to degraded downstream performance when utilizing **AutomodelPolicyWorker**.
+3. **For overall model training performance**: Using a $TP &gt;1$ configuration often leads to degraded downstream performance when utilizing **AutomodelPolicyWorker**.
 
 ### Misalignment between Training and Inference for Policy Models
 
@@ -35,8 +36,6 @@ As shown in Figure 1, numerous spikes can be observed during training. Occasiona
 ![](../assets/dtensor-tp-accuracy/token_mult_prob_error_qwen3_4B.png)
 
 <p align="center"><em>Fig 1: The token_mult_prob_error of Qwen3-4B</em></p>
-
-
 
 ### Discrepancies Across TP Configurations in Reward Modeling
 
@@ -110,7 +109,7 @@ After aligning `train_micro_batch_size` and `logprob_batch_size` so that the sam
 
 ### Recommended Solutions
 
-When using DTensor with TP > 1, or when `probs_ratio != 1` is observed in an on-policy setting, the following mitigation strategies are recommended to restore numerical consistency and stabilize training:
+When using DTensor with TP &gt;1, or when `probs_ratio != 1` is observed in an on-policy setting, the following mitigation strategies are recommended to restore numerical consistency and stabilize training:
 
 - **Align micro-batch sizes**:
   Configure `train_micro_batch_size` and `logprob_batch_size` to be exactly equal so that both the training forward pass and the logprob evaluation traverse identical kernel configurations and batching patterns. This alignment minimizes batch-variant behavior in underlying kernels and ensures that `current_logprobs` and `prev_logprobs` are computed under the same numerical conditions, which in turn drives `probs_ratio` back toward 1.
@@ -217,8 +216,6 @@ numerical_stable_parallel_plan = {
     "lm_head": ColwiseParallel(output_layouts=Shard(-1), use_local_output=False),
 }
 ```
-
-
 
 ## Additional Observations and Insights
 
