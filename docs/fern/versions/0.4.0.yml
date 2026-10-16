@@ -128,3 +128,16 @@ navigation:
   - page: Environment Variable Precedence in NeMo RL
     path: ./0.4.0/pages/design-docs/env-vars.md
     slug: env-vars
+- section: API Reference
+  slug: api-reference
+  path: ./0.4.0/pages/api-reference.md
+  collapsed: true
+  contents:
+  - folder: ../api-reference/0.4.0/nemo-rl-0-4-0/nemo_rl/algorithms
+  - folder: ../api-reference/0.4.0/nemo-rl-0-4-0/nemo_rl/data
+  - folder: ../api-reference/0.4.0/nemo-rl-0-4-0/nemo_rl/distributed
+  - folder: ../api-reference/0.4.0/nemo-rl-0-4-0/nemo_rl/environments
+  - folder: ../api-reference/0.4.0/nemo-rl-0-4-0/nemo_rl/evals
+  - folder: ../api-reference/0.4.0/nemo-rl-0-4-0/nemo_rl/experience
+  - folder: ../api-reference/0.4.0/nemo-rl-0-4-0/nemo_rl/models
+  - folder: ../api-reference/0.4.0/nemo-rl-0-4-0/nemo_rl/utils

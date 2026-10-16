@@ -249,3 +249,19 @@ navigation:
   - page: NeMo Gym Integration
     path: ./0.7.0/pages/design-docs/nemo-gym-integration.md
     slug: nemo-gym-integration
+- section: API Reference
+  slug: api-reference
+  path: ./0.7.0/pages/api-reference.md
+  collapsed: true
+  contents:
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/algorithms
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/data
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/data_plane
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/distributed
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/environments
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/evals
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/experience
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/modelopt
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/models
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/utils
+  - folder: ../api-reference/0.7.0/nemo-rl-0-7-0/nemo_rl/weight_sync

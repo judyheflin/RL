@@ -19,6 +19,54 @@ libraries:
     output:
       path: ./api-reference/nemo-rl
     lang: python
+  nemo-rl-0-7-0:
+    input:
+      git: https://github.com/NVIDIA-NeMo/RL
+      subpath: nemo_rl
+      ref: v0.7.0
+    output:
+      path: ./api-reference/0.7.0
+    lang: python
+  nemo-rl-0-6-0:
+    input:
+      git: https://github.com/NVIDIA-NeMo/RL
+      subpath: nemo_rl
+      ref: v0.6.0
+    output:
+      path: ./api-reference/0.6.0
+    lang: python
+  nemo-rl-0-5-0:
+    input:
+      git: https://github.com/NVIDIA-NeMo/RL
+      subpath: nemo_rl
+      ref: v0.5.0
+    output:
+      path: ./api-reference/0.5.0
+    lang: python
+  nemo-rl-0-4-0:
+    input:
+      git: https://github.com/NVIDIA-NeMo/RL
+      subpath: nemo_rl
+      ref: v0.4.0
+    output:
+      path: ./api-reference/0.4.0
+    lang: python
+  nemo-rl-0-3-0:
+    input:
+      git: https://github.com/NVIDIA-NeMo/RL
+      subpath: nemo_rl
+      ref: v0.3.0
+    output:
+      path: ./api-reference/0.3.0
+    lang: python
+  nemo-rl-0-2-1:
+    input:
+      git: https://github.com/NVIDIA-NeMo/RL
+      subpath: nemo_rl
+      ref: v0.2.1
+    output:
+      path: ./api-reference/0.2.1
+    lang: python
 
 navbar-links:
   - type: github
@@ -68,6 +116,35 @@ redirects:
     destination: "/nemo/rl/nightly/api-reference"
   - source: "/:version/apidocs/:path*"
     destination: "/nemo/rl/nightly/api-reference"
+  # Autodoc links to private/empty modules that have no generated page of their own
+  - source: "/0.2.1/nemo-rl-0-2-1/nemo_rl/converters/huggingface/vllm_export"
+    destination: "/nemo/rl/0.2.1/nemo-rl-0-2-1/nemo_rl/converters/huggingface"
+  - source: "/nemo-rl-0-2-1/nemo_rl/converters/huggingface/vllm_export"
+    destination: "/nemo/rl/0.2.1/nemo-rl-0-2-1/nemo_rl/converters/huggingface"
+  - source: "/0.2.1/nemo-rl-0-2-1/nemo_rl/converters/megatron/vllm_export"
+    destination: "/nemo/rl/0.2.1/nemo-rl-0-2-1/nemo_rl/converters/megatron"
+  - source: "/nemo-rl-0-2-1/nemo_rl/converters/megatron/vllm_export"
+    destination: "/nemo/rl/0.2.1/nemo-rl-0-2-1/nemo_rl/converters/megatron"
+  - source: "/0.2.1/nemo-rl-0-2-1/nemo_rl/metrics/metrics_utils"
+    destination: "/nemo/rl/0.2.1/nemo-rl-0-2-1/nemo_rl/metrics"
+  - source: "/nemo-rl-0-2-1/nemo_rl/metrics/metrics_utils"
+    destination: "/nemo/rl/0.2.1/nemo-rl-0-2-1/nemo_rl/metrics"
+  - source: "/0.2.1/nemo-rl-0-2-1/nemo_rl/models/megatron/common"
+    destination: "/nemo/rl/0.2.1/nemo-rl-0-2-1/nemo_rl/models/megatron"
+  - source: "/nemo-rl-0-2-1/nemo_rl/models/megatron/common"
+    destination: "/nemo/rl/0.2.1/nemo-rl-0-2-1/nemo_rl/models/megatron"
+  - source: "/0.3.0/nemo-rl-0-3-0/nemo_rl/converters/huggingface/vllm_export"
+    destination: "/nemo/rl/0.3.0/nemo-rl-0-3-0/nemo_rl/converters/huggingface"
+  - source: "/nemo-rl-0-3-0/nemo_rl/converters/huggingface/vllm_export"
+    destination: "/nemo/rl/0.3.0/nemo-rl-0-3-0/nemo_rl/converters/huggingface"
+  - source: "/0.3.0/nemo-rl-0-3-0/nemo_rl/converters/megatron/vllm_export"
+    destination: "/nemo/rl/0.3.0/nemo-rl-0-3-0/nemo_rl/converters/megatron"
+  - source: "/nemo-rl-0-3-0/nemo_rl/converters/megatron/vllm_export"
+    destination: "/nemo/rl/0.3.0/nemo-rl-0-3-0/nemo_rl/converters/megatron"
+  - source: "/0.3.0/nemo-rl-0-3-0/nemo_rl/metrics/metrics_utils"
+    destination: "/nemo/rl/0.3.0/nemo-rl-0-3-0/nemo_rl/metrics"
+  - source: "/nemo-rl-0-3-0/nemo_rl/metrics/metrics_utils"
+    destination: "/nemo/rl/0.3.0/nemo-rl-0-3-0/nemo_rl/metrics"
   - source: "/nightly/:path*/index.html"
     destination: "/nemo/rl/nightly/:path*"
   - source: "/:path*/index.html"
