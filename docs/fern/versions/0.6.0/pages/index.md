@@ -128,7 +128,7 @@ Build and use Docker containers for reproducible NeMo RL environments.
 
 <Cards>
 
-<Card title="Complete API Documentation" href="https://github.com/NVIDIA-NeMo/RL/tree/v0.6.0/nemo_rl">
+<Card title="Complete API Documentation" href="/api-reference">
 
 Comprehensive reference for all NeMo RL modules, classes, functions, and methods. Browse the complete Python API with detailed docstrings and usage examples.
 </Card>

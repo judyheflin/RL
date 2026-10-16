@@ -199,7 +199,3 @@ Comprehensive reference for all NeMo RL modules, classes, functions, and methods
 </Card>
 
 </Cards>
-
-## Full Documentation Index
-
-The complete table of contents below lists all pages, including guide, development, and design-doc pages that are not shown in the cards above.

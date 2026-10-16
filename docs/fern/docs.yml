@@ -11,6 +11,10 @@ logo:
   href: /nemo/rl/latest
   right-text: Documentation
 
+layout:
+  breadcrumbs:
+    current-page: true
+
 libraries:
   nemo-rl:
     input:
