@@ -1,419 +1,428 @@
+tabs:
+  docs:
+    display-name: Developer Guide
+    slug: ''
+  api:
+    display-name: Python API Reference
+    slug: api-reference
 navigation:
-- page: NeMo RL Documentation
-  path: ../../index.md
-  slug: ''
-- section: About
-  slug: about
-  contents:
-  - page: Overview
-    path: ../../about/overview.md
-    slug: overview
-  - page: Performance
-    path: ../../about/performance-summary.md
-    slug: performance-summary
-  - page: Model Support
-    path: ../../about/model-support.md
-    slug: model-support
-  - page: Features and Roadmap
-    path: ../../about/features.md
-    slug: features
-  - page: Training and Generation Backends
-    path: ../../about/backends.md
-    slug: backends
-  - page: Quick Start
-    path: ../../about/quick-start.md
-    slug: quick-start
-  - page: Installation and Prerequisites
-    path: ../../about/installation.md
-    slug: installation
-  - section: Algorithms
-    path: ../../about/algorithms/index.md
-    slug: algorithms
+- tab: docs
+  layout:
+  - page: NeMo RL Documentation
+    path: ../../index.md
+    slug: ''
+  - section: About
+    slug: about
     contents:
-    - page: CISPO
-      path: ../../about/algorithms/cispo.md
-      slug: cispo
-    - page: DAPO
-      path: ../../about/algorithms/dapo.md
-      slug: dapo
-    - page: DPO
-      path: ../../about/algorithms/dpo.md
-      slug: dpo
-    - page: GRPO
-      path: ../../about/algorithms/grpo.md
-      slug: grpo
-    - page: Multi-Teacher On-Policy Distillation (MOPD)
-      path: ../../about/algorithms/mopd.md
-      slug: mopd
-    - page: On-policy Distillation
-      path: ../../about/algorithms/on-policy-distillation.md
-      slug: on-policy-distillation
-    - page: PPO
-      path: ../../about/algorithms/ppo.md
-      slug: ppo
-    - page: RM
-      path: ../../about/algorithms/rm.md
-      slug: rm
-    - page: Supervised Fine-Tuning (SFT)
-      path: ../../about/algorithms/sft.md
+    - page: Overview
+      path: ../../about/overview.md
+      slug: overview
+    - page: Performance
+      path: ../../about/performance-summary.md
+      slug: performance-summary
+    - page: Model Support
+      path: ../../about/model-support.md
+      slug: model-support
+    - page: Features and Roadmap
+      path: ../../about/features.md
+      slug: features
+    - page: Training and Generation Backends
+      path: ../../about/backends.md
+      slug: backends
+    - page: Quick Start
+      path: ../../about/quick-start.md
+      slug: quick-start
+    - page: Installation and Prerequisites
+      path: ../../about/installation.md
+      slug: installation
+    - section: Algorithms
+      path: ../../about/algorithms/index.md
+      slug: algorithms
+      contents:
+      - page: CISPO
+        path: ../../about/algorithms/cispo.md
+        slug: cispo
+      - page: DAPO
+        path: ../../about/algorithms/dapo.md
+        slug: dapo
+      - page: DPO
+        path: ../../about/algorithms/dpo.md
+        slug: dpo
+      - page: GRPO
+        path: ../../about/algorithms/grpo.md
+        slug: grpo
+      - page: Multi-Teacher On-Policy Distillation (MOPD)
+        path: ../../about/algorithms/mopd.md
+        slug: mopd
+      - page: On-policy Distillation
+        path: ../../about/algorithms/on-policy-distillation.md
+        slug: on-policy-distillation
+      - page: PPO
+        path: ../../about/algorithms/ppo.md
+        slug: ppo
+      - page: RM
+        path: ../../about/algorithms/rm.md
+        slug: rm
+      - page: Supervised Fine-Tuning (SFT)
+        path: ../../about/algorithms/sft.md
+        slug: sft
+    - page: Evaluation
+      path: ../../about/evaluation.md
+      slug: evaluation
+    - page: Set Up Clusters
+      path: ../../about/clusters.md
+      slug: clusters
+    - page: Tips and Tricks
+      path: ../../about/tips-and-tricks.md
+      slug: tips-and-tricks
+  - section: Environment Start
+    contents:
+    - page: Run on Your Local Workstation
+      path: ../../local-workstation.md
+      slug: local-workstation
+    - page: Set Up Clusters
+      path: ../../cluster.md
+      slug: cluster
+    slug: environment-start
+  - section: E2E Examples
+    contents:
+    - page: SFT on OpenMathInstruct-2
+      path: ../../guides/sft-openmathinstruct2.md
+      slug: sft-openmathinstruct2
+    slug: e2e-examples
+  - section: Guides
+    slug: guides
+    contents:
+    - page: Add New Models
+      path: ../../adding-new-models.md
+      slug: adding-new-models
+    - page: Supervised Fine-Tuning in NeMo RL
+      path: ../../guides/sft.md
       slug: sft
-  - page: Evaluation
-    path: ../../about/evaluation.md
-    slug: evaluation
-  - page: Set Up Clusters
-    path: ../../about/clusters.md
-    slug: clusters
-  - page: Tips and Tricks
-    path: ../../about/tips-and-tricks.md
-    slug: tips-and-tricks
-- section: Environment Start
-  contents:
-  - page: Run on Your Local Workstation
-    path: ../../local-workstation.md
-    slug: local-workstation
-  - page: Set Up Clusters
-    path: ../../cluster.md
-    slug: cluster
-  slug: environment-start
-- section: E2E Examples
-  contents:
-  - page: SFT on OpenMathInstruct-2
-    path: ../../guides/sft-openmathinstruct2.md
-    slug: sft-openmathinstruct2
-  slug: e2e-examples
-- section: Guides
-  slug: guides
-  contents:
-  - page: Add New Models
-    path: ../../adding-new-models.md
-    slug: adding-new-models
-  - page: Supervised Fine-Tuning in NeMo RL
-    path: ../../guides/sft.md
-    slug: sft
-  - page: Direct Preference Optimization in NeMo RL
-    path: ../../guides/dpo.md
-    slug: dpo
-  - page: Nemotron Omni MPO
-    path: ../../guides/nemotron-omni-mpo.md
-    slug: nemotron-omni-mpo
-  - page: An in-depth Walkthrough of DAPO in NeMo RL
-    path: ../../guides/dapo.md
-    slug: dapo
-  - page: LoRA (Low-Rank Adaptation)
-    path: ../../guides/lora.md
-    slug: lora
-  - page: An in-depth Walkthrough of CISPO in NeMo RL
-    path: ../../guides/cispo.md
-    slug: cispo
-  - page: An In-Depth Walkthrough of ProRLv2 in NeMo RL
-    path: ../../guides/prorlv2.md
-    slug: prorlv2
-  - page: Two-Stage SWE RL for Qwen3-30B-A3B-Thinking
-    path: ../../guides/swe-rl-qwen3.md
-    slug: swe-rl-qwen3
-  - page: An In-depth Walkthrough of GRPO in NeMo RL
-    path: ../../guides/grpo.md
-    slug: grpo
-  - page: Length Penalties for GRPO (NeMo-Gym)
-    path: ../../guides/length-penalty.md
-    slug: length-penalty
-  - page: An In-Depth Walkthrough of PPO in NeMo RL
-    path: ../../guides/ppo.md
-    slug: ppo
-  - page: GRPO on DeepScaler
-    path: ../../guides/grpo-deepscaler.md
-    slug: grpo-deepscaler
-  - page: Solve a Sliding Puzzle Using GRPO
-    path: ../../guides/grpo-sliding-puzzle.md
-    slug: grpo-sliding-puzzle
-  - page: Audio Post-training with NeMo RL
-    path: ../../guides/grpo-audio.md
-    slug: grpo-audio
-  - page: Audio-Visual GRPO with Qwen2.5-Omni-7B
-    path: ../../guides/grpo-audio-visual.md
-    slug: grpo-audio-visual
-  - page: Reward Model Training in NeMo RL
-    path: ../../guides/rm.md
-    slug: rm
-  - page: Environments for GRPO Training
-    path: ../../guides/environments.md
-    slug: environments
-  - page: Evaluation
-    path: ../../guides/eval.md
-    slug: eval
-  - page: DeepSeek-V3
-    path: ../../guides/deepseek.md
-    slug: deepseek
-  - section: Model Guides
-    path: ../../guides/models/index.md
-    slug: models
-    contents:
-    - section: DeepSeek
-      path: ../../guides/models/deepseek/index.md
+    - page: Direct Preference Optimization in NeMo RL
+      path: ../../guides/dpo.md
+      slug: dpo
+    - page: Nemotron Omni MPO
+      path: ../../guides/nemotron-omni-mpo.md
+      slug: nemotron-omni-mpo
+    - page: An in-depth Walkthrough of DAPO in NeMo RL
+      path: ../../guides/dapo.md
+      slug: dapo
+    - page: LoRA (Low-Rank Adaptation)
+      path: ../../guides/lora.md
+      slug: lora
+    - page: An in-depth Walkthrough of CISPO in NeMo RL
+      path: ../../guides/cispo.md
+      slug: cispo
+    - page: An In-Depth Walkthrough of ProRLv2 in NeMo RL
+      path: ../../guides/prorlv2.md
+      slug: prorlv2
+    - page: Two-Stage SWE RL for Qwen3-30B-A3B-Thinking
+      path: ../../guides/swe-rl-qwen3.md
+      slug: swe-rl-qwen3
+    - page: An In-depth Walkthrough of GRPO in NeMo RL
+      path: ../../guides/grpo.md
+      slug: grpo
+    - page: Length Penalties for GRPO (NeMo-Gym)
+      path: ../../guides/length-penalty.md
+      slug: length-penalty
+    - page: An In-Depth Walkthrough of PPO in NeMo RL
+      path: ../../guides/ppo.md
+      slug: ppo
+    - page: GRPO on DeepScaler
+      path: ../../guides/grpo-deepscaler.md
+      slug: grpo-deepscaler
+    - page: Solve a Sliding Puzzle Using GRPO
+      path: ../../guides/grpo-sliding-puzzle.md
+      slug: grpo-sliding-puzzle
+    - page: Audio Post-training with NeMo RL
+      path: ../../guides/grpo-audio.md
+      slug: grpo-audio
+    - page: Audio-Visual GRPO with Qwen2.5-Omni-7B
+      path: ../../guides/grpo-audio-visual.md
+      slug: grpo-audio-visual
+    - page: Reward Model Training in NeMo RL
+      path: ../../guides/rm.md
+      slug: rm
+    - page: Environments for GRPO Training
+      path: ../../guides/environments.md
+      slug: environments
+    - page: Evaluation
+      path: ../../guides/eval.md
+      slug: eval
+    - page: DeepSeek-V3
+      path: ../../guides/deepseek.md
       slug: deepseek
+    - section: Model Guides
+      path: ../../guides/models/index.md
+      slug: models
       contents:
-      - page: DeepSeek V4 Flash
-        path: ../../guides/models/deepseek/deepseek-v4-flash.md
-        slug: deepseek-v4-flash
-    - section: Gemma
-      path: ../../guides/models/gemma/index.md
-      slug: gemma
-      contents:
-      - page: Gemma 4
-        path: ../../guides/models/gemma/gemma4.md
-        slug: gemma4
-    - section: GLM
-      path: ../../guides/models/glm/index.md
-      slug: glm
-      contents:
-      - page: GLM-5.1 and GLM-5.2
-        path: ../../guides/models/glm/glm5.md
-        slug: glm5
-    - section: MiniMax
-      path: ../../guides/models/minimax/index.md
-      slug: minimax
-      contents:
-      - page: MiniMax-M3
-        path: ../../guides/models/minimax/minimax-m3.md
-        slug: minimax-m3
-    - section: Nemotron
-      path: ../../guides/models/nemotron/index.md
-      slug: nemotron
-      contents:
-      - page: Nemotron 3 Nano Omni
-        path: ../../guides/models/nemotron/nemotron-3-nano-omni.md
-        slug: nemotron-3-nano-omni
-      - page: Nemotron 3 Nano
-        path: ../../guides/models/nemotron/nemotron-3-nano.md
-        slug: nemotron-3-nano
-      - page: Nemotron 3 Super Omni Image MOPD
-        path: ../../guides/models/nemotron/nemotron-3-super-omni-mopd.md
-        slug: nemotron-3-super-omni-mopd
-      - page: Nemotron 3 Super
-        path: ../../guides/models/nemotron/nemotron-3-super.md
-        slug: nemotron-3-super
-      - page: Nemotron 3 Ultra
-        path: ../../guides/models/nemotron/nemotron-3-ultra.md
-        slug: nemotron-3-ultra
-      - page: Nemotron 3.5 Lightning
-        path: ../../guides/models/nemotron/nemotron-3.5-lightning.md
-        slug: nemotron-3.5-lightning
-    - section: Qwen
-      path: ../../guides/models/qwen/index.md
-      slug: qwen
-      contents:
-      - page: Qwen3.5
-        path: ../../guides/models/qwen/qwen3-5.md
-        slug: qwen3-5
-      - page: Qwen3.8
-        path: ../../guides/models/qwen/qwen3-8.md
-        slug: qwen3-8
-  - page: Model Quirks
-    path: ../../model-quirks.md
-    slug: model-quirks
-  - page: Train with Async GRPO
-    path: ../../guides/async-grpo.md
-    slug: async-grpo
-  - page: Train with Single-Controller (Async GRPO and PPO)
-    path: ../../guides/single-controller.md
-    slug: single-controller
-  - page: Quantization-Aware RL (QARL)
-    path: ../../guides/quantization-aware-rl.md
-    slug: quantization-aware-rl
-  - page: Train with Eagle3 Speculative Decoding
-    path: ../../guides/eagle3-speculative-decoding.md
-    slug: eagle3-speculative-decoding
-  - page: YaRN Long-Context Training
-    path: ../../guides/yarn-long-context.md
-    slug: yarn-long-context
-  - page: Cross-Tokenizer (X-Token) Off-Policy Distillation
-    path: ../../guides/xtoken-off-policy-distillation.md
-    slug: xtoken-off-policy-distillation
-  - page: 'Weight Refit: Choosing a Transport'
-    path: ../../guides/refit.md
-    slug: refit
-  - page: Checkpoint-Engine Refit
-    path: ../../guides/checkpoint-engine-refit.md
-    slug: checkpoint-engine-refit
-  - page: Managed Dynamo generation on Slurm
-    path: ../../guides/dynamo-generation.md
-    slug: dynamo-generation
-  - page: Router Replay
-    path: ../../guides/router-replay.md
-    slug: router-replay
-  - page: Muon Optimizer
-    path: ../../guides/muon-optimizer.md
-    slug: muon-optimizer
-  - page: DTensor Tensor Parallel Accuracy Issue
-    path: ../../guides/dtensor-tp-accuracy.md
-    slug: dtensor-tp-accuracy
-  - page: Fault Tolerance Launcher Guide
-    path: ../../guides/ft-launcher-guide.md
-    slug: ft-launcher-guide
-  - page: Nemotron 3 Nano
-    path: ../../guides/nemotron-3-nano.md
-    slug: nemotron-3-nano
-    hidden: true
-  - page: Nemotron 3 Nano Omni
-    path: ../../guides/nemotron-3-nano-omni.md
-    slug: nemotron-3-nano-omni
-    hidden: true
-  - page: Nemotron 3 Super
-    path: ../../guides/nemotron-3-super.md
-    slug: nemotron-3-super
-    hidden: true
-  - page: Nemotron 3 Ultra
-    path: ../../guides/nemotron-3-ultra.md
-    slug: nemotron-3-ultra
-    hidden: true
-  - page: Nemotron 3.5 Lightning
-    path: ../../guides/nemotron-3.5-lightning.md
-    slug: nemotron-3.5-lightning
-    hidden: true
-- section: Containers
-  contents:
-  - page: Build Docker Images
-    path: ../../docker.md
-    slug: docker
-  slug: containers
-- section: Development
-  contents:
-  - page: CI/CD
-    path: ../../ci-cd.md
-    slug: ci-cd
-  - page: Test NeMo RL
-    path: ../../testing.md
-    slug: testing
-  - page: Documentation Development
-    path: ../../documentation.md
-    slug: documentation
-  - page: Debug NeMo RL Applications
-    path: ../../debugging.md
-    slug: debugging
-  - page: Profile GPU with Nsys
-    path: ../../nsys-profiling.md
-    slug: nsys-profiling
-  - page: FP8 Quantization in NeMo RL
-    path: ../../fp8.md
-    slug: fp8
-  - page: Experiment with Custom vLLM
-    path: ../../guides/use-custom-vllm.md
-    slug: use-custom-vllm
-  slug: development
-- section: Observability
-  path: ../../observability/index.md
-  slug: observability
-  contents:
-  - page: Configuration
-    path: ../../observability/configuration.md
-    slug: configuration
-  - page: Span Groups
-    path: ../../observability/span-groups.md
-    slug: span-groups
-  - page: Metrics
-    path: ../../observability/metrics.md
-    slug: metrics
-  - page: vLLM Tracing
-    path: ../../observability/vllm-tracing.md
-    slug: vllm-tracing
-  - page: Exporting to an OTLP backend
-    path: ../../observability/observability-stack.md
-    slug: observability-stack
-  - page: Extending Instrumentation
-    path: ../../observability/extending.md
-    slug: extending
-- section: Design Docs
-  slug: design-docs
-  contents:
-  - page: Design and Philosophy
-    path: ../../design-docs/design-and-philosophy.md
-    slug: design-and-philosophy
-  - page: Padding in NeMo RL
-    path: ../../design-docs/padding.md
-    slug: padding
-  - page: Logger
-    path: ../../design-docs/logger.md
-    slug: logger
-  - page: uv in NeMo RL
-    path: ../../design-docs/uv.md
-    slug: uv
-  - page: Dependency Management
-    path: ../../design-docs/dependency-management.md
-    slug: dependency-management
-  - page: Data Format
-    path: ../../design-docs/chat-datasets.md
-    slug: chat-datasets
-  - page: Generation Interface
-    path: ../../design-docs/generation.md
-    slug: generation
-  - page: Colocated PPO streaming
-    path: ../../design-docs/ppo-colocated-streaming.md
-    slug: ppo-colocated-streaming
-  - page: Managed Dynamo generation design
-    path: ../../design-docs/dynamo-integration.md
-    slug: dynamo-integration
-  - page: Remote Sparse-Delta vLLM Refit
-    path: ../../design-docs/sparse-delta-refit.md
-    slug: sparse-delta-refit
-  - page: Checkpoint Engine Design
-    path: ../../design-docs/checkpoint-engines.md
-    slug: checkpoint-engines
-  - page: Exporting Checkpoints to Hugging Face Format
-    path: ../../design-docs/checkpointing.md
-    slug: checkpointing
-  - page: Loss functions in NeMo RL
-    path: ../../design-docs/loss-functions.md
-    slug: loss-functions
-  - page: FSDP2 Parallel Plan
-    path: ../../design-docs/fsdp2-parallel-plan.md
-    slug: fsdp2-parallel-plan
-  - page: Training Backends
-    path: ../../design-docs/training-backends.md
-    slug: training-backends
-  - page: Sequence Packing and Dynamic Batching
-    path: ../../design-docs/sequence-packing-and-dynamic-batching.md
-    slug: sequence-packing-and-dynamic-batching
-  - page: Environment Variable Precedence in NeMo RL
-    path: ../../design-docs/env-vars.md
-    slug: env-vars
-  - page: NeMo Gym Integration
-    path: ../../design-docs/nemo-gym-integration.md
-    slug: nemo-gym-integration
-  - page: ModelOpt Real-Quant Refit Architecture
-    path: ../../design-docs/modelopt-real-quant-architecture.md
-    slug: modelopt-real-quant-architecture
-  - page: End-to-End W4A4 NVFP4 with Per-Token vLLM Rollout
-    path: ../../design-docs/te-nvfp4-per-token-rollout.md
-    slug: te-nvfp4-per-token-rollout
-  - page: NCCL Reshard Refit (Experimental)
-    path: ../../design-docs/nccl-reshard-refit.md
-    slug: nccl-reshard-refit
-  - page: DSpark Auxiliary Heads
-    path: ../../design-docs/dspark-auxiliary-heads.md
-    slug: dspark-auxiliary-heads
-  - page: Training on text that contains `<image>`
-    path: ../../design-docs/media-token-validity-mask.md
-    slug: media-token-validity-mask
-  - page: Automodel v0.6.0 and Context-Parallel Integration
-    path: ../../design-docs/automodel-context-parallel.md
-    slug: automodel-context-parallel
-  - page: Token Capture Lineage Ledger
-    path: ../../design-docs/token-capture-ledger.md
-    slug: token-capture-ledger
-- section: API Reference
-  slug: api-reference
-  path: ../../api-reference.md
-  collapsed: true
-  contents:
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/algorithms
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/data
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/data_plane
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/distributed
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/environments
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/evals
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/experience
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/modelopt
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/models
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/telemetry
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/utils
-    - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/weight_sync
+      - section: DeepSeek
+        path: ../../guides/models/deepseek/index.md
+        slug: deepseek
+        contents:
+        - page: DeepSeek V4 Flash
+          path: ../../guides/models/deepseek/deepseek-v4-flash.md
+          slug: deepseek-v4-flash
+      - section: Gemma
+        path: ../../guides/models/gemma/index.md
+        slug: gemma
+        contents:
+        - page: Gemma 4
+          path: ../../guides/models/gemma/gemma4.md
+          slug: gemma4
+      - section: GLM
+        path: ../../guides/models/glm/index.md
+        slug: glm
+        contents:
+        - page: GLM-5.1 and GLM-5.2
+          path: ../../guides/models/glm/glm5.md
+          slug: glm5
+      - section: MiniMax
+        path: ../../guides/models/minimax/index.md
+        slug: minimax
+        contents:
+        - page: MiniMax-M3
+          path: ../../guides/models/minimax/minimax-m3.md
+          slug: minimax-m3
+      - section: Nemotron
+        path: ../../guides/models/nemotron/index.md
+        slug: nemotron
+        contents:
+        - page: Nemotron 3 Nano Omni
+          path: ../../guides/models/nemotron/nemotron-3-nano-omni.md
+          slug: nemotron-3-nano-omni
+        - page: Nemotron 3 Nano
+          path: ../../guides/models/nemotron/nemotron-3-nano.md
+          slug: nemotron-3-nano
+        - page: Nemotron 3 Super Omni Image MOPD
+          path: ../../guides/models/nemotron/nemotron-3-super-omni-mopd.md
+          slug: nemotron-3-super-omni-mopd
+        - page: Nemotron 3 Super
+          path: ../../guides/models/nemotron/nemotron-3-super.md
+          slug: nemotron-3-super
+        - page: Nemotron 3 Ultra
+          path: ../../guides/models/nemotron/nemotron-3-ultra.md
+          slug: nemotron-3-ultra
+        - page: Nemotron 3.5 Lightning
+          path: ../../guides/models/nemotron/nemotron-3.5-lightning.md
+          slug: nemotron-3.5-lightning
+      - section: Qwen
+        path: ../../guides/models/qwen/index.md
+        slug: qwen
+        contents:
+        - page: Qwen3.5
+          path: ../../guides/models/qwen/qwen3-5.md
+          slug: qwen3-5
+        - page: Qwen3.8
+          path: ../../guides/models/qwen/qwen3-8.md
+          slug: qwen3-8
+    - page: Model Quirks
+      path: ../../model-quirks.md
+      slug: model-quirks
+    - page: Train with Async GRPO
+      path: ../../guides/async-grpo.md
+      slug: async-grpo
+    - page: Train with Single-Controller (Async GRPO and PPO)
+      path: ../../guides/single-controller.md
+      slug: single-controller
+    - page: Quantization-Aware RL (QARL)
+      path: ../../guides/quantization-aware-rl.md
+      slug: quantization-aware-rl
+    - page: Train with Eagle3 Speculative Decoding
+      path: ../../guides/eagle3-speculative-decoding.md
+      slug: eagle3-speculative-decoding
+    - page: YaRN Long-Context Training
+      path: ../../guides/yarn-long-context.md
+      slug: yarn-long-context
+    - page: Cross-Tokenizer (X-Token) Off-Policy Distillation
+      path: ../../guides/xtoken-off-policy-distillation.md
+      slug: xtoken-off-policy-distillation
+    - page: 'Weight Refit: Choosing a Transport'
+      path: ../../guides/refit.md
+      slug: refit
+    - page: Checkpoint-Engine Refit
+      path: ../../guides/checkpoint-engine-refit.md
+      slug: checkpoint-engine-refit
+    - page: Managed Dynamo generation on Slurm
+      path: ../../guides/dynamo-generation.md
+      slug: dynamo-generation
+    - page: Router Replay
+      path: ../../guides/router-replay.md
+      slug: router-replay
+    - page: Muon Optimizer
+      path: ../../guides/muon-optimizer.md
+      slug: muon-optimizer
+    - page: DTensor Tensor Parallel Accuracy Issue
+      path: ../../guides/dtensor-tp-accuracy.md
+      slug: dtensor-tp-accuracy
+    - page: Fault Tolerance Launcher Guide
+      path: ../../guides/ft-launcher-guide.md
+      slug: ft-launcher-guide
+    - page: Nemotron 3 Nano
+      path: ../../guides/nemotron-3-nano.md
+      slug: nemotron-3-nano
+      hidden: true
+    - page: Nemotron 3 Nano Omni
+      path: ../../guides/nemotron-3-nano-omni.md
+      slug: nemotron-3-nano-omni
+      hidden: true
+    - page: Nemotron 3 Super
+      path: ../../guides/nemotron-3-super.md
+      slug: nemotron-3-super
+      hidden: true
+    - page: Nemotron 3 Ultra
+      path: ../../guides/nemotron-3-ultra.md
+      slug: nemotron-3-ultra
+      hidden: true
+    - page: Nemotron 3.5 Lightning
+      path: ../../guides/nemotron-3.5-lightning.md
+      slug: nemotron-3.5-lightning
+      hidden: true
+  - section: Containers
+    contents:
+    - page: Build Docker Images
+      path: ../../docker.md
+      slug: docker
+    slug: containers
+  - section: Development
+    contents:
+    - page: CI/CD
+      path: ../../ci-cd.md
+      slug: ci-cd
+    - page: Test NeMo RL
+      path: ../../testing.md
+      slug: testing
+    - page: Documentation Development
+      path: ../../documentation.md
+      slug: documentation
+    - page: Debug NeMo RL Applications
+      path: ../../debugging.md
+      slug: debugging
+    - page: Profile GPU with Nsys
+      path: ../../nsys-profiling.md
+      slug: nsys-profiling
+    - page: FP8 Quantization in NeMo RL
+      path: ../../fp8.md
+      slug: fp8
+    - page: Experiment with Custom vLLM
+      path: ../../guides/use-custom-vllm.md
+      slug: use-custom-vllm
+    slug: development
+  - section: Observability
+    path: ../../observability/index.md
+    slug: observability
+    contents:
+    - page: Configuration
+      path: ../../observability/configuration.md
+      slug: configuration
+    - page: Span Groups
+      path: ../../observability/span-groups.md
+      slug: span-groups
+    - page: Metrics
+      path: ../../observability/metrics.md
+      slug: metrics
+    - page: vLLM Tracing
+      path: ../../observability/vllm-tracing.md
+      slug: vllm-tracing
+    - page: Exporting to an OTLP backend
+      path: ../../observability/observability-stack.md
+      slug: observability-stack
+    - page: Extending Instrumentation
+      path: ../../observability/extending.md
+      slug: extending
+  - section: Design Docs
+    slug: design-docs
+    contents:
+    - page: Design and Philosophy
+      path: ../../design-docs/design-and-philosophy.md
+      slug: design-and-philosophy
+    - page: Padding in NeMo RL
+      path: ../../design-docs/padding.md
+      slug: padding
+    - page: Logger
+      path: ../../design-docs/logger.md
+      slug: logger
+    - page: uv in NeMo RL
+      path: ../../design-docs/uv.md
+      slug: uv
+    - page: Dependency Management
+      path: ../../design-docs/dependency-management.md
+      slug: dependency-management
+    - page: Data Format
+      path: ../../design-docs/chat-datasets.md
+      slug: chat-datasets
+    - page: Generation Interface
+      path: ../../design-docs/generation.md
+      slug: generation
+    - page: Colocated PPO streaming
+      path: ../../design-docs/ppo-colocated-streaming.md
+      slug: ppo-colocated-streaming
+    - page: Managed Dynamo generation design
+      path: ../../design-docs/dynamo-integration.md
+      slug: dynamo-integration
+    - page: Remote Sparse-Delta vLLM Refit
+      path: ../../design-docs/sparse-delta-refit.md
+      slug: sparse-delta-refit
+    - page: Checkpoint Engine Design
+      path: ../../design-docs/checkpoint-engines.md
+      slug: checkpoint-engines
+    - page: Exporting Checkpoints to Hugging Face Format
+      path: ../../design-docs/checkpointing.md
+      slug: checkpointing
+    - page: Loss functions in NeMo RL
+      path: ../../design-docs/loss-functions.md
+      slug: loss-functions
+    - page: FSDP2 Parallel Plan
+      path: ../../design-docs/fsdp2-parallel-plan.md
+      slug: fsdp2-parallel-plan
+    - page: Training Backends
+      path: ../../design-docs/training-backends.md
+      slug: training-backends
+    - page: Sequence Packing and Dynamic Batching
+      path: ../../design-docs/sequence-packing-and-dynamic-batching.md
+      slug: sequence-packing-and-dynamic-batching
+    - page: Environment Variable Precedence in NeMo RL
+      path: ../../design-docs/env-vars.md
+      slug: env-vars
+    - page: NeMo Gym Integration
+      path: ../../design-docs/nemo-gym-integration.md
+      slug: nemo-gym-integration
+    - page: ModelOpt Real-Quant Refit Architecture
+      path: ../../design-docs/modelopt-real-quant-architecture.md
+      slug: modelopt-real-quant-architecture
+    - page: End-to-End W4A4 NVFP4 with Per-Token vLLM Rollout
+      path: ../../design-docs/te-nvfp4-per-token-rollout.md
+      slug: te-nvfp4-per-token-rollout
+    - page: NCCL Reshard Refit (Experimental)
+      path: ../../design-docs/nccl-reshard-refit.md
+      slug: nccl-reshard-refit
+    - page: DSpark Auxiliary Heads
+      path: ../../design-docs/dspark-auxiliary-heads.md
+      slug: dspark-auxiliary-heads
+    - page: Training on text that contains `<image>`
+      path: ../../design-docs/media-token-validity-mask.md
+      slug: media-token-validity-mask
+    - page: Automodel v0.6.0 and Context-Parallel Integration
+      path: ../../design-docs/automodel-context-parallel.md
+      slug: automodel-context-parallel
+    - page: Token Capture Lineage Ledger
+      path: ../../design-docs/token-capture-ledger.md
+      slug: token-capture-ledger
+- tab: api
+  layout:
+  - page: Overview
+    path: ../../api-reference.md
+    slug: ''
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/algorithms
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/data
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/data_plane
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/distributed
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/environments
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/evals
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/experience
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/modelopt
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/models
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/telemetry
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/utils
+  - folder: ../api-reference/nemo-rl/nemo-rl/nemo_rl/weight_sync
