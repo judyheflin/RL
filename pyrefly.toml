@@ -38,8 +38,6 @@ project-includes = [
   # Generate list of files with 0 errors
   # uv run --group dev pyrefly check $(git ls-files 'nemo_rl/**/*.py' 'examples/**/*.py' 'docs/*.py' 'tools/**/*.py') --output-format json | jq -r --slurpfile all_files <(git ls-files 'nemo_rl/**/*.py' 'examples/**/*.py' 'docs/*.py' 'tools/**/*.py' | jq -R -s 'split("\n")[:-1]') --arg pwd "$(pwd)/" '(.errors | group_by(.path) | map({(.[0].path | sub($pwd; "")): length}) | add // {}) as $error_counts | $all_files[0][] | . as $file | if ($error_counts[$file] // 0) == 0 then $file else empty end'
   # uv run --group dev pyrefly check $(git ls-files 'nemo_rl/**/*.py' 'examples/**/*.py' 'docs/*.py' 'tools/**/*.py') --output-format json | jq -r --slurpfile all_files <(git ls-files 'nemo_rl/**/*.py' 'examples/**/*.py' 'docs/*.py' 'tools/**/*.py' | jq -R -s 'split("\n")[:-1]') --arg pwd "$(pwd)/" '(.errors | group_by(.path) | map({(.[0].path | sub($pwd; "")): length}) | add // {}) as $error_counts | $all_files[0][] | . as $file | if ($error_counts[$file] // 0) == 0 then "    \"\($file)\"," else empty end'
-  "docs/conf.py",
-  "docs/helpers.py",
   "examples/converters/convert_dcp_to_hf.py",
   "examples/converters/convert_lora_to_hf.py",
   "examples/converters/convert_megatron_to_hf.py",
