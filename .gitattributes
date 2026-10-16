@@ -1,0 +1,2 @@
+# Frozen Fern doc versions are generated from release tags; collapse them in diffs.
+docs/fern/versions/*/pages/** linguist-generated=true

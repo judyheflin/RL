@@ -1,0 +1,136 @@
+---
+title: "NeMo RL Documentation"
+---
+Welcome to the NeMo RL documentation. NeMo RL is an open-source post-training library developed by NVIDIA, designed to streamline and scale reinforcement learning methods for multimodal models (LLMs, VLMs, etc.).
+
+This documentation provides comprehensive guides, examples, and references to help you get started with NeMo RL and build powerful post-training pipelines for your models.
+
+## Getting Started
+
+<Cards>
+
+<Card title="Overview" href="/about/overview">
+
+Learn about NeMo RL's architecture, design philosophy, and key features that make it ideal for scalable reinforcement learning.
+</Card>
+
+<Card title="Quick Start" href="/about/quick-start">
+
+Get up and running quickly with examples for both DTensor and Megatron Core training backends.
+</Card>
+
+<Card title="Installation" href="/about/installation">
+
+Step-by-step instructions for installing NeMo RL, including prerequisites, system dependencies, and environment setup.
+</Card>
+
+<Card title="Features" href="/about/features">
+
+Explore the current features and upcoming enhancements in NeMo RL, including distributed training, advanced parallelism, and more.
+</Card>
+
+<Card title="Tips and Tricks" href="/about/tips-and-tricks">
+
+Troubleshooting common issues including missing submodules, Ray dashboard access, and debugging techniques.
+</Card>
+
+</Cards>
+
+## Training and Generation
+
+<Cards>
+
+<Card title="Training Backends" href="/about/backends">
+
+Learn about DTensor and Megatron Core training backends, their capabilities, and how to choose the right one for your use case.
+</Card>
+
+<Card title="Algorithms" href="/about/algorithms">
+
+Discover supported algorithms including GRPO, SFT, DPO, RM, and on-policy distillation with detailed guides and examples.
+</Card>
+
+<Card title="Evaluation" href="/about/evaluation">
+
+Learn how to evaluate your models using built-in evaluation datasets and custom evaluation pipelines.
+</Card>
+
+<Card title="Cluster Setup" href="/about/clusters">
+
+Configure and deploy NeMo RL on multi-node Slurm or Kubernetes clusters for distributed computing.
+</Card>
+
+</Cards>
+
+## Guides and Examples
+
+<Cards>
+
+<Card title="GRPO DeepscaleR" href="/guides/grpo-deepscaler">
+
+Reproduce DeepscaleR results with NeMo RL using GRPO on mathematical reasoning tasks.
+</Card>
+
+<Card title="SFT on OpenMathInstruct2" href="/e2e-examples/sft-openmathinstruct2">
+
+Step-by-step guide for supervised fine-tuning on the OpenMathInstruct2 dataset.
+</Card>
+
+<Card title="Environments" href="/guides/environments">
+
+Create custom reward environments and integrate them with NeMo RL training pipelines.
+</Card>
+
+<Card title="Eagle3 Speculative Decoding" href="/guides/eagle3-speculative-decoding">
+
+Configure offline and online Eagle3 draft-model workflows to accelerate rollout generation with vLLM.
+</Card>
+
+<Card title="Adding New Models" href="/guides/adding-new-models">
+
+Learn how to add support for new model architectures in NeMo RL.
+</Card>
+
+<Card title="YaRN Long-Context Training" href="/guides/yarn-long-context">
+
+Extend a model's context window with YaRN RoPE scaling on the Megatron backend for SFT, GRPO, and other workflows.
+</Card>
+
+</Cards>
+
+## Advanced Topics
+
+<Cards>
+
+<Card title="Design and Philosophy" href="/design-docs/design-and-philosophy">
+
+Deep dive into NeMo RL's architecture, APIs, and design decisions for scalable RL.
+</Card>
+
+<Card title="Debugging" href="/development/debugging">
+
+Tools and techniques for debugging distributed Ray applications and RL training runs.
+</Card>
+
+<Card title="FP8 Quantization" href="/development/fp8">
+
+Optimize large language models with FP8 quantization for faster training and inference.
+</Card>
+
+<Card title="Docker Containers" href="/containers/docker">
+
+Build and use Docker containers for reproducible NeMo RL environments.
+</Card>
+
+</Cards>
+
+## API Reference
+
+<Cards>
+
+<Card title="Complete API Documentation" href="https://github.com/NVIDIA-NeMo/RL/tree/v0.6.0/nemo_rl">
+
+Comprehensive reference for all NeMo RL modules, classes, functions, and methods. Browse the complete Python API with detailed docstrings and usage examples.
+</Card>
+
+</Cards>

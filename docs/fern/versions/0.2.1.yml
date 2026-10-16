@@ -1,0 +1,88 @@
+navigation:
+- page: 'Nemo RL: A Scalable and Efficient Post-Training Library'
+  path: ./0.2.1/pages/index.md
+  slug: ''
+- section: 🖥️  Environment Start
+  slug: environment-start
+  contents:
+  - page: Run on Your Local Workstation
+    path: ./0.2.1/pages/local-workstation.md
+    slug: local-workstation
+  - page: Set Up Clusters
+    path: ./0.2.1/pages/cluster.md
+    slug: cluster
+- section: 🚀 E2E Examples
+  slug: e2e-examples
+  contents:
+  - page: GRPO on DeepScaler
+    path: ./0.2.1/pages/guides/grpo-deepscaler.md
+    slug: grpo-deepscaler
+  - page: SFT on OpenMathInstruct-2
+    path: ./0.2.1/pages/guides/sft-openmathinstruct2.md
+    slug: sft-openmathinstruct2
+- section: 📚 Guides
+  slug: guides
+  contents:
+  - page: Add New Models
+    path: ./0.2.1/pages/adding-new-models.md
+    slug: adding-new-models
+  - page: Supervised Fine-Tuning in NeMo RL
+    path: ./0.2.1/pages/guides/sft.md
+    slug: sft
+  - page: Direct Preference Optimization in NeMo RL
+    path: ./0.2.1/pages/guides/dpo.md
+    slug: dpo
+  - page: An in-depth Walkthrough of GRPO in NeMo RL
+    path: ./0.2.1/pages/guides/grpo.md
+    slug: grpo
+  - page: GRPO on DeepScaler
+    path: ./0.2.1/pages/guides/grpo-deepscaler.md
+    slug: grpo-deepscaler
+  - page: Evaluation
+    path: ./0.2.1/pages/guides/eval.md
+    slug: eval
+  - page: Model Quirks
+    path: ./0.2.1/pages/model-quirks.md
+    slug: model-quirks
+- section: 🐳  Containers
+  slug: containers
+  contents:
+  - page: Build Docker Images
+    path: ./0.2.1/pages/docker.md
+    slug: docker
+- section: 🛠️ Development
+  slug: development
+  contents:
+  - page: Test NeMo RL
+    path: ./0.2.1/pages/testing.md
+    slug: testing
+  - page: Documentation Development
+    path: ./0.2.1/pages/documentation.md
+    slug: documentation
+- section: 📐 Design Docs
+  slug: design-docs
+  contents:
+  - page: Design and Philosophy
+    path: ./0.2.1/pages/design-docs/design-and-philosophy.md
+    slug: design-and-philosophy
+  - page: Padding in NeMo RL
+    path: ./0.2.1/pages/design-docs/padding.md
+    slug: padding
+  - page: Logger
+    path: ./0.2.1/pages/design-docs/logger.md
+    slug: logger
+  - page: uv in NeMo RL
+    path: ./0.2.1/pages/design-docs/uv.md
+    slug: uv
+  - page: Data Format
+    path: ./0.2.1/pages/design-docs/chat-datasets.md
+    slug: chat-datasets
+  - page: Generation Interface
+    path: ./0.2.1/pages/design-docs/generation.md
+    slug: generation
+  - page: Checkpointing with Hugging Face Models
+    path: ./0.2.1/pages/design-docs/checkpointing.md
+    slug: checkpointing
+  - page: Loss functions in NeMo RL
+    path: ./0.2.1/pages/design-docs/loss-functions.md
+    slug: loss_functions
