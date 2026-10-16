@@ -122,12 +122,12 @@ When validating your model, you should analyze the results across different conf
 
 By following these validation steps and ensuring your model's outputs remain consistent across backends, you can confirm that your new model meets the requirements of NeMo RL.
 
-# Model Diagnostics
+## Model Diagnostics
 
 We also maintain a set of standalone scripts that can be used to diagnose issues related to correctness that
 we have encountered before.
 
-## [1.max_model_len_respected.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/1.max_model_len_respected.py)
+### [1.max_model_len_respected.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/1.max_model_len_respected.py)
 
 Test if a new model respects the `max_model_len` passed to vllm:
 
@@ -141,7 +141,7 @@ uv run --extra vllm tools/model_diagnostics/1.max_model_len_respected.py Qwen/Qw
 # [Qwen/Qwen2.5-1.5B] ALL GOOD!
 ```
 
-## [2.long_generation_decode_vs_prefill](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/2.long_generation_decode_vs_prefill.py)
+### [2.long_generation_decode_vs_prefill](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/2.long_generation_decode_vs_prefill.py)
 
 Test that vLLM yields near-identical token log-probabilities when comparing decoding with a single prefill pass across multiple prompts.
 
@@ -152,7 +152,7 @@ uv run --extra vllm tools/model_diagnostics/2.long_generation_decode_vs_prefill.
 # [Qwen/Qwen2.5-1.5B] ALL GOOD!
 ```
 
-## [3.check_and_reinit_hf_model_embeddings_untrained.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/3.check_and_reinit_hf_model_embeddings_untrained.py)
+### [3.check_and_reinit_hf_model_embeddings_untrained.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/3.check_and_reinit_hf_model_embeddings_untrained.py)
 
 Detects near-zero embedding rows in a HuggingFace checkpoint and optionally reinitializes them. Near-zero embeddings arise when weight decay drives unused tokens toward zero during pretraining; if those tokens appear during fine-tuning they produce large loss signals and gradient spikes. Use `--stats-only` to inspect without modifying, or `--output`/`--in-place` to write a patched checkpoint where near-zero rows are resampled from N(0, σ) estimated from healthy rows.
 
@@ -219,7 +219,7 @@ uv run tools/model_diagnostics/3.check_and_reinit_hf_model_embeddings_untrained.
   - `--identical-threshold` (default: `1e-8`) — std-dev below which a row is considered identical/constant
 - If near-zero or identical rows are reported, the model may have numerical instability (e.g., inf grad norms) during post-training when those tokens are encountered. This commonly happens when special tokens are reserved in the tokenizer but never seen during pretraining. Use `--output <dir>` or `--in-place` to reinitialize the affected rows before fine-tuning.
 
-## [4.vllm_precision_compilation_test.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/4.vllm_precision_compilation_test.py)
+### [4.vllm_precision_compilation_test.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/4.vllm_precision_compilation_test.py)
 
 Tests vLLM precision compilation by comparing log probabilities across different compilation modes and configurations. This script helps diagnose numerical precision issues that commonly arise when using different vLLM compilation settings. **Note that this is not a strict pass/fail test** - it's designed to help you understand and investigate numerical discrepancies.
 
@@ -340,7 +340,7 @@ The different compilation modes offer distinct trade-offs between accuracy and p
 - **Use as guidance** - helps choose reliable compilation settings
 - **Balance precision vs performance** - choose what works for your use case
 
-## [5.prefix_caching_nan.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/5.prefix_caching_nan.py)
+### [5.prefix_caching_nan.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/5.prefix_caching_nan.py)
 
 Tests that prefix caching doesn't produce NaN logprobs when prior generation is rolled back into the prompt (the standard RL / multi-turn pattern). In vLLM &gt;= 0.14, the second request can return all-NaN logprobs with `token_id=0` (`<unk>`) for every token after the first.
 
@@ -390,7 +390,7 @@ Note: the `ERROR ... Engine core proc EngineCore_DP0 died unexpectedly` message 
 
 The script generates from a counting prompt, appends the output back into the prompt, and generates again. On the second generation, prefix caching reuses the KV cache from the first request's prefix. The bug causes the cached prefix to produce corrupted activations, resulting in `token_id=0` (`<unk>`) with `logprob=nan` for all tokens after the first.
 
-## [6.vllm_routed_experts_completeness.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/6.vllm_routed_experts_completeness.py)
+### [6.vllm_routed_experts_completeness.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/6.vllm_routed_experts_completeness.py)
 
 Checks that vLLM returns a routed-experts record for **every** generated route, which router replay (R3) relies on for MoE models. Requires a vLLM build that supports `enable_return_routed_experts`. It reproduces rare omissions seen with prefix caching plus chunked prefill, where a few samples come back missing routed-expert rows even though most are complete.
 

@@ -122,12 +122,12 @@ When validating your model, you should analyze the results across different conf
 
 By following these validation steps and ensuring your model's outputs remain consistent across backends, you can confirm that your new model meets the requirements of NeMo RL.
 
-# Model Diagnostics
+## Model Diagnostics
 
 We also maintain a set of standalone scripts that can be used to diagnose issues related to correctness that
 we have encountered before.
 
-## [1.max_model_len_respected.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/1.max_model_len_respected.py)
+### [1.max_model_len_respected.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/1.max_model_len_respected.py)
 
 Test if a new model respects the `max_model_len` passed to vllm:
 
@@ -141,7 +141,7 @@ uv run --extra vllm tools/model_diagnostics/1.max_model_len_respected.py Qwen/Qw
 # [Qwen/Qwen2.5-1.5B] ALL GOOD!
 ```
 
-## [2.long_generation_decode_vs_prefill](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/2.long_generation_decode_vs_prefill.py)
+### [2.long_generation_decode_vs_prefill](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/2.long_generation_decode_vs_prefill.py)
 
 Test that vLLM yields near-identical token log-probabilities when comparing decoding with a single prefill pass across multiple prompts.
 

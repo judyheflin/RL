@@ -1,8 +1,6 @@
 ---
 title: "Nemotron 3.5 Lightning"
 ---
-# Nemotron 3.5 Lightning
-
 > **Note:** This document has moved and will be deprecated here. See the new location: https://github.com/NVIDIA-NeMo/RL/blob/main/docs/guides/models/nemotron/nemotron-3.5-lightning.md
 
 This guide covers two ways to post-train Nemotron 3.5 Lightning with NeMo RL:

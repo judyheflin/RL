@@ -122,12 +122,12 @@ When validating your model, you should analyze the results across different conf
 
 By following these validation steps and ensuring your model's outputs remain consistent across backends, you can confirm that your new model meets the requirements of NeMo RL.
 
-# Model Diagnostics
+## Model Diagnostics
 
 We also maintain a set of standalone scripts that can be used to diagnose issues related to correctness that
 we have encountered before.
 
-## [1.max_model_len_respected.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/1.max_model_len_respected.py)
+### [1.max_model_len_respected.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/1.max_model_len_respected.py)
 
 Test if a new model respects the `max_model_len` passed to vllm:
 
@@ -141,7 +141,7 @@ uv run --extra vllm tools/model_diagnostics/1.max_model_len_respected.py Qwen/Qw
 # [Qwen/Qwen2.5-1.5B] ALL GOOD!
 ```
 
-## [2.long_generation_decode_vs_prefill](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/2.long_generation_decode_vs_prefill.py)
+### [2.long_generation_decode_vs_prefill](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/2.long_generation_decode_vs_prefill.py)
 
 Test that vLLM yields near-identical token log-probabilities when comparing decoding with a single prefill pass across multiple prompts.
 
@@ -152,7 +152,7 @@ uv run --extra vllm tools/model_diagnostics/2.long_generation_decode_vs_prefill.
 # [Qwen/Qwen2.5-1.5B] ALL GOOD!
 ```
 
-## [3.check_hf_model_embeddings_untrained.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/3.check_hf_model_embeddings_untrained.py)
+### [3.check_hf_model_embeddings_untrained.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/3.check_hf_model_embeddings_untrained.py)
 
 Detects untrained or improperly initialized Hugging Face model embeddings by scanning for near-zero rows and rows with near-identical values in both input and output embeddings. The script also reports whether word embeddings are tied and summarizes basic statistics.
 
@@ -191,7 +191,7 @@ uv run --extra mcore tools/model_diagnostics/3.check_hf_model_embeddings_untrain
   - `--identical-threshold` (default: `1e-8`)
 - If any near-zero or identical rows are reported, the model may have issues of numerical instability (e.g., inf grad norms) during post-training if any of these problematic tokens are encountered. We have observed this happening when special tokens are reserved in the tokenizer and embedding, but none are encountered during pre-training. It may help to initialize these embeddings similar to how they were initialize during pre-training.
 
-## [4.vllm_precision_compilation_test.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/4.vllm_precision_compilation_test.py)
+### [4.vllm_precision_compilation_test.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/4.vllm_precision_compilation_test.py)
 
 Tests vLLM precision compilation by comparing log probabilities across different compilation modes and configurations. This script helps diagnose numerical precision issues that commonly arise when using different vLLM compilation settings. **Note that this is not a strict pass/fail test** - it's designed to help you understand and investigate numerical discrepancies.
 
@@ -312,7 +312,7 @@ The different compilation modes offer distinct trade-offs between accuracy and p
 - **Use as guidance** - helps choose reliable compilation settings
 - **Balance precision vs performance** - choose what works for your use case
 
-## [5.prefix_caching_nan.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/5.prefix_caching_nan.py)
+### [5.prefix_caching_nan.py](https://github.com/NVIDIA-NeMo/RL/blob/main/tools/model_diagnostics/5.prefix_caching_nan.py)
 
 Tests that prefix caching doesn't produce NaN logprobs when prior generation is rolled back into the prompt (the standard RL / multi-turn pattern). In vLLM &gt;= 0.14, the second request can return all-NaN logprobs with `token_id=0` (`<unk>`) for every token after the first.
 
