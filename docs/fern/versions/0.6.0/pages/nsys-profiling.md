@@ -77,12 +77,12 @@ NRL_NSYS_PROFILE_STEP_RANGE=2:3 NRL_NSYS_WORKER_PATTERNS="megatron_policy_worker
 When profiling is enabled, it generates the following logs and files:
 
 1. **Logging**: You'll see log messages indicating which workers have profiling enabled:
-   ```
+   ```text
    Nsight profiling enabled for worker 'dtensor_policy_worker' (matched pattern '*policy*')
    ```
 
 2. **Profile Files**: Each profiled worker generates a `.nsys-rep` file with naming pattern:
-   ```
+   ```text
    dtensor_policy_worker_<NRL_NSYS_PROFILE_STEP_RANGE>_<PID>.nsys-rep
    vllm_generation_worker_<NRL_NSYS_PROFILE_STEP_RANGE>_<PID>.nsys-rep
    worker_process_<PID>.nsys-rep

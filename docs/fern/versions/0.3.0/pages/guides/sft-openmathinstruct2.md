@@ -6,7 +6,7 @@ This guide explains how to use NeMo RL to run SFT on the [nvidia/OpenMathInstruc
 ## Train the Model
 To train the model using NeMo RL, use the `examples/configs/recipes/tutorials/sft/sft_openmathinstruct2.yaml` config file. This file closely matches the experiment settings in the [original OpenMathInstruct-2 paper](https://arxiv.org/abs/2410.01560).
 
-```
+```bash
 uv run examples/run_sft.py --config=examples/configs/sft_openmathinstruct2.yaml
 ```
 
@@ -25,7 +25,7 @@ The default config uses 8 GPUs (`cluster.gpus_per_node`) on 1 node (`cluster.num
 ## Evaluate the Model
 Throughout training, the checkpoints of the model will be saved to the `results/sft_openmathinstruct2` folder (specified by `checkpointing.checkpoint_dir`). To evaluate the model, we first need to convert the PyTorch distributed checkpoint to Hugging Face format:
 
-```
+```bash
 uv run examples/converters/convert_dcp_to_hf.py \
     --config=results/sft_openmathinstruct2/step_1855/config.yaml \
     --dcp-ckpt-path=results/sft_openmathinstruct2/step_1855/policy/weights \
@@ -36,7 +36,7 @@ Replace `results/sft_openmathinstruct2/step_1855` with the path to the checkpoin
 
 To evaluate on the [MATH-500 benchmark](https://huggingface.co/datasets/HuggingFaceH4/MATH-500), use the following command:
 
-```
+```bash
 uv run examples/run_eval.py \
     --config=examples/configs/evals/eval.yaml \
     generation.model_name=results/sft_openmathinstruct2/step_1855/hf \
@@ -58,7 +58,7 @@ Using the above instructions to train a Llama-3.1-8B model for 1 epoch on the `t
 
 Evaluating the final checkpoint on MATH-500, we get the following result:
 
-```
+```text
 ============================================================
 model_name='hf' dataset_name='MATH-500'
 max_new_tokens=2048 temperature=0.0 top_p=1.0 top_k=-1
@@ -78,7 +78,7 @@ We also trained a Llama-3.1-8B model for 1 epoch on the full `train` version of 
 
 Evaluating the final checkpoint on MATH-500, we get the following result:
 
-```
+```text
 ============================================================
 model_name='hf' dataset_name='MATH-500'
 max_new_tokens=2048 temperature=0.0 top_p=1.0 top_k=-1

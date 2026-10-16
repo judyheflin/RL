@@ -20,7 +20,7 @@ collection.
 For each token `t`, the distillation advantage is the stop-gradient
 teacher-minus-student log-probability gap:
 
-```
+```text
 Â_t = sg[ log π_teacher(t) − log π_student(t) ]
 ```
 

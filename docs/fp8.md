@@ -36,7 +36,7 @@ When the `init_fp8` function is called, it modifies the following:
 
 FP8 generations are recommended to be configured with the following settings:
 
-   ```
+   ```yaml
     loss_fn:
         # importance sampling helps improve stability
         use_importance_sampling_correction: true
@@ -62,7 +62,7 @@ substrings, and `fnmatch` wildcards. Matching modules remain in BF16. For
 example, the following scope quantizes only Qwen3 routed experts while keeping
 attention, the router, and the language-model head in BF16:
 
-```
+```yaml
     policy:
         generation:
             vllm_cfg:
@@ -140,7 +140,7 @@ For finer-grained Megatron training precision, point
 `policy.megatron_cfg.te_precision_config_file` at a Megatron-LM Transformer
 Engine precision recipe:
 
-```
+```yaml
     policy:
         megatron_cfg:
             fp8_cfg:
@@ -182,7 +182,7 @@ The TransformerEngine implementation for this recipe requires **CUDA version ≥
 
 If you are using nemo-rl before this [commit](https://github.com/NVIDIA-NeMo/RL/commit/3f36d14b53e906b27c01c06e36dbbd2b8eb300cd), you will see the following error when trying to use fp8 training:
 
-```
+```text
 File "/opt/ray_venvs/nemo_rl.models.policy.workers.megatron_policy_worker.MegatronPolicyWorker/lib/python3.12/site-packages/transformer_engine/pytorch/fp8.py", line 646, in fp8_autocast
 FP8GlobalStateManager.fp8_autocast_enter(
 File "/opt/ray_venvs/nemo_rl.models.policy.workers.megatron_policy_worker.MegatronPolicyWorker/lib/python3.12/site-packages/transformer_engine/pytorch/fp8.py", line 465, in fp8_autocast_enter

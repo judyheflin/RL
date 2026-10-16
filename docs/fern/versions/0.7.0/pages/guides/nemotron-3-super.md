@@ -9,7 +9,7 @@ This guide explains how to post-train the Nemotron 3 Super model using NeMo RL.
 
 The released NeMo RL base container is:
 
-```
+```text
 nvcr.io/nvidia/nemo-rl:v0.7.0
 ```
 

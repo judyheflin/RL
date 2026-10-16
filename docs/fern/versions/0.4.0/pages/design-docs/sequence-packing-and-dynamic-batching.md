@@ -45,7 +45,7 @@ NeMo-RL implements two exclusive approaches to address variable sequence lengths
 
 Sequence packing concatenates multiple variable-length sequences into a single sequence, eliminating the need for padding tokens. This approach maximizes GPU utilization by ensuring all computational resources are used for meaningful tokens.
 
-```
+```text
 Unpacked: (# == useful token, p == padding token)
 0 0 0 p p p
 1 1 1 1 1 1
@@ -122,7 +122,7 @@ For long sequences with context parallelism (CP &gt;1):
 - Individual sequences must be padded to a multiple of `cp_size * 2 * tp_size`, where the factor of 2 ensures load balancing for causal attention
 
 #### Understanding CP Load balancing:
-```
+```text
 Given a sequence of length 6, CP 2:
 
 0 1 2 3 4 5
@@ -182,7 +182,7 @@ Much more even!
 
 With Sequence packing + CP, we pack and CP-shard _per sequence_ to take full advantage of the load-balancing properties of CP-sharding.
 
-```
+```text
 Input batch:
 0 0 0 0 0 p p p
 1 1 1 1 1 1 1 1
@@ -237,7 +237,7 @@ Dynamic batching optimizes microbatch formation by:
 
 #### Processing Pipeline
 
-```
+```text
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │   Input Batch   │ ── │ Sort by Length   │ ── │ Group by Tokens │
 │                 │    │ (within chunks)  │    │                 │
@@ -249,7 +249,7 @@ Dynamic batching optimizes microbatch formation by:
 └─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
-```
+```text
 Input batch:
 0 0 p p p p p
 1 1 1 1 p p p

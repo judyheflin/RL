@@ -21,7 +21,7 @@ This installs system FFmpeg (required by `torchcodec` at runtime) and pins `torc
 
 Run GRPO training with the provided config:
 
-```
+```bash
 uv run examples/run_vlm_grpo.py --config examples/configs/recipes/vlm/vlm_grpo-qwen2.5-omni-7b-intent-1n8g-megatron.v1.yaml
 ```
 
@@ -60,7 +60,7 @@ Only `problem_type == "multiple choice"` samples are used. The allow-list is con
 
 Checkpoints are saved under `results/vlm_grpo-qwen2.5-omni-7b-intent-1n8g-megatron.v1` (`checkpointing.checkpoint_dir`), one every `save_period=20` steps. Convert a checkpoint from Megatron to Hugging Face format before evaluating:
 
-```
+```bash
 uv run --extra mcore python examples/converters/convert_megatron_to_hf.py \
     --config results/vlm_grpo-qwen2.5-omni-7b-intent-1n8g-megatron.v1/step_43/config.yaml \
     --megatron-ckpt-path results/vlm_grpo-qwen2.5-omni-7b-intent-1n8g-megatron.v1/step_43/policy/weights/iter_0000000 \
@@ -75,7 +75,7 @@ In-training validation uses IntentBench as the validation set, so `val_period`, 
 
 For a standalone benchmark, decode the converted HF checkpoint on [Daily-Omni](https://huggingface.co/datasets/liarliar/Daily-Omni) (1197 audio-visual multiple-choice questions) with `examples/run_eval.py`:
 
-```
+```bash
 uv run examples/run_eval.py --config examples/configs/evals/daily_omni.yaml \
     generation.model_name=results/vlm_grpo-qwen2.5-omni-7b-intent-1n8g-megatron.v1/step_43/hf
 ```

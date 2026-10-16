@@ -45,7 +45,7 @@ fault_tolerance:
 
 3. **Restart Policy**: The `any-failed` restart policy will restart the entire job if any rank fails. Look for these log messages to identify when a restart occurs:
 
-   ```
+   ```text
    [ERROR] [ft_launcher...] failed (exitcode: 1) local_rank: 0 (pid: ...) of binary: ...
    [INFO] [ft_launcher...] [default] Worker group FAILED. 3/5 attempts left; will restart worker group
    [INFO] [ft_launcher...] Stopping workers... Timeout = 30 sec.

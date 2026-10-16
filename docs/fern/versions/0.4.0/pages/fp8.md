@@ -32,7 +32,7 @@ When the `init_fp8` function is called, it modifies the following:
 
 FP8 generations are recommended to be configured with the following settings:
 
-   ```
+   ```yaml
     loss_fn:
         # importance sampling helps improve stability
         use_importance_sampling_correction: true
@@ -55,7 +55,7 @@ FP8 generations are recommended to be configured with the following settings:
 
 "To train with FP8, you need to set the Megatron path and configure it using the following settings:
 
-```
+```yaml
     policy:
         megatron_cfg:
             fp8_cfg:
@@ -70,7 +70,7 @@ When using FP8 training with Deepseek-style FP8 (sub-channel scaling), be aware 
 
 The TransformerEngine implementation for this recipe requires **cuBLAS version ≥ 12.9**. However, `nemo-rl` currently depends on **Torch 2.7.1**, which in turn requires **CUDA 12.8**. As a result, attempting to use the default setup will trigger the following error:
 
-```
+```text
 File "/opt/ray_venvs/nemo_rl.models.policy.megatron_policy_worker.MegatronPolicyWorker/lib/python3.12/site-packages/transformer_engine/pytorch/fp8.py", line 646, in fp8_autocast
 FP8GlobalStateManager.fp8_autocast_enter(
 File "/opt/ray_venvs/nemo_rl.models.policy.megatron_policy_worker.MegatronPolicyWorker/lib/python3.12/site-packages/transformer_engine/pytorch/fp8.py", line 465, in fp8_autocast_enter

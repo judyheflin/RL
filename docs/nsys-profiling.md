@@ -110,12 +110,12 @@ The outer `TrtllmAsyncGenerationWorker` actor is CPU-only, so nsys wraps TensorR
 When profiling is enabled, it generates the following logs and files:
 
 1. **Logging**: You'll see log messages indicating which workers have profiling enabled:
-   ```
+   ```text
    Nsight profiling enabled for worker 'automodel_policy_worker' (matched pattern '*policy*')
    ```
 
 2. **Profile Files**: Each profiled worker generates a `.nsys-rep` file with naming pattern:
-   ```
+   ```text
    automodel_policy_worker_<NRL_NSYS_PROFILE_STEP_RANGE>_<PID>.nsys-rep
    vllm_generation_worker_<NRL_NSYS_PROFILE_STEP_RANGE>_<PID>.nsys-rep
    vllm_async_generation_worker_<NRL_NSYS_PROFILE_STEP_RANGE>_<PID>.nsys-rep

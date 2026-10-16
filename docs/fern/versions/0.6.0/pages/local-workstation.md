@@ -10,7 +10,7 @@ uv run examples/run_grpo.py
 ```
 
 In the logs, you will see that Ray has started a local cluster instance, along with details on the resources made available to it:
-```
+```text
 2025-03-17 13:37:45,360 INFO worker.py:1841 -- Started a local Ray instance.
 ...
 INFO:nemo_rl.distributed.virtual_cluster:Started local cluster with: {'node:__internal_head__': 1.0, 'CPU': 24.0, 'object_store_memory': 80448493977.0, 'accelerator_type:RTX': 1.0, 'memory': 177713152615.0, 'GPU': 1.0, 'node:10.0.0.1': 1.0}

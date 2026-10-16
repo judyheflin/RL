@@ -52,7 +52,7 @@ The sliding puzzle consists of:
 - **Goal State**: Sequential arrangement `1, 2, 3, ..., n²-1` with `0` at bottom-right
 
 ### Example Data Sample
-```
+```text
 ===== SLIDING PUZZLE =====
 Arrange the 3x3 grid by sliding tiles into the empty space.
 - The goal is to arrange numbers from 1 to 8 in order
@@ -138,7 +138,7 @@ def generate_random_config(max_config: dict[str, Any]) -> dict[str, Any]:
 ### Dataset Size Calculation
 
 Dataset size is defined by parameters in grpo_sliding_puzzle.yaml:
-```
+```text
 Training Size = num_prompts_per_step × num_generations_per_prompt × max_num_steps
 Validation Size = max_val_samples
 ```
@@ -163,7 +163,7 @@ datum: DatumSpec = {
 
 {/* ### Architecture Flow
 
-```
+```text
 GRPO Training Pipeline:
 run_grpo_sliding_puzzle.grpo_train → nemo_rl.experience.rollouts.run_multi_turn_rollouts → generate_response + calculate_reward → environments.games.sliding_puzzle.SlidingPuzzleEnv.step
 ``` */}
@@ -279,7 +279,7 @@ def step(action: str, game_state: dict[str, Any]) -> tuple[str, float, bool, dic
 
 We fine-tuned [`Qwen/Qwen2.5-1.5B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) on synthetic data for 120 steps using the following configuration settings:
 
-```
+```yaml
 game_config:
     size: 5 # Size of the puzzle (e.g., 2 for 2x2, 3 for 3x3)
     shuffle_moves: 10 # Number of random moves to shuffle the solved state

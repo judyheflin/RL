@@ -77,7 +77,7 @@ uv run python examples/run_eval.py \
 
 When you complete the evaluation, you will receive a summary similar to the following.
 
-```
+```text
 ============================================================
 model_name='Qwen2.5-Math-1.5B-Instruct' dataset_name='aime2024'
 max_new_tokens=2048 temperature=0.0 top_p=1.0 top_k=-1

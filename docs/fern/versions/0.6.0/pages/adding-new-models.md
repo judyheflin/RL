@@ -208,7 +208,7 @@ uv run --extra vllm tools/model_diagnostics/4.vllm_precision_compilation_test.py
 ```
 
 See example for model `deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B`
-```
+```text
 ====================================================================================================
 Eager and cuda graph mode lps (prompt lps): FAILED - Arrays are different
   Detailed error: 
@@ -327,7 +327,7 @@ done
 ```
 
 Expected pass output (vLLM 0.13.0):
-```
+```text
 Iteration 1 — prompt length: 13990 chars
   tokens: 2048, finish_reason: length
   text (first 100): '3001 3002 3003 3004 3005 3006 3007 3008 3009 3010 3011 3012 3013 3014 3015 3016 3017 3018 3019 3020 '
@@ -340,7 +340,7 @@ Iteration 2 — prompt length: 16038 chars
 ```
 
 Expected fail output (vLLM 0.14.0):
-```
+```text
 Iteration 1 — prompt length: 13990 chars
   tokens: 2048, finish_reason: length
   text (first 100): '3000\n\nAssistant: 2600 2601 2602 2603 2604 2605 2606 2607 2609 2610 ...'

@@ -7,7 +7,7 @@ This document explains padding in NeMo RL and why consistent padding is critical
 
 NeMo RL uses **right padding** for all tensor operations, where padding tokens are added to the right/end of sequences:
 
-```
+```text
 [101, 2054, 2003,    0,    0]  # Length 3
 [101, 2054, 2003, 2001, 1996]  # Length 5 (no padding needed)
 [101, 2054,    0,    0,    0]  # Length 2
@@ -21,7 +21,7 @@ This approach:
 ## Right-Padded Generation Example
 
 Input (right-padded) → Generation → Final (right-padded):
-```
+```text
 [101, 2054, 2003,    0,    0]  # Original input (length 3)
                 ↓
 [101, 2054, 2003, 2001, 1996, 4568, 7899,    0]  # After generation
@@ -29,7 +29,7 @@ Input (right-padded) → Generation → Final (right-padded):
 ```
 
 Corresponding logprobs:
-```
+```text
 [   0,    0,    0, -1.2, -0.8, -1.5, -2.1,    0]
 |-- zeros for input --|  |- gen logprobs -|  |pad|
 ```

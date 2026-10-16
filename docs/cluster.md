@@ -249,7 +249,7 @@ split across two NVLink domains (two racks). The fix is to keep every EP group
 inside a single NVLink domain. This requires **two coordinated knobs**, both
 sized to the EP group's node span:
 
-```
+```text
 segment_size (nodes) = expert_model_parallel_size / gpus_per_node
 ```
 

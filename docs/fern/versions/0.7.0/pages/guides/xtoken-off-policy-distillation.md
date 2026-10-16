@@ -36,7 +36,7 @@ A full run has two phases. The three prep steps are *offline data prep* —
 small CLI tools you run once per (student, teacher) pair — and the result is a
 single `.pt` file. The final step is the actual distillation training loop.
 
-```
+```text
                         ┌──────────────────────────────────────────────┐
                         │  Offline projection-matrix preparation       │
                         │                                              │
@@ -118,7 +118,7 @@ weight thresholds, hand-picked intermediate filenames, etc.).
   *or* the student's at any instant, plus the teachers' resident IPC logit
   buffers.
 
-```
+```text
    RayVirtualCluster — one GPU pool, shared by every worker group
    max_colocated_worker_groups = len(teachers) + 1   (no separate
    generation worker; no colocation toggle)

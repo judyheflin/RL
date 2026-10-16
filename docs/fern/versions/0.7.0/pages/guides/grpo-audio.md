@@ -39,7 +39,7 @@ It contains ~19,480 multiple-choice rows totalling ~9.72 GB across seven source 
 
 NeMo RL exposes the dataset under `dataset_name: audiomcq`. The wrapper performs an eager head-row asset probe at construction time, so a missing or partial snapshot fails fast with a clear error before any Ray actor or model spins up. To pre-stage:
 
-```
+```text
 huggingface-cli download Harland/AudioMCQ-StrongAC-GeminiCoT --repo-type=dataset
 ```
 
@@ -49,7 +49,7 @@ Because the upstream manifest only ships a native `train` split, the wrapper syn
 
 ### 3B (Qwen2.5-Omni-3B) — `audio_grpo_3B_megatron.yaml`
 
-```
+```bash
 uv run examples/run_vlm_grpo.py --config examples/configs/audio_grpo_3B_megatron.yaml
 ```
 
@@ -68,7 +68,7 @@ Key hyperparameters:
 
 To retarget the 3B recipe to AudioMCQ purely via CLI overrides:
 
-```
+```bash
 uv run examples/run_vlm_grpo.py \
     --config examples/configs/audio_grpo_3B_megatron.yaml \
     data.train.dataset_name=audiomcq \
@@ -80,7 +80,7 @@ uv run examples/run_vlm_grpo.py \
 
 ### 7B (Qwen2.5-Omni-7B) — `vlm_grpo-qwen2.5-omni-7b-audiomcq-1n8g-megatron.v1.yaml`
 
-```
+```bash
 uv run examples/run_vlm_grpo.py --config examples/configs/recipes/vlm/vlm_grpo-qwen2.5-omni-7b-audiomcq-1n8g-megatron.v1.yaml
 ```
 
@@ -101,7 +101,7 @@ Key hyperparameters (sized for 1 × 8 × H100/H200 80 GB):
 
 For a quick smoke run that exercises the dataset and processor plumbing without committing to a long run:
 
-```
+```bash
 uv run --no-sync examples/run_vlm_grpo.py \
     --config examples/configs/recipes/vlm/vlm_grpo-qwen2.5-omni-7b-audiomcq-1n8g-megatron.v1.yaml \
     grpo.max_num_steps=2 \
@@ -111,7 +111,7 @@ uv run --no-sync examples/run_vlm_grpo.py \
 
 ### 30B MoE (Qwen3-Omni-30B-A3B-Instruct) — `vlm_grpo-qwen3-omni-30ba3b-audiomcq-4n8g-megatron.v1.yaml`
 
-```
+```bash
 uv run examples/run_vlm_grpo.py --config examples/configs/recipes/vlm/vlm_grpo-qwen3-omni-30ba3b-audiomcq-4n8g-megatron.v1.yaml
 ```
 
@@ -139,7 +139,7 @@ The Qwen3-Omni recipe has two model-specific gotchas baked into the yaml:
 
 Throughout training, checkpoints are saved under `${checkpointing.checkpoint_dir}` (`results/audio_grpo_3B_megatron/` for 3B, `results/audio_grpo_7B_megatron/` for 7B). To evaluate a checkpoint, first convert it from Megatron format to Hugging Face format:
 
-```
+```bash
 uv run --extra mcore python examples/converters/convert_megatron_to_hf.py \
     --config <ckpt_dir>/step_<N>/config.yaml \
     --megatron-ckpt-path <ckpt_dir>/step_<N>/policy/weights/iter_0000000 \
@@ -157,7 +157,7 @@ Notes:
 
 Evaluate the converted HF checkpoint on the [MMAU benchmark](https://huggingface.co/datasets/TwinkStart/MMAU):
 
-```
+```bash
 uv run examples/run_eval.py \
     --config=examples/configs/evals/mmau.yaml \
     generation.model_name=<ckpt_dir>/step_<N>/hf \
@@ -172,7 +172,7 @@ Config: `examples/configs/evals/mmau.yaml` (vLLM colocated, bf16, 8k context). F
 
 Evaluating `audio_grpo_3B_megatron / step_200`:
 
-```
+```text
 ============================================================
 model_name='hf_iter_0000000' dataset_name='MMAU'
 max_new_tokens=8000 temperature=0.0 top_p=1.0 top_k=-1 seed=42
@@ -193,7 +193,7 @@ The NeMo RL number is comparable to and slightly higher than the Hugging Face Tr
 
 Early sanity check at `audio_grpo_7B_megatron / step_50`:
 
-```
+```text
 ============================================================
 model_name='hf' dataset_name='MMAU'
 max_new_tokens=8000 temperature=0.0 top_p=1.0 top_k=-1 seed=42

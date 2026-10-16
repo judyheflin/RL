@@ -29,7 +29,7 @@ The pipeline starts from an SFT checkpoint and produces a panel of teacher
 checkpoints that, together with the Student RLVR output, feed MOPD. The Student
 RLVR policy itself serves as the general teacher:
 
-```
+```text
         ┌─────┐
         │ SFT │
         └──┬──┘

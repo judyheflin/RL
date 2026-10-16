@@ -179,7 +179,7 @@ If no `replay_buffer.pt` file is found in the latest checkpoint directory, train
 ## Usage Tips
 
 1. **Buffer Sizing**: The replay buffer size is automatically calculated as:
-   ```
+   ```text
    buffer_size = num_prompts_per_step × max_trajectory_age_steps × 2
    ```
 

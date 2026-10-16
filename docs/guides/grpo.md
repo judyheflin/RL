@@ -208,14 +208,14 @@ Given two datasets:
 - Dataset 2: `[1, 2, 3, 4, 5, 6, 7, 8]`
 
 With `data.use_multiple_dataloader=false` and `grpo.num_prompts_per_step=4`:
-```
+```text
 Batch 1: [a, b, c, d]
 Batch 2: [1, 2, 3, 4]
 Batch 3: [5, 6, 7, 8]
 ```
 
 With `data.use_multiple_dataloader=true`, `grpo.num_prompts_per_step=4`, and `data.num_prompts_per_dataloader=2`:
-```
+```text
 Batch 1: [a, b, 1, 2]
 Batch 2: [c, d, 3, 4]
 Batch 3: [a, b, 5, 6]
@@ -792,7 +792,7 @@ $$
 Here,  $\text{mean}_{i',j'}\{A^{(i',j')}\}$ and  $\text{std}_{i',j'}\{A^{(i',j')}\}$ denote statistics over all groups in the batch.
 
 To enable GDPO for multi-reward RL training, simply set:
-```
+```yaml
 grpo:
   adv_estimator:
     name: "gdpo"
@@ -808,7 +808,7 @@ are configurable via `reward_weights`, an optional list with one entry per rewar
 component, ordered alphabetically by component name (matching the sorted `reward/<name>`
 keys). When omitted, all weights default to `1.0` (equal weighting). For example, to
 down-weight the second and third rewards:
-```
+```yaml
 grpo:
   adv_estimator:
     name: "gdpo"
@@ -822,7 +822,7 @@ The number of weights must equal the number of reward components, or a `ValueErr
 
 The clearest way to see GDPO's effect is a matched comparison on the same multi-reward environment, changing only the advantage estimator. `examples/configs/gdpo_math_1B.yaml` runs GDPO; the GRPO control is the same config with `adv_estimator.name=grpo` (plus a separate checkpoint dir and logger run name so the two runs don't clobber each other):
 
-```
+```text
 # GDPO
 uv run examples/run_grpo.py --config examples/configs/gdpo_math_1B.yaml
 # GRPO control on the SAME multi-reward env — only the advantage estimator changes

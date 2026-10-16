@@ -128,7 +128,7 @@ Example with `max_trajectory_age_steps: 1`:
 
 The following sequence diagram illustrates the interactions between the three main components:
 
-```
+```text
 sequenceDiagram
     participant Training as Training Loop
     participant Collector as Trajectory Collector
@@ -154,7 +154,7 @@ sequenceDiagram
 ## Usage Tips
 
 1. **Buffer Sizing**: The replay buffer size is automatically calculated as:
-   ```
+   ```text
    buffer_size = num_prompts_per_step × max_trajectory_age_steps × 2
    ```
 

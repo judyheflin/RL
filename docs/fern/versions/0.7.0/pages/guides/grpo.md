@@ -207,14 +207,14 @@ Given two datasets:
 - Dataset 2: `[1, 2, 3, 4, 5, 6, 7, 8]`
 
 With `data.use_multiple_dataloader=false` and `grpo.num_prompts_per_step=4`:
-```
+```text
 Batch 1: [a, b, c, d]
 Batch 2: [1, 2, 3, 4]
 Batch 3: [5, 6, 7, 8]
 ```
 
 With `data.use_multiple_dataloader=true`, `grpo.num_prompts_per_step=4`, and `data.num_prompts_per_dataloader=2`:
-```
+```text
 Batch 1: [a, b, 1, 2]
 Batch 2: [c, d, 3, 4]
 Batch 3: [a, b, 5, 6]
@@ -591,7 +591,7 @@ $$
 Here,  $\text{mean}_{i',j'}\{A^{(i',j')}\}$ and  $\text{std}_{i',j'}\{A^{(i',j')}\}$ denote statistics over all groups in the batch.
 
 To enable GDPO for multi-reward RL training, simply set:
-```
+```yaml
 grpo:
   adv_estimator:
     name: "gdpo"

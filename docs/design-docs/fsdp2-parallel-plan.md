@@ -45,7 +45,7 @@ The common pattern is to shard inside a node (fast NVLink) and replicate across 
 
 16 GPUs over 2 nodes, with `dp_replicate_size: 2` (one 8-GPU shard group per node):
 
-```
+```text
                     shard (FSDP2, intra-node)
              ┌────────────────────────────────────────────┐
   replicate  │ node0:  g0  g1  g2  g3  g4  g5  g6  g7     │  <- one full sharded copy

@@ -208,7 +208,7 @@ uv run --extra vllm tools/model_diagnostics/4.vllm_precision_compilation_test.py
 ```
 
 See example for model `deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B`
-```
+```text
 ====================================================================================================
 Eager and cuda graph mode lps (prompt lps): FAILED - Arrays are different
   Detailed error: 

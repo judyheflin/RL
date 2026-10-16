@@ -20,7 +20,7 @@ collection.
 For each token `t`, the distillation advantage is the stop-gradient
 teacher-minus-student log-probability gap:
 
-```
+```text
 Â_t = sg[ log π_teacher(t) − log π_student(t) ]
 ```
 
@@ -45,7 +45,7 @@ update. TROPD replaces the teacher with a proximal teacher — a mixture of the
 teacher and the current student — so the target stays within a trust region of
 the student:
 
-```
+```text
 log π_prox(t) = log( α · π_teacher(t) + (1 − α) · π_student(t) )
 Â_t           = sg[ log π_prox(t) − log π_student(t) ]
 ```
@@ -166,7 +166,7 @@ policy and generation nodes.
 `on_policy_distillation.full` replaces the sampled-token log-probability gap
 with the exact reverse KL over the whole vocabulary:
 
-```
+```text
 L_t = Σ_v p_student(v) · [ log p_student(v) − log p_teacher(v) ]
 ```
 

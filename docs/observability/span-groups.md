@@ -301,7 +301,7 @@ both presets for the same reason and travels with it — without it the worker
 build shows as one opaque block with `rl.vllm.load_model`, usually its largest
 part, missing from inside.
 
-```
+```text
 rl.startup                                    (launcher)
 ├── rl.setup.ray_init                          rl.ray.cluster_source=started_local
 ├── rl.setup.tokenizer
@@ -407,7 +407,7 @@ process: OTel context is a `ContextVar`, and `threading.Thread` inherits none.
 
 The result is a single trace per run:
 
-```
+```text
 rl.grpo.job                                   (driver)
 ├── rl.grpo.step  (iteration 1)               (driver)
 │   ├── rl.idle.buffer_starvation
@@ -460,7 +460,7 @@ Two consequences worth internalizing before reading an async trace:
 A Gym rollout leaves the driver over two hops, and each needs its own
 mechanism:
 
-```
+```text
 driver / collector              NemoGym actor                 Gym server
 ────────────────────            ─────────────                 ──────────
 rl.grpo.generation
@@ -533,7 +533,7 @@ between the `rl.sc.*` phase spans.
 `rl.data_plane.put` is emitted by `MetricsDataPlaneClient`, and there is **one
 client per process**, shared by callers with wildly different cardinality:
 
-```
+```text
 SC actor process, one client from build_data_plane_client()
   ├─ RolloutManager → TQReplayBuffer.commit → put_samples()   once per prompt
   └─ _advantage_stage(meta)                → put_samples()    once per batch
